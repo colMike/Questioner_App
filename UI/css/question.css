@@ -1,0 +1,104 @@
+body{
+	display: flex;
+	margin-bottom: 0;
+	flex-direction: column;
+	min-height: 100vh;
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+main > *, header, footer{
+	margin: 4px;
+	padding: 5px;
+	border-radius: 7px;
+}
+
+
+
+header, footer{
+	background: #008CBA;
+	flex-basis: 50px;
+}
+/*page Navigation*/
+.headerNav{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.headerNav a {
+	font-size: 25px;
+	margin:20px; 
+	text-decoration: none;
+	color: white;
+	font-family: 'Source Sans Pro', sans-serif;
+	padding-right: 5px; 
+	transition: color 0.5s ease-out;
+}
+
+.headerNav a:hover{
+	color: black;
+	border-bottom-color: black;
+}
+
+
+i{
+	margin-right: 10px;
+}
+
+@media screen and (max-width: 800px){
+	.headerNav{
+		justify-content: center;
+	}
+	.headerNav a{
+		font-size: 18px;
+	}
+	label a {
+		font-size: 20px;
+	}
+	div #form{
+		width: 65%;
+	}
+}
+
+@media screen and (max-width: 600px){
+	.headerNav{
+		flex-direction: column;
+		justify-content: flex-end;
+	}
+
+	.headerNav a{
+		font-size: 18px;
+	}
+	label a {
+		font-size: 20px;
+	}
+	div #form{
+		width: 80%;
+	}
+
+}
+
+	/*Footer Styling*/
+    .footer-dark{
+        background-color: #008CBA;
+        color: white;
+    }
+    #copyright{
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    p{	
+        text-align: center;
+    }
+    
+    #terms_and_conditions{
+        text-align: left;	
+    }
