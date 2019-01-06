@@ -270,9 +270,9 @@ img{
 
 .question{
 	border-bottom: 1px solid #bdc3c7;
-	padding: auto 20px 10px 20px;
 	margin: 10px auto;
 	width: 94%;
+	clear: left;
 }
 .quest_for_comment{
     font-size: 25px;
@@ -303,3 +303,24 @@ section, .tags{
 	justify-content: space-between;
 }
 
+/* Upcoming Meetups */
+#one, #two, #three{
+	width: 30%;
+	float: left;
+	margin: 1.66%;
+}
+#one{
+	background-color: blue;
+	text-align: center;
+	font-size: 1.5rem;
+}
+#two{
+	background-color: red;
+	text-align: center;
+	font-size: 1.5rem;
+}
+#three{
+	background-color: yellow;
+	text-align: center;
+	font-size: 1.5rem;
+}
