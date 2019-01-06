@@ -2,7 +2,7 @@ body{
 	display: flex;
 	margin-bottom: 0;
     flex-direction: column;
-	min-height: 100vh;
+	min-height: fit-content;
 	font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -26,6 +26,7 @@ main > *, header, footer{
 main{
     display: flex;
 	flex-basis: auto;
+	min-height: fit-content;
 }
 
 header, footer{
@@ -52,6 +53,7 @@ header, footer{
 
 @media screen and (max-width: 800px){
     main {
+		min-height: fit-content;
 		flex-direction: column;
 		flex-grow: 1;
 	}
@@ -97,7 +99,7 @@ article{
     display: inline-block;
 	flex-basis: 30%;
 	background: #ecf0f1;
-	flex-grow: 4;
+	flex-grow: 1;
 	max-height: fit-content;
 	padding-bottom: 30px;
 }
@@ -105,15 +107,18 @@ article{
 aside{
 	flex-basis: 70%;
 	background: #ecf0f1;
-    flex-grow: 4;
-    max-height: auto;
+    flex-grow: 1;
+    min-height: auto;
 }
 
-@media all and (max-width: 640px){
-	main {
+@media all and (max-width: 720px){
+
+	body, main {
+		min-height: fit-content;
 		flex-direction: column;
 		flex-grow: 1;
 	}
+
 
 	nav {
 		order: 0;
@@ -123,7 +128,13 @@ aside{
     }
     h2{
         visibility: hidden;
-    }
+	}
+	div .meet{
+		width: 45%;
+		float: left;
+		margin: 1.30%;
+	}
+
 }
 
 /*Footer Styling*/
@@ -162,7 +173,7 @@ a{
 
 @media all and (max-width: 600px){
 	main {
-        min-height: auto;
+		min-height:fit-content;
 		flex-direction: column;
 		flex-grow: 1;
 	}
@@ -314,15 +325,15 @@ section, .tags{
 }
 
 /* Upcoming Meetups */
-#meet{
+.meet{
 	width: 30%;
 	float: left;
 	margin: 1.30%;
-}
-#meet{
 	background-color: #ecf0f1;
 	text-align: center;
 	font-size: 1.5rem;
-	border: 2px solid gray;
+	border: 1px solid #4f5d6b;
 	border-radius: 7px;
 }
+
+
