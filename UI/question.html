@@ -1,22 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/question.css">
+    <title>Questions Page</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/question.css">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body>
     <header>
-        <label>
+        <label class="siteName">
             <a href="">Questioner</a>
         </label>
         
         <nav class="headerNav">
-            <a href="login.html"><i class="fa fa-sign-in"></i>Login</a>
+            <a href=""><i class="fa fa-user-circle"></i>Profile</a>
+            <a href="login.html"><i class="fa fa-sign-in"></i>Logout</a>
         </nav>
     </header>
+
+    <main>
+        <article>
+            <h1 id="heading"><u>Javascript meetup</u></h1>
+            <img src="assets/meetup1.jpg">
+       
+            <p id="meetup">Date: Sunday, 12th Aug 2019.</p>
+       
+            <p id="meetup">Venue: The Hilton Hotel</p>
+            
+            <p id="meetup">Click <a>here</a> to confirm your attendance.</p>
+        </article>
+        <aside>
+            <h1 id="heading"><u>Previous Questions</u></h1>
+                <div class="question">
+                        <hr>
+                        Where will the meetup be held?
+                        <section>
+                            <table> 
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>votes</td>
+                                    <td>answers</td>
+                                    <td>views</td>
+                                </tr>
+                            </table>
+                            <div class="tags">
+                                <span>Javascript</span>
+                                <span>Databases</span>
+                                <span>sql</span>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="question">
+                        What is likely to be discussed at the meetup?
+                        <section>
+                            <table> 
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>votes</td>
+                                    <td>answers</td>
+                                    <td>views</td>
+                                </tr>
+                            </table>
+                            <div class="tags">
+                                <span>PHP</span>
+                                <span>Databases</span>
+                                <span>Cookies</span>
+            
+                            </div>
+                        </section>
+                    </div>
+                    <div class="question">
+                        
+                        How can I indent text to avoid wrapping around an icon?
+                        <section>
+                            <table> 
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>votes</td>
+                                    <td>answers</td>
+                                    <td>views</td>
+                                </tr>
+                            </table>
+                            <div class="tags">
+                                <span>Web Development</span>
+                                <span>HTML</span>
+                                <span>CSS</span>
+                            </div>
+                        </section>
+                    </div>
+                    <h1 id="heading"><u>Ask a Question</u></h1>
+                    <form>			
+                        <div id="form">
+                            <input type="text" id = "txtBox" name="question" placeholder="Please enter your Question">
+                            <br>
+                            <br>
+                            <input class="button" type="submit" name="Sign up">
+                        </div>
+                    </form>
+        </aside>
+    </main>
 
     <footer class="footer-dark">
             <p id="copyright">Questioner. © 2019. All Rights Reserved</p>
