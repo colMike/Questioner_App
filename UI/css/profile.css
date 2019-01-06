@@ -65,11 +65,14 @@ header, footer{
 		font-size: 20px;
     }
     article{
-        padding-left: 60px;
+		padding-left: 60px;
+
     }
 	div #form{
 		width: 65%;
-    }
+	}
+	
+
 }
 
 @media screen and (max-width: 550px){
@@ -83,7 +86,7 @@ header, footer{
         visibility: hidden;
     } 
     
-} */
+} 
 /* Body of Page */
 main{ 
 	display: flex;
@@ -95,6 +98,8 @@ article{
 	flex-basis: 30%;
 	background: #ecf0f1;
 	flex-grow: 4;
+	max-height: fit-content;
+	padding-bottom: 30px;
 }
 
 aside{
@@ -134,6 +139,10 @@ aside{
 
 p #copyright{	
   text-align: center;
+}
+
+.upcoming_meetups p:hover{
+	text-decoration: underline;
 }
 
 #meetup{	
@@ -254,8 +263,9 @@ img{
 	border: none;
 	color: white;
 	padding: 10px 18px;
+	margin-bottom: 20px;
 	text-align: center;
-	font-size: 14px;
+	font-size: 14px;	
 }
 
 .button:hover {
@@ -304,23 +314,15 @@ section, .tags{
 }
 
 /* Upcoming Meetups */
-#one, #two, #three{
+#meet{
 	width: 30%;
 	float: left;
-	margin: 1.66%;
+	margin: 1.30%;
 }
-#one{
-	background-color: blue;
+#meet{
+	background-color: #ecf0f1;
 	text-align: center;
 	font-size: 1.5rem;
-}
-#two{
-	background-color: red;
-	text-align: center;
-	font-size: 1.5rem;
-}
-#three{
-	background-color: yellow;
-	text-align: center;
-	font-size: 1.5rem;
+	border: 2px solid gray;
+	border-radius: 7px;
 }
