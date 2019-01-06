@@ -247,6 +247,11 @@ img{
 	margin: 10px auto;
 	width: 94%;
 }
+.quest_for_comment{
+    font-size: 25px;
+    margin: 25px auto 15px auto; 
+	padding-left: 20px; 
+}
 
 table {
   border-collapse: collapse;
