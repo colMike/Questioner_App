@@ -2,7 +2,7 @@ body{
 	display: flex;
 	margin-bottom: 0;
     flex-direction: column;
-	min-height: 100vh;
+	min-height: fit-content;
 	font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -26,6 +26,7 @@ main > *, header, footer{
 main{
     display: flex;
 	flex-basis: auto;
+	min-height: fit-content;
 }
 
 header, footer{
@@ -52,6 +53,7 @@ header, footer{
 
 @media screen and (max-width: 800px){
     main {
+		min-height: fit-content;
 		flex-direction: column;
 		flex-grow: 1;
 	}
@@ -65,11 +67,14 @@ header, footer{
 		font-size: 20px;
     }
     article{
-        padding-left: 60px;
+		padding-left: 60px;
+
     }
 	div #form{
 		width: 65%;
-    }
+	}
+	
+
 }
 
 @media screen and (max-width: 550px){
@@ -83,7 +88,7 @@ header, footer{
         visibility: hidden;
     } 
     
-} */
+} 
 /* Body of Page */
 main{ 
 	display: flex;
@@ -94,21 +99,26 @@ article{
     display: inline-block;
 	flex-basis: 30%;
 	background: #ecf0f1;
-	flex-grow: 4;
+	flex-grow: 1;
+	max-height: fit-content;
+	padding-bottom: 30px;
 }
 
 aside{
 	flex-basis: 70%;
 	background: #ecf0f1;
-    flex-grow: 4;
-    max-height: auto;
+    flex-grow: 1;
+    min-height: auto;
 }
 
-@media all and (max-width: 640px){
-	main {
+@media all and (max-width: 720px){
+
+	body, main {
+		min-height: fit-content;
 		flex-direction: column;
 		flex-grow: 1;
 	}
+
 
 	nav {
 		order: 0;
@@ -118,7 +128,13 @@ aside{
     }
     h2{
         visibility: hidden;
-    }
+	}
+	div .meet{
+		width: 45%;
+		float: left;
+		margin: 1.30%;
+	}
+
 }
 
 /*Footer Styling*/
@@ -134,6 +150,16 @@ aside{
 
 p #copyright{	
   text-align: center;
+}
+
+hr{
+	clear:left;
+	border: 0.1px solid #b5c1cc;
+	width:92%;
+}
+
+.upcoming_meetups p:hover{
+	text-decoration: underline;
 }
 
 #meetup{	
@@ -153,7 +179,7 @@ a{
 
 @media all and (max-width: 600px){
 	main {
-        min-height: auto;
+		min-height:fit-content;
 		flex-direction: column;
 		flex-grow: 1;
 	}
@@ -200,7 +226,7 @@ h1{
 }
 
 .posted_questions{
-    font-size: 4.0rem;
+    font-size: 3.0rem;
 	text-align: left;
 	margin: 0 auto 5px auto; 
 	padding-left: 80px;
@@ -211,6 +237,13 @@ h2{
 	font-size: 2.2rem;
 	text-align: center;
 	margin: 5px auto 5px auto; 
+}
+h5{
+	color: #4f5d6b;
+	font-size: 1.0rem;
+	text-align: left;
+	margin: 0 auto 5px auto; 
+	padding-left: 22px;
 }
 
 img{
@@ -254,25 +287,21 @@ img{
 	border: none;
 	color: white;
 	padding: 10px 18px;
+	margin-bottom: 20px;
 	text-align: center;
-	font-size: 14px;
+	font-size: 14px;	
 }
 
 .button:hover {
-	background-color: #008CBA; 
-	border: 2px solid white;
-	color: white;
-	padding: 10px 18px;
-	text-align: center;
-	font-size: 14px;
+	background-color: rgb(47, 94, 163);	
 }
 
 
 .question{
 	border-bottom: 1px solid #bdc3c7;
-	padding: auto 20px 10px 20px;
 	margin: 10px auto;
 	width: 94%;
+	clear: left;
 }
 .quest_for_comment{
     font-size: 25px;
@@ -302,4 +331,31 @@ section, .tags{
 	display: flex;
 	justify-content: space-between;
 }
+
+/* Upcoming Meetups */
+.meet{
+	width: 30%;
+	float: left;
+	margin: 1.30%;
+	background-color: #ecf0f1;
+	text-align: center;
+	font-size: 1.5rem;
+	/* border-right: 1px dashed #4f5d6b; */
+	/* border-radius: 7px; */
+}
+
+#user_blocks{
+	border: 1px solid #bdcbda;
+	border-radius: 7px;
+	margin: 5px 5px;
+}
+
+.rating{
+	color: #008CBA;
+}
+
+#value{
+	padding-left: 0px;
+}
+
 
