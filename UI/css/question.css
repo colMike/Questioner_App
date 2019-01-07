@@ -267,4 +267,14 @@ section, .tags{
 	align-items: left;
 }
 
+.rating{
+	color: #2c3e50;
+}
+.rating:hover{
+	color: #008CBA;
+}
+
+#value{
+	padding-left: 0px;
+}
 
