@@ -254,7 +254,8 @@ img{
 	background-color: #008CBA; 
 	border: none;
 	color: white;
-	padding: 10px 18px;
+    padding: 10px 18px;
+    margin-bottom: 5px;
 	text-align: center;
 	font-size: 14px;
 }
@@ -313,5 +314,5 @@ section, .tags{
 	background-color: #ecf0f1;
 	text-align: center;
 	font-size: 1.5rem;
-	border: 1px solid #4f5d6b;
+
 }
