@@ -152,6 +152,12 @@ p #copyright{
   text-align: center;
 }
 
+hr{
+	clear:left;
+	border: 0.1px solid #b5c1cc;
+	width:92%;
+}
+
 .upcoming_meetups p:hover{
 	text-decoration: underline;
 }
@@ -334,14 +340,17 @@ section, .tags{
 	background-color: #ecf0f1;
 	text-align: center;
 	font-size: 1.5rem;
-	border-right: 1px dashed #4f5d6b;
+	/* border-right: 1px dashed #4f5d6b; */
 	/* border-radius: 7px; */
 }
 
-.rating{
-	color: #2c3e50;
+#user_blocks{
+	border: 1px solid #bdcbda;
+	border-radius: 7px;
+	margin: 5px 5px;
 }
-.rating:hover{
+
+.rating{
 	color: #008CBA;
 }
 
