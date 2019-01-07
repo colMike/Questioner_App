@@ -232,6 +232,13 @@ h2{
 	text-align: center;
 	margin: 5px auto 5px auto; 
 }
+h5{
+	color: #4f5d6b;
+	font-size: 1.0rem;
+	text-align: left;
+	margin: 0 auto 5px auto; 
+	padding-left: 22px;
+}
 
 img{
     display: block;
@@ -329,6 +336,17 @@ section, .tags{
 	font-size: 1.5rem;
 	border-right: 1px dashed #4f5d6b;
 	/* border-radius: 7px; */
+}
+
+.rating{
+	color: #2c3e50;
+}
+.rating:hover{
+	color: #008CBA;
+}
+
+#value{
+	padding-left: 0px;
 }
 
 
