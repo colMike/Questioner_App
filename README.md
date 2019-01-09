@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/colMike/Questioner_App.svg?branch=develop)](https://travis-ci.org/colMike/Questioner_App)
+[![Build Status](https://travis-ci.com/colMike/Questioner_App.svg?branch=develop)](https://travis-ci.com/colMike/Questioner_App)
 
 # Questioner_App
 
