@@ -16,8 +16,5 @@ git clone https://github.com/colMike/Questioner_App
 
 
 
-
-
-
 # Author
 Michael Mbugua
