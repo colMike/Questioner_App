@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.com/colMike/Questioner_App.svg?branch=develop)](https://travis-ci.com/colMike/Questioner_App)
 
-
 # Questioner_App
 
 # Project Overview
@@ -14,9 +13,6 @@ git clone https://github.com/colMike/Questioner_App
     • `source env/bin/activate` to create a virtual environment
     • `export FLASK_ENV=development` to setup the environment
 - Test the endpoint using postman.
-
-
-
 
 
 
