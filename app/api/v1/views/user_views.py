@@ -9,13 +9,20 @@ users = UserModels()
 @user_version1.route('/auth/signup', methods=['POST'])
 def signup():
     """Method for Registering user"""
-    data = request.get_json()
-    username = data['username']
-    email = data['email']
-    password = data['password']
-    confirm_password = data['confirm_password']
-
     
+    data = request.get_json()
+
+    firstname = data['firstname']
+    lastname = data['lastname']
+    othername = data['othername']
+    email = data['email']
+    phoneNumber = data['phoneNumber']
+    username = data['username']
+    isAdmin = data['isAdmin']
+
+    # user = users.add_user(username, email, password, confirm_password)
+
     return make_response(jsonify({
+        "status": 201,
         "message": "successful registration"
     }), 201)
