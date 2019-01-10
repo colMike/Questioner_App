@@ -19,13 +19,14 @@ def signup():
     email = data['email']
     phoneNumber = data['phoneNumber']
     username = data['username']
+    registered = data['registered']
     isAdmin = data['isAdmin']
+    password = data['password']
 
-    # user = users.add_user(username, email, password, confirm_password)
+    users.add_user(firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password)
 
     return make_response(jsonify({
-        # "status": 201,
-        	"firstname": firstname,
+           	"firstname": firstname,
 	        "lastname": lastname,
 	        "othername": othername,
             "email": email,
@@ -33,3 +34,30 @@ def signup():
             "username": username,
             "isAdmin": isAdmin
     }), 201)
+
+
+@user_version1.route('/auth/login', methods=['POST'])
+
+def login():
+    """Method for Signing in a user"""
+    
+    data = request.get_json()
+
+    username = data['username']
+    password = data['password']
+
+    sample_user = users.find_by_username(username)   
+    passWrd = users.check_password(password)
+    if not sample_user:
+        return make_response(jsonify({
+            "Error": "User not found: Please register"
+        }), 401)
+    elif not passWrd:
+        return make_response(jsonify({
+            "Error": "Password incorrect"
+        }), 401)
+    elif sample_user and passWrd:
+        return make_response(jsonify({
+                        "username": username,
+                        "password": password
+                        }), 201)
