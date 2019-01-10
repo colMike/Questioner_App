@@ -23,19 +23,23 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_signup(self):
         """Test for user registration"""
-        response = self.app.post('/auth/signup',
+        response = self.app.post('api/v1/auth/signup',
                                 data = json.dumps(self.data), 
                                 content_type="application/json")
 
         result = json.loads(response.data)
+        
         self.assertEqual(result["firstname"], "Mike")
         self.assertEqual(result["lastname"], "Mbugua")
+        self.assertEqual(result["othername"], "Sam")
+        self.assertEqual(result["email"], "abc.com")
+        self.assertEqual(result["phoneNumber"], "123456")
+        self.assertEqual(result["username"], "colmic76")
+        self.assertEqual(result["isAdmin"], "False")
+
         self.assertEqual(response.status_code, 201)
 
 if __name__ == "__main__":
     unittest.main()
-
-
-
 
 

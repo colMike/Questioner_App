@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint
+from flask import Flask
 from .api.v1.views.user_views import user_version1
 
 
