@@ -19,7 +19,8 @@ class TestUserEndPoint(unittest.TestCase):
             "phoneNumber": "123456",
             "username": "colmic76",
             "registered": "registered",
-            "isAdmin": "False"
+            "isAdmin": "False",
+            "password": "colmic76"
         }
 
     def test_signup(self):
@@ -40,7 +41,20 @@ class TestUserEndPoint(unittest.TestCase):
 
         self.assertEqual(response.status_code, 201)
 
+
+
+    def test_login(self):
+        """Test for the user login endpoint"""
+        response = self.app.post('api/v1/auth/login',
+                                data = json.dumps(self.data), 
+                                content_type="application/json")
+
+        result = json.loads(response.data)
+        
+        self.assertEqual(result["username"], "colmic76")
+        self.assertEqual(result["password"], "colmic76")
+
+        self.assertEqual(response.status_code, 201)
+
 if __name__ == "__main__":
     unittest.main()
-
-
