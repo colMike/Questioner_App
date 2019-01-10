@@ -1,15 +1,16 @@
 """This module tests endpoint"""
 import json
 import unittest
-from app import APP
+from ... import create_app
 
 class TestUserEndPoint(unittest.TestCase):
     """Class that handles User Authentication endpoint tests"""
     
     def setUp(self):
         """Code to be excecuted before each test"""
-        APP.testing = True
-        self.app = APP.test_client()
+        self.app = create_app()
+        self.app.testing = True
+        self.app = self.app.test_client()
         self.data = {
 	        "firstname": "Mike",
 	        "lastname": "Mbugua",

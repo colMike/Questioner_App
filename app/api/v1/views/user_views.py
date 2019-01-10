@@ -33,3 +33,30 @@ def signup():
             "username": username,
             "isAdmin": isAdmin
     }), 201)
+
+
+@user_version1.route('/auth/login', methods=['POST'])
+
+def login():
+    """Method for Signing in a user"""
+    
+    data = request.get_json()
+
+    username = data['username']
+    password = data['password']
+
+    user_one = users.find_username(username)
+    passwrd = users.check_user_pwd(password)
+
+    if not user_one:
+        return make_response(jsonify({
+            "User not found. Register for an account"
+        }), 401)
+    elif not passwrd:
+        return make_response(jsonify({
+            "Incorrect Password"
+        }), 401)
+    elif user_one and passwrd:
+        return make_response(jsonify({
+            "User": user_one
+        }), 201)
