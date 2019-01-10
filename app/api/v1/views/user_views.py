@@ -19,13 +19,14 @@ def signup():
     email = data['email']
     phoneNumber = data['phoneNumber']
     username = data['username']
+    registered = data['registered']
     isAdmin = data['isAdmin']
+    password = data['password']
 
-    # user = users.add_user(username, email, password, confirm_password)
+    users.add_user(firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password)
 
     return make_response(jsonify({
-        # "status": 201,
-        	"firstname": firstname,
+           	"firstname": firstname,
 	        "lastname": lastname,
 	        "othername": othername,
             "email": email,
@@ -45,18 +46,18 @@ def login():
     username = data['username']
     password = data['password']
 
-    user_one = users.find_username(username)
-    passwrd = users.check_user_pwd(password)
-
-    if not user_one:
+    sample_user = users.find_by_username(username)   
+    passWrd = users.check_password(password)
+    if not sample_user:
         return make_response(jsonify({
-            "User not found. Register for an account"
+            "Error": "User not found: Please register"
         }), 401)
-    elif not passwrd:
+    elif not passWrd:
         return make_response(jsonify({
-            "Incorrect Password"
+            "Error": "Password incorrect"
         }), 401)
-    elif user_one and passwrd:
+    elif sample_user and passWrd:
         return make_response(jsonify({
-            "User": user_one
-        }), 201)
+                        "username": username,
+                        "password": password
+                        }), 201)
