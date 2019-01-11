@@ -14,7 +14,7 @@ class TestMeetupEndPoints(unittest.TestCase):
 
         self.data = {
             "createdOn": "25th Dec 2018",
-            "location": "Taj Mall, Nairobi",
+            "location": "Taj",
             "images": ["Food.jpg", "Kitchen.jpg"],
             "topic": "Making Pasta", 
             "happeningOn": "2nd Jan 2019, 09:40AM",
@@ -30,14 +30,18 @@ class TestMeetupEndPoints(unittest.TestCase):
 
         result = json.loads(response.data)
         
-        self.assertEqual(result["createdOn"], "25th Dec 2018")
-        self.assertEqual(result["location"], "Taj Mall, Nairobi")
-        self.assertEqual(result["images"], ["Food.jpg", "Kitchen.jpg"])
-        self.assertEqual(result["topic"], "Making Pasta")
-        self.assertEqual(result["happeningOn"], "2nd Jan 2019, 09:40AM")
-        self.assertEqual(result["tags"], ["Art", "Homestudy"])
-
+        self.assertEqual(result["location"], "Taj")
         self.assertEqual(response.status_code, 201)
+
+
+    def test_retrieve_meetups(self):
+            """Test for retrieving all meetups"""
+            response = self.app.get('api/v1/meetups',
+                                    data = json.dumps(self.data), 
+                                    content_type="application/json")
+
+            
+            self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
         """ Destroys set up data before running each test """

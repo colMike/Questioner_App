@@ -1,10 +1,10 @@
 """Meetup models"""
-from app.api.v1.utils.manage import find_username, find_password
+from app.api.v1.utils.manage import fetch_one
 
 meetups = [{
     "createdOn": "25th Dec 2018",
     "location": "Taj Mall, Nairobi",
-    "images": ['Food.jpg", "Kitchen.jpg'],
+    "images": ["Food.jpg", "Kitchen.jpg"],
     "topic": "Making Pasta", 
     "happeningOn":  "2nd Jan 2019, 09:40AM",
     "tags":  ["Art", "Homestudy"]
@@ -33,4 +33,10 @@ class MeetupModels:
         return meetup_info
     
 
-        
+    def get_all_meetups(self):
+        """Return all meetups"""
+        return meetups
+
+    def get_one_meetup(self, meetupId):
+        """Return specific meetups"""
+        return fetch_one(meetups, meetupId)
