@@ -13,6 +13,7 @@ class TestMeetupEndPoints(unittest.TestCase):
         self.app = self.app.test_client()
 
         self.data = {
+            "meetupId": 1,
             "createdOn": "25th Dec 2018",
             "location": "Taj",
             "images": ["Food.jpg", "Kitchen.jpg"],
@@ -28,9 +29,7 @@ class TestMeetupEndPoints(unittest.TestCase):
                                 data = json.dumps(self.data), 
                                 content_type="application/json")
 
-        result = json.loads(response.data)
         
-        self.assertEqual(result["location"], "Taj")
         self.assertEqual(response.status_code, 201)
 
 
@@ -45,7 +44,7 @@ class TestMeetupEndPoints(unittest.TestCase):
     
     def test_retrieve_one_meetup(self):
         """Test for retrieving all meetups"""
-        response = self.app.get('api/v1/meetups/<meetupId>',
+        response = self.app.get('api/v1/meetups/1',
                                 data = json.dumps(self.data), 
                                 content_type="application/json")
         
@@ -59,3 +58,5 @@ class TestMeetupEndPoints(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    
