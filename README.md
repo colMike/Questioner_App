@@ -49,7 +49,7 @@ GET | /users | Fetch all registered users
 
 Clone this repository inside your working repository
 ```
-git clone https://github.com/Siffersari/Questioner.git
+git clone https://github.com/colMike/Questioner_App.git
 
 ```
 Navigate into the cloned repository
@@ -93,8 +93,8 @@ pytest app/tests/v1
 
 ### Heroku Deployment
 
-This app is deployed on [Heroku](https://questioner-siffersari-heroku.herokuapp.com)
+This app is deployed on [Heroku]............Link
 
 
 #### Author 
-Leewel K. Mwangi
+Michael Mbugua
