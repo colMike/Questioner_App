@@ -42,5 +42,12 @@ def retrieve_meetups():
             "All Meetups": all_meetups
         }), 200)
 
+@meetup_version1.route('/meetups/<meetupId>', methods=['GET'])
+def retrieve_one_meetup(meetupId):
+    """Return one meetup"""
+    one_meetup = meetups.get_one_meetup(meetupId)
+    return make_response(jsonify({
+            "Question": one_meetup
+        }), 200)
 
 

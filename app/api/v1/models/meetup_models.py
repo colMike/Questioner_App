@@ -2,6 +2,7 @@
 from app.api.v1.utils.manage import fetch_one
 
 meetups = [{
+    "meetupId": 1,
     "createdOn": "25th Dec 2018",
     "location": "Taj Mall, Nairobi",
     "images": ["Food.jpg", "Kitchen.jpg"],
@@ -40,3 +41,6 @@ class MeetupModels:
     def get_one_meetup(self, meetupId):
         """Return specific meetups"""
         return fetch_one(meetups, meetupId)
+
+
+        
