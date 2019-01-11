@@ -42,6 +42,15 @@ class TestMeetupEndPoints(unittest.TestCase):
 
             
             self.assertEqual(response.status_code, 200)
+    
+    def test_retrieve_one_meetup(self):
+        """Test for retrieving all meetups"""
+        response = self.app.get('api/v1/meetups/<meetupId>',
+                                data = json.dumps(self.data), 
+                                content_type="application/json")
+        
+        self.assertEqual(response.status_code, 200)
+    
 
     def tearDown(self):
         """ Destroys set up data before running each test """
