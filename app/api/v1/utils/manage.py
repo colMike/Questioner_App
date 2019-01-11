@@ -20,4 +20,10 @@ def find_password(users, password):
             return user
 
 
+def fetch_question(questions, questionId):
+    """Fetch specific question"""
+    for question in questions:
+            if int(questionId) == question['questionId']:
+                return question
+
             

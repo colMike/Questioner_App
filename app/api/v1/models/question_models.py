@@ -1,5 +1,5 @@
 """question models"""
-from app.api.v1.utils.manage import fetch_one
+from app.api.v1.utils.manage import fetch_question
 
 questions = [{
     "questionId": 1,
@@ -8,7 +8,7 @@ questions = [{
     "meetup": 18,
     "title":   "Andela Bootcamp",
     "body":   "This is an Andela bootcamp meeting",
-    "votes": 24,
+    "votes": 24
         
 }]
 
@@ -42,4 +42,6 @@ class QuestionModels:
 
     def get_one_question(self, questionId):
         """Return specific questions"""
-        return fetch_one(questions, questionId)
+        return fetch_question(questions, questionId)
+
+    
