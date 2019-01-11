@@ -8,7 +8,7 @@ meetups = MeetupModels()
 
 @meetup_version1.route('/meetups', methods=['POST'])
 def create_meetup():
-    """Method for Registering user"""
+    """Method for Creating a new Meetup"""
 
     data = request.get_json()
 
@@ -35,5 +35,13 @@ def create_meetup():
             "status": 201
         }), 201)
         
+@meetup_version1.route('/meetups', methods=['GET'])
+def retrieve_meetups():
+    """Return all meetups"""
+    all_meetups = meetups.get_all_meetups()
+    return make_response(jsonify({
+            "All Meetups": all_meetups
+        }), 200)
+
 
 
