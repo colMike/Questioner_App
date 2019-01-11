@@ -28,7 +28,8 @@ class TestMeetupEndPoints(unittest.TestCase):
         response = self.app.post('api/v1/meetups',
                                 data = json.dumps(self.data), 
                                 content_type="application/json")
-
+        
+    
         
         self.assertEqual(response.status_code, 201)
 
@@ -58,5 +59,5 @@ class TestMeetupEndPoints(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+ 
 
-    
