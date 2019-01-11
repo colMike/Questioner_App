@@ -14,7 +14,7 @@ class TestMeetupEndPoints(unittest.TestCase):
 
         self.data = {
             "createdOn": "25th Dec 2018",
-            "location": "Taj Mall, Nairobi",
+            "location": "Taj",
             "images": ["Food.jpg", "Kitchen.jpg"],
             "topic": "Making Pasta", 
             "happeningOn": "2nd Jan 2019, 09:40AM",
@@ -30,7 +30,7 @@ class TestMeetupEndPoints(unittest.TestCase):
 
         result = json.loads(response.data)
         
-        self.assertEqual(result["location"], "Taj Mall, Nairobi")
+        self.assertEqual(result["location"], "Taj")
         self.assertEqual(response.status_code, 201)
 
 

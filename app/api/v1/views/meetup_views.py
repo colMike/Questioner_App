@@ -12,13 +12,12 @@ def create_meetup():
 
     data = request.get_json()
 
-
-    createdOn = data['createdOn']
-    location = data['location']
-    images = data['images']
-    topic = data['topic']
-    happeningOn = data['happeningOn']
-    tags = data['tags']
+    createdOn = data["createdOn"]
+    location = data["location"]
+    images = data["images"]
+    topic = data["topic"]
+    happeningOn = data["happeningOn"]
+    tags = data["tags"]
 
     meetups.add_meetup(createdOn, location, images, topic, happeningOn, tags)
 

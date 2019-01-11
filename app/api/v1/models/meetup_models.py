@@ -34,7 +34,7 @@ class MeetupModels:
     
 
     def get_all_meetups(self):
-        """Return all questions"""
+        """Return all meetups"""
         return meetups
 
     def get_one_meetup(self, meetupId):
