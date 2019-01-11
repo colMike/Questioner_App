@@ -11,6 +11,7 @@ class TestUserEndPoint(unittest.TestCase):
         self.app = create_app()
         self.app.testing = True
         self.app = self.app.test_client()
+       
         self.data = {
 	        "firstname": "Mike",
 	        "lastname": "Mbugua",
@@ -25,6 +26,7 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_signup(self):
         """Test for user registration"""
+
         response = self.app.post('api/v1/auth/signup',
                                 data = json.dumps(self.data), 
                                 content_type="application/json")
@@ -45,6 +47,7 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_login(self):
         """Test for the user login endpoint"""
+
         response = self.app.post('api/v1/auth/login',
                                 data = json.dumps(self.data), 
                                 content_type="application/json")
@@ -55,6 +58,11 @@ class TestUserEndPoint(unittest.TestCase):
         self.assertEqual(result["password"], "colmic76")
 
         self.assertEqual(response.status_code, 201)
+
+    def tearDown(self):
+        """ Destroys set up data before running each test """
+        self.app = None
+
 
 if __name__ == "__main__":
     unittest.main()
