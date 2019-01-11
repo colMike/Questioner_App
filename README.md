@@ -12,8 +12,10 @@ Questioner helps the meetup organizer prioritize questions to be answered. Other
 git clone https://github.com/colMike/Questioner_App
 
 - Run the commands:
-    • `source env/bin/activate` to create a virtual environment
-    • `export FLASK_ENV=development` to setup the environment
+    • `source venv/bin/activate` to create a virtual environment.
+
+    • `export FLASK_ENV=development` to setup the environment.
+
 - Test the endpoint using postman.
 
 
