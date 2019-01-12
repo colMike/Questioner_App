@@ -93,7 +93,7 @@ pytest app/tests/v1
 
 ### Heroku Deployment
 
-This app is deployed on [Heroku]............Link
+This app is deployed on [Heroku] https://colmike-questioner-app.herokuapp.com/
 
 
 #### Author 
