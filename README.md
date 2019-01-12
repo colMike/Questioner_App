@@ -3,6 +3,8 @@ Crowd-source questions for a meetup. Questioner helps the meetup organizer prior
 
 ## Badges
 [![Build Status](https://travis-ci.com/colMike/Questioner_App.svg?branch=develop)](https://travis-ci.com/colMike/Questioner_App)
+[![Coverage Status](https://coveralls.io/repos/github/colMike/Questioner_App/badge.svg?branch=develop)](https://coveralls.io/github/colMike/Questioner_App?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/50cb2021e6e046611714/maintainability)](https://codeclimate.com/github/colMike/Questioner_App/maintainability)
 
 
 ## Background Knowledge
