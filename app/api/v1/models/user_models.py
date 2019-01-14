@@ -1,24 +1,13 @@
 """User models"""
 from app.api.v1.utils.manage import find_username, find_password
 
-users = [{
-    "firstname": "Mike",
-	"lastname": "Mbugua",
-	"othername": "Sam",
-    "email": "abc.com",
-    "phoneNumber": "123456",
-    "username": "colmic76",
-    "registered": "registered",
-    "isAdmin": "False",
-    "password": "colmic76"
-}]
+users = []
 
-
-class UserModels:
+class UsersModel():
     """The user Models Class"""
     def __init__(self):
         """Initializing the User Model Class"""
-        pass
+        self.db = users
     
     def add_user(self, firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password):
         """Adding New Users"""
@@ -34,10 +23,13 @@ class UserModels:
                 "isAdmin": False,
                 "password": password
         }
-        user_info = users.append(user_data)
-        return user_info
-    
+        self.db.append(user_data)
 
+        return self.db
+
+    def get_users(self):
+        return self.db
+    
     def find_by_username(self, username):
         """Find a user by username"""
         return find_username(users, username)
