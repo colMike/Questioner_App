@@ -50,7 +50,7 @@ GET | /users | Fetch all registered users
 ## Getting Started
 
 Clone this repository inside your working repository
-```
+```>>>>>>> develop
 git clone https://github.com/colMike/Questioner_App.git
 
 ```
