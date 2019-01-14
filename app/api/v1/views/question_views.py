@@ -1,104 +1,99 @@
 """question views File"""
-from app.api.v1.models.question_models import QuestionModels
 from flask import Blueprint, make_response, jsonify, request
+from flask_restful import Resource
 
-question_version1 = Blueprint(
-    'question_version1', __name__, url_prefix='/api/v1')
-questions = QuestionModels()
-
-
-@question_version1.route('/questions', methods=['POST'])
-def create_question():
-    """Method for Creating a new question"""
-
-    data = request.get_json()
-
-    questionId = data["questionId"]
-    createdOn = data["createdOn"]
-    createdBy = ["createdBy"]
-    meetup = ["meetup"]
-    title = ["title"]
-    body = ["body"]
-    votes = ["votes"]
-
-    questions.add_question(questionId, createdOn,
-                           createdBy, meetup, title, body, votes)
-
-    return make_response(jsonify({
-
-        "data": {
-            "questionId": questionId,
-            "createdOn": createdOn,
-            "createdBy": createdBy,
-            "meetup": meetup,
-            "title":   title,
-            "body":   body,
-            "votes": votes,
-        },
-        "status": 201
-    }), 201)
+from app.api.v1.models.question_models import QuestionsModel
 
 
-@question_version1.route('/questions', methods=['GET'])
-def retrieve_questions():
-    """Return all questions"""
-    all_questions = questions.get_all_questions()
-    return make_response(jsonify({
-        "All questions": all_questions
-    }), 200)
+class QuestionList(Resource, QuestionsModel):
+    """Class for managing entire Questions List"""
+    def __init__(self):
+        self.db = QuestionsModel()
 
 
-@question_version1.route('/questions/<questionId>', methods=['GET'])
-def retrieve_one_question(questionId):
-    """Return one question"""
-    one_question = questions.get_one_question(questionId)
-    return make_response(jsonify({
-        "status":200, "data": one_question
-        }), 200)
+    def post(self):
+        """Method for Creating a new question"""
+
+        data = request.get_json()
+
+        createdOn = data["createdOn"]
+        createdBy = data["createdBy"]
+        meetup = data["meetup"]
+        title =   data["title"]
+        body =   data["body"]
+        votes = data["votes"]
+
+        resp = self.db.add_question(createdOn, createdBy, meetup, title, body, votes)
+
+        return make_response(jsonify({
+            "All questions": resp,
+            "data":{
+                'Status': "Okay",
+                'Message': "Question Posted Successfully"
+            }
+        }), 201)
+
+                
+    
+    def get(self):
+        """Return all questions"""
+        all_questions = self.db.get_all_questions()
+        return make_response(jsonify({
+            "All questions": all_questions,
+            "data":{
+                'Status': "Okay",
+                'Message': "Success"
+            }
+            }), 200)
 
 
-@question_version1.route('/questions/<questionId>/upvote', methods=['PATCH'])
-def upvote_question(questionId):
-    """
-    The upvote question route endpoint
-    """
-    one_question = questions.get_one_question(questionId)
-    # if one_question:
-    #     question = one_question[0]
-    #     question['votes'] = question['votes'] + 1
-    #     return jsonify({"status": 200, "data": question}), 200
-    # return jsonify({"status": 404, "error": "Question not found"}), 404
-    question = [
-        {
-            "questionId": 1,
-            "createdOn": "15th Jan 2014",
-            "createdBy": 5,
-            "question": 18,
-            "title":   "Andela Bootcamp",
-            "body":   "This is an Andela bootcamp meeting",
-            "votes": 24
-        }
-    ]
-    question[0]['votes'] = (question[0]['votes'] + 1)
-    return jsonify({"status": 200, "data": question[0]}), 200
+class Question(Resource, QuestionsModel):
+    """Class for managing a single question"""
+    def __init__(self):
+        self.db = QuestionsModel()
 
-@question_version1.route("/questions/<int:questionId>/downvote", methods=['PATCH'])
-def downvote_question(questionId):
-    """
-    The downvote question route endpoint
-    """
-    one_question = questions.get_one_question(questionId)
-    question = [
-        {
-            "questionId": 1,
-            "createdOn": "15th Jan 2014",
-            "createdBy": 5,
-            "question": 18,
-            "title":   "Andela Bootcamp",
-            "body":   "This is an Andela bootcamp meeting",
-            "votes": 24
-        }
-    ]
-    question[0]['votes'] = (question[0]['votes'] - 1)
-    return jsonify({"status": 200, "data": question[0]}), 200
+    
+    def get(self, questionId):
+        """Return one question"""
+        one_question = self.db.get_one_question(questionId)
+        return make_response(jsonify({
+                "Question": one_question
+            }), 200)
+
+
+    # Upvote a Question
+    def patch(self, questionId):
+        "Upvote or downvote a question"
+
+        question = self.db.upvote(questionId)
+        if not question:
+            return {
+                "Error": "Question does not exist",
+                "status": 404
+            }, 404
+        return {
+            
+            "message": "Upvote Successful",
+            "Question": question
+        }, 200
+
+class QuestionDownvote(Resource, QuestionsModel):
+    def __init__(self):
+        self.db = QuestionsModel()
+
+    # Downvote a Question
+    def patch(self, questionId):
+        "Upvote or downvote a question"
+
+        question = self.db.downvote(questionId)
+        if not question:
+            return {
+                "Error": "Question does not exist",
+                "status": 404
+            }, 404
+        return {            
+            "message": "Upvote Successful",
+            "Question": question
+        }, 200
+
 
