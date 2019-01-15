@@ -10,7 +10,7 @@ api = Api(version_one)
 
 api.add_resource(UserRegistration, "/auth/users/signup")
 api.add_resource(UserLogin, "/auth/users/login")
-api.add_resource(MeetupList, "/meetups")
+api.add_resource(MeetupList, "/meetups/upcoming")
 api.add_resource(Meetup, "/meetups/<meetupId>", 
                         "/meetups/<meetupId>/rsvps")
 api.add_resource(QuestionList, "/questions")

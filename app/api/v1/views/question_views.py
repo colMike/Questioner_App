@@ -16,12 +16,89 @@ class QuestionList(Resource, QuestionsModel):
 
         data = request.get_json()
 
-        createdOn = data["createdOn"]
-        createdBy = data["createdBy"]
-        meetup = data["meetup"]
-        title =   data["title"]
-        body =   data["body"]
-        votes = data["votes"]
+        if isinstance(data["createdOn"], str):
+            if  data["createdOn"] != "":
+                createdOn = data["createdOn"]
+            else:
+                return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter some value at created on"
+                }),404)
+        else:
+            return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter a String for createdOn"
+            }),404)
+
+        if isinstance(data["createdBy"], str):
+            if  data["createdBy"] != "":
+                createdBy = data["createdBy"]
+            else:
+                return make_response(jsonify({
+                    'status':404,
+                    'error':"CreatedBy cannot be left empty"
+                }),404)
+        else:
+            return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter an String for CreatedBy"
+            }),404)        
+
+        if isinstance(data["meetup"], int):
+            if  data["meetup"] != "":
+                meetup = data["meetup"]
+            else:
+                return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter some value for meetup"
+                }),404)
+        else:
+            return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter an Integer for meetup"
+            }),404)        
+
+        if isinstance(data["title"], str):
+            if  data["title"] != "":
+                title = data["title"]
+            else:
+                return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter some value for title"
+                }),404)
+        else:
+            return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter a String for Title"
+            }),404)        
+
+        if isinstance(data["body"], str):
+            if  data["body"] != "":
+                body = data["body"]
+            else:
+                return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter some value for the Body"
+                }),404)
+        else:
+            return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter a String for the body"
+            }),404)        
+        
+        if isinstance(data["votes"], int):
+            if  data["votes"] != "":
+                votes = data["votes"]
+            else:
+                return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter some value for votes"
+                }),404)
+        else:
+            return make_response(jsonify({
+                    'status':404,
+                    'error':"Please enter an Integer for votes"
+            }),404)
 
         resp = self.db.add_question(createdOn, createdBy, meetup, title, body, votes)
 
@@ -38,6 +115,7 @@ class QuestionList(Resource, QuestionsModel):
     def get(self):
         """Return all questions"""
         all_questions = self.db.get_all_questions()
+        
         return make_response(jsonify({
             "All questions": all_questions,
             "data":{
@@ -56,6 +134,11 @@ class Question(Resource, QuestionsModel):
     def get(self, questionId):
         """Return one question"""
         one_question = self.db.get_one_question(questionId)
+        if not one_question:
+            return make_response(jsonify({
+                    'status':404,
+                    'error':"Question does not exist"
+                }),404)
         return make_response(jsonify({
                 "Question": one_question
             }), 200)

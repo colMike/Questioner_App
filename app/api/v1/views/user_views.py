@@ -1,5 +1,5 @@
 """User views File"""
-from flask import Blueprint, make_response, jsonify, request
+from flask import Blueprint, make_response, jsonify, request, abort
 from flask_restful import Resource
 
 from app.api.v1.models.user_models import UsersModel
@@ -27,7 +27,7 @@ class UserRegistration(Resource, UsersModel):
         isAdmin = data['isAdmin']
         password = data['password']
 
-        resp = self.db.add_user(firstname, lastname, othername, email, phoneNumber, username, registered,isAdmin, password)
+        resp = self.db.add_user(firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password)
         
         return make_response(jsonify({
             'Status': "Ok",
