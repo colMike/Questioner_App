@@ -99,4 +99,4 @@ This app is deployed on [Heroku] https://colmike-questioner-app.herokuapp.com/
 
 
 #### Author 
-Michael Mbugua
+Michael Mbugua.
