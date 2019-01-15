@@ -1,10 +1,16 @@
 """Resource for shared functions"""
 
-def fetch_one(meetups, meetupId):
+def fetch_one_meetup(meetups, meetupId):
     """Fetch specific item"""
     for meetup in meetups:
             if int(meetupId) == meetup['meetupId']:
                 return meetup
+
+def fetch_one_question(questions, questionId):
+    """Fetch specific item"""
+    for question in questions:
+            if int(questionId) == question['questionId']:
+                return question
 
 def find_username(users, username):
     """Find the username in the database"""
@@ -19,11 +25,5 @@ def find_password(users, password):
         if password == user['password']:
             return user
 
-
-def fetch_question(questions, questionId):
-    """Fetch specific question"""
-    for question in questions:
-            if int(questionId) == question['questionId']:
-                return question
 
             
