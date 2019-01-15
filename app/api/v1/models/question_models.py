@@ -59,4 +59,5 @@ class QuestionsModel():
                 question["votes"] = current_vote - 1 
                 return question
 
-             
+            
+    
