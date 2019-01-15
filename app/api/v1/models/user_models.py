@@ -40,10 +40,3 @@ class UsersModel():
         return find_password(users, password)
         
 
-   
-        
-    
-    
-    
-
-    
