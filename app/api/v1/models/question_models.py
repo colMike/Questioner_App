@@ -1,22 +1,31 @@
 """question models"""
-
+import datetime 
 from app.api.v1.utils.manage import fetch_one_question
 
-questions = []
+questions = [{
+    "questionId": 1,
+    "createdOn": "15th Jan 2014",
+    "createdBy": 5,
+    "meetup": 18,
+    "title":   "Andela Bootcamp",
+    "body":   "This is an Andela bootcamp meeting",
+    "votes": 24,
+        
+}]
 
 
 
-class QuestionsModel():
+class QuestionModels:
     """The question Models Class"""
     def __init__(self):
         """Initializing the question Model Class"""
-        self.db = questions
+        pass
     
-    def add_question(self, createdOn, createdBy, meetup, title, body, votes):
+    def add_question(self, createdBy, meetup, title, body, votes):
         """Adding New questions"""
         question_data = {
                 "questionId": len(questions) + 1,   
-                "createdOn": createdOn,
+                "createdOn": datetime.datetime.now(),
                 "createdBy": createdBy,
                 "meetup": meetup,
                 "title":   title,
@@ -24,14 +33,14 @@ class QuestionsModel():
                 "votes": votes
 
         }
-        self.db.append(question_data)
 
-        return self.db
+        
+        questions.append(question_data)
+        return questions
     
 
     def get_all_questions(self):
         """Return all questions"""
-
         return questions
 
     def get_one_question(self, questionId):
@@ -40,7 +49,7 @@ class QuestionsModel():
 
     def upvote(self, questionId):
         """Method to upvote a question"""
-        
+
         for question in questions:
             if int(questionId) == question['questionId']:
                 current_vote = int(question["votes"]) 
