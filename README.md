@@ -24,7 +24,10 @@ GET | /meetups/upcoming | Fetch all upcoming meetup records
 
 #### Question Endpoints
 
-Method | Endpoint | Purpose
+Method | Endpoint | Purposepivotal tracker: https://www.pivotaltracker.com/n/projects/2235460
+github link: https://github.com/colMike/Questioner_App
+github UI link:  https://colmike.github.io/Questioner_App/UI
+
 --- | --- | ---
 POST | /questions | Create a question for a specific meetup
 PATCH | /questions/int:question-id/upvote | Upvote a specific question
