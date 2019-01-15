@@ -1,4 +1,5 @@
 """question models"""
+import datetime
 
 from app.api.v1.utils.manage import fetch_one_question
 
@@ -12,11 +13,11 @@ class QuestionsModel():
         """Initializing the question Model Class"""
         self.db = questions
     
-    def add_question(self, createdOn, createdBy, meetup, title, body, votes):
+    def add_question(self, createdBy, meetup, title, body, votes):
         """Adding New questions"""
         question_data = {
                 "questionId": len(questions) + 1,   
-                "createdOn": createdOn,
+                "createdOn": datetime.datetime.now(),
                 "createdBy": createdBy,
                 "meetup": meetup,
                 "title":   title,
