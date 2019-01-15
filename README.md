@@ -45,7 +45,7 @@ GET | /users | Fetch all registered users
 2. Git
 3. Virtualenv
 4. Pytest
-
+...with these permissions:
 ```
 ## Getting Started
 
@@ -99,4 +99,4 @@ This app is deployed on [Heroku] https://colmike-questioner-app.herokuapp.com/
 
 
 #### Author 
-Michael Mbugua.
+Michael Mbugua
