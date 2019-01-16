@@ -12,6 +12,7 @@ def signup():
 
     data = request.get_json()
 
+    
     firstname = data['firstname']
     lastname = data['lastname']
     othername = data['othername']
@@ -64,3 +65,4 @@ def login():
             },
             'message': "User Logged in Successfully"
         }), 201)
+
