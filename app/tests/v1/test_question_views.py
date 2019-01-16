@@ -38,7 +38,7 @@ class TestquestionEndPoints(unittest.TestCase):
                                  data=json.dumps(self.post),
                                  content_type="application/json")
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 201)
 
     def test_retrieve_questions(self):
             """Test for retrieving all questions"""
