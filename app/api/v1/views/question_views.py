@@ -88,13 +88,22 @@ def upvote_question(questionId):
 @question_version1.route('/questions/<int:questionId>/downvote', methods=['PATCH'])
 def downvote_question(questionId):
     voted_question = questions.downvote(questionId)
+
+    print(voted_question)
+
     if not voted_question:
         return {
             "status": 404,
             "message": "Question does not exist"
         }, 404
-    return make_response(jsonify({
-        "status": 200,
-        "data": voted_question,
-        "message": "Upvote Successful"
-    }), 200)
+    if voted_question['votes'] > 0:
+        return make_response(jsonify({
+            "status": 200,
+            "data": voted_question,
+            "message": "Downvote Successful"
+        }), 200)
+    else:
+        abort(make_response(jsonify({
+            "status": 403,
+            "message": "Downvote Cannot go below 0"
+        }), 403))        

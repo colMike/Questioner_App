@@ -1,6 +1,9 @@
 """User views File"""
-from flask import Blueprint, make_response, jsonify, request
+from flask import Blueprint, make_response, jsonify, request, abort
 from app.api.v1.models.user_models import UserModels
+from marshmallow import ValidationError
+from ..Schemas.user_schema import UserSignupSchema, UserLoginSchema
+
 
 user_version1 = Blueprint('user_version1', __name__, url_prefix='/api/v1')
 users = UserModels()
@@ -10,9 +13,24 @@ users = UserModels()
 def signup():
     """Method for Registering user"""
 
-    data = request.get_json()
+    signup_data = request.get_json()
 
+    if not signup_data:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message': "No data has been provided"
+        }),400))
+
+    data, errors = UserSignupSchema().load(signup_data)
+
+    if errors:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message' : 'Invalid data. Please fill all required fields',
+            'errors': errors}), 400))
+            
     
+
     firstname = data['firstname']
     lastname = data['lastname']
     othername = data['othername']
@@ -22,10 +40,10 @@ def signup():
     password = data['password']
 
     if users.check_exists(data["username"], data["email"]):
-        return make_response(jsonify({
+        abort(make_response(jsonify({
             'status': 403,
             'message': "User Already exists"
-        }), 403)
+        }), 403))
     else:
         resp = users.add_user(firstname, lastname, othername,
                               email, phoneNumber, username, password)
@@ -41,8 +59,23 @@ def signup():
 def login():
     """Method for Signing in a user"""
 
-    data = request.get_json()
+    user_data = request.get_json()
 
+    if not user_data:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message': "No data has been provided"
+        }),400))
+
+    data, errors = UserLoginSchema().load(user_data)
+
+    if errors:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message' : 'Invalid data. Please fill all required fields',
+            'errors': errors}), 400))
+            
+    
     username = data['username']
     password = data['password']
 

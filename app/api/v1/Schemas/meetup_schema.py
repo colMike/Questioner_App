@@ -12,3 +12,11 @@ class MeetupSchema(Schema):
     tags = fields.List(fields.Str, required=False)
     
     
+class RsvpSchema(Schema):
+    """ Class to validate schema for Meetup object """
+    
+    id = fields.Int(required=True, validate= Not_null_string)
+    meetup = fields.Int(required=True, validate= Not_null_string)
+    user = fields.Int(required=True, validate= Not_null_string)
+    response = fields.Str(required=True, validate= Not_null_string)
+

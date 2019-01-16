@@ -2,7 +2,7 @@
 from flask import Blueprint, make_response, jsonify, request, abort
 from marshmallow import ValidationError
 from app.api.v1.models.meetup_models import MeetupModels
-from ..Schemas.meetup_schema import MeetupSchema
+from ..Schemas.meetup_schema import MeetupSchema, RsvpSchema
 from app.api.v1.models.rsvp_models import RsvpModels
 
 
@@ -72,9 +72,23 @@ def retrieve_one_meetup(meetupId):
 @meetup_version1.route('/meetups/<meetupId>/rsvps', methods=['POST'])
 def post_rsvp(meetupId):
 
-    data = request.get_json()
+    meetup_data = request.get_json()
 
-    reply = data["reply"]
+    if not meetup_data:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message': "No data has been provided"
+        }),400))
+
+    data, errors = RsvpSchema().load(meetup_data)
+
+    if errors:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message' : 'Invalid data. Please fill all required fields',
+            'errors': errors}), 400))
+
+    reply = data["response"]
 
 
     if reply not in ["yes", "no", "maybe"]:
