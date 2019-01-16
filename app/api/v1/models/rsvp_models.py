@@ -3,12 +3,7 @@ from app.api.v1.utils.manage import fetch_one_meetup
 
 
 
-reservations = [{
-            "id": 1,
-            "meetup": 1,
-            "user": 5,
-            "reply": "yes"
-        }]
+reservations = []
 
 class RsvpModels:
     """The meetup Rsvp Model Class"""
@@ -19,8 +14,8 @@ class RsvpModels:
     def make_reservation(self, reply):
         """Adding Reservation"""    
         rsvp_data = {
-            "id": 1,
-            "meetup": 1,
+            "id": len(reservations) + 1,
+            "meetup": len(reservations) + 1,
             "user": 5,
             "reply": reply
         }
