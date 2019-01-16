@@ -23,6 +23,7 @@ class TestUserEndPoint(unittest.TestCase):
             "password": "colmic76"
         }
 
+    
     def test_signup(self):
         """ Test sign up with correct data """
         user = {
@@ -71,6 +72,12 @@ class TestUserEndPoint(unittest.TestCase):
         self.assertEqual(data_other['status'], 201)
         self.assertEqual(data_other['message'], 'User Logged in Successfully')
 
+        self.assertEqual(res_other.status_code, 201)
+        self.assertEqual(data_other['Status'], 201)
+        self.assertEqual(data_other['Message'], 'User Logged in Successfully')
+   
+    
+    
     def tearDown(self):
         """ Destroys set up data before running each test """
         self.app = None

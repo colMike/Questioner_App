@@ -63,6 +63,7 @@ def post_rsvp(meetupId):
 
     reply = data["reply"]
 
+
     if reply not in ["yes", "no", "maybe"]:
         return make_response(jsonify({
             'status': 400,

@@ -12,6 +12,7 @@ def signup():
 
     data = request.get_json()
 
+    
     firstname = data['firstname']
     lastname = data['lastname']
     othername = data['othername']
