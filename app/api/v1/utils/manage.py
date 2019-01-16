@@ -19,11 +19,24 @@ def find_username(users, username):
             return user
 
 
-def find_password(users, password):
+def find_password(users_list, password):
     """Look if the password matches the one in the database"""
-    for user in users:
+    for user in users_list:
         if password == user['password']:
             return user
 
+def change_to_Admin(users_list, username):
+    """Change a user to an Administrator"""
+    for user in users_list:
+        if username == user['username']:
+            user.isAdmin = True
+            return user
 
+def user_exists(users_list, username, email):
+    """Change a user to an Administrator"""
+    for user in users_list:
+        if username == user['username'] or email == user['email']:
+            return True            
+        else:
+            return False
             

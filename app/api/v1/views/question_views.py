@@ -2,17 +2,17 @@
 from app.api.v1.models.question_models import QuestionModels
 from flask import Blueprint, make_response, jsonify, request
 
-question_version1 = Blueprint('question_version1', __name__, url_prefix='/api/v1')
+question_version1 = Blueprint(
+    'question_version1', __name__, url_prefix='/api/v1')
 questions = QuestionModels()
 
 
 @question_version1.route('/questions', methods=['POST'])
 def create_question():
     """Method for Creating a new question"""
-    
 
     data = request.get_json()
-        
+
     if isinstance(data["createdBy"], str):
         if data["createdBy"] != "":
             createdBy = data["createdBy"]
@@ -33,7 +33,7 @@ def create_question():
            return make_response(jsonify({
                'status': 404,
                'error': "Please enter some value for meetup"
-             }), 404)
+           }), 404)
     else:
         return make_response(jsonify({
             'status': 404,
@@ -78,27 +78,25 @@ def create_question():
             'status': 404,
             'error': "Please enter an Integer for votes"
         }), 404)
-    
+
     resp = questions.add_question(createdBy, meetup, title, body, votes)
 
     return make_response(jsonify({
-        'Status': 201,
-        "Data": resp,
-        'Message': "Question Posted Successfully"
+        'status': 201,
+        "data": resp,
+        'message': "Question Posted Successfully"
     }), 201)
-    
-    
-   
-        # .....................................
+
+
 @question_version1.route('/questions', methods=['GET'])
 def retrieve_questions():
     """Return all questions"""
     all_questions = questions.get_all_questions()
     return make_response(jsonify({
-            'Status': 200,
-            "Data": all_questions,
-            'Message': "Success"
-        }), 200)
+        'status': 200,
+        "data": all_questions,
+        'message': "Success"
+    }), 200)
 
 
 @question_version1.route('/questions/<questionId>', methods=['GET'])
@@ -111,9 +109,10 @@ def get_question(questionId):
                 'error': "Question does not exist"
             }), 404)
         return make_response(jsonify({
-            "Status": 200,
-            "Question": one_question
+            "status": 200,
+            "data": one_question
         }), 200)
+
 
 @question_version1.route('/questions/<questionId>/upvote', methods=['PATCH'])
 def upvote_question(questionId):
@@ -121,11 +120,11 @@ def upvote_question(questionId):
     if not voted_question:
         return {
             "status": 404,
-            "Message": "Question does not exist"
+            "message": "Question does not exist"
         }, 404
     return make_response(jsonify({
-        "Status": 200,
-        "Data": voted_question,
+        "status": 200,
+        "data": voted_question,
         "message": "Upvote Successful"
     }), 200)
 
@@ -136,12 +135,10 @@ def downvote_question(questionId):
     if not voted_question:
         return {
             "status": 404,
-            "Message": "Question does not exist"
+            "message": "Question does not exist"
         }, 404
     return make_response(jsonify({
-        "Status": 200,
-        "Data": voted_question,
+        "status": 200,
+        "data": voted_question,
         "message": "Upvote Successful"
     }), 200)
-
-
