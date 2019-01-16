@@ -1,6 +1,8 @@
 """Meetup views File"""
-from flask import Blueprint, make_response, jsonify, request
+from flask import Blueprint, make_response, jsonify, request, abort
+from marshmallow import ValidationError
 from app.api.v1.models.meetup_models import MeetupModels
+from ..Schemas.meetup_schema import MeetupSchema, RsvpSchema
 from app.api.v1.models.rsvp_models import RsvpModels
 
 
@@ -13,60 +15,31 @@ reservations = RsvpModels()
 def create_meetup():
     """Method for Creating a new Meetup"""
 
-    data = request.get_json()
+    posted_data = request.get_json()
 
-    if isinstance(data["location"], str):
-        if data["location"] != "":
-            location = data["location"]
-        else:
-           return make_response(jsonify({
-               'status': 404,
-               'error': "Please enter some value for location"
-           }), 404)
-    else:
-        return make_response(jsonify({
-            'status': 404,
-            'error': "Please enter an String as location"
-        }), 404)
 
+    data, errors = MeetupSchema().load(posted_data)
+
+    if errors:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message' : 'Invalid data. Please fill all required fields',
+            'errors': errors}), 400))
+
+    print(data)
+
+    location = data["location"]
     images = data["images"]
-
-    if isinstance(data["topic"], str):
-        if data["topic"] != "":
-            topic = data["topic"]
-        else:
-            return make_response(jsonify({
-                'status': 404,
-                'error': "Please enter a Topic"
-            }), 404)
-    else:
-        return make_response(jsonify({
-            'status': 404,
-            'error': "Please enter a String data for the topic"
-        }), 404)
-
-    if isinstance(data["happeningOn"], str):
-        if data["happeningOn"] != "":
-            happeningOn = data["happeningOn"]
-        else:
-            return make_response(jsonify({
-                'status': 404,
-                'error': "Please enter some value for votes"
-            }), 404)
-    else:
-        return make_response(jsonify({
-            'status': 404,
-            'error': "Please enter an Integer for votes"
-        }), 404)
-
+    topic = data["topic"]
+    happeningOn = data["happeningOn"]
     tags = data["tags"]
 
     resp = meetups.add_meetup(location, images, topic, happeningOn, tags)
 
     return make_response(jsonify({
-        'Status': 201,
-        "Data": resp,
-        'Message': "Question Posted Successfully"
+        'status': 201,
+        "data": resp,
+        'message': "Meetup Added Successfully"
     }), 201)
 
 
@@ -75,7 +48,8 @@ def retrieve_meetups():
     """Return all meetups"""
     all_meetups = meetups.get_all_meetups()
     return make_response(jsonify({
-        "All Meetups": all_meetups
+        "data": all_meetups,
+        "status": 200
     }), 200)
 
 
@@ -89,23 +63,40 @@ def retrieve_one_meetup(meetupId):
             'error': "Meetup does not exist"
         }), 404)
     return make_response(jsonify({
-        "Status": 200,
-        "Question": one_meetup
+        "status": 200,
+        "message": "Success",
+        "data": one_meetup
     }), 200)
 
 
 @meetup_version1.route('/meetups/<meetupId>/rsvps', methods=['POST'])
 def post_rsvp(meetupId):
 
-    data = request.get_json()
+    meetup_data = request.get_json()
 
-    reply = data["reply"]
+    if not meetup_data:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message': "No data has been provided"
+        }),400))
+
+    data, errors = RsvpSchema().load(meetup_data)
+
+    if errors:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message' : 'Invalid data. Please fill all required fields',
+            'errors': errors}), 400))
+
+    reply = data["response"]
+
 
     if reply not in ["yes", "no", "maybe"]:
         return make_response(jsonify({
             'status': 400,
             'error': "You need to answer yes, no or maybe"
         }), 400)
+
     meetup = meetups.get_one_meetup(meetupId)
     if not meetup:
         return make_response(jsonify({
@@ -117,6 +108,6 @@ def post_rsvp(meetupId):
         resp = reservations.make_reservation(reply)
         
         return make_response(jsonify({
-            "Status": 200,
-            "Reply": resp
+            "status": 200,
+            "data": resp
         }), 200)
