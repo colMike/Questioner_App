@@ -65,4 +65,13 @@ def login():
             },
             'message': "User Logged in Successfully"
         }), 201)
+    
+@user_version1.route('/users', methods=['GET'])
+def retrieve_users():
+    """Return all Users"""
+    all_users = users.get_all_users()
+    return make_response(jsonify({
+        "data": all_users,
+        "status": 200
+    }), 200)
 
