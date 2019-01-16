@@ -39,3 +39,7 @@ class UserModels:
     def check_exists(self, username, email):
         """"Check if a user already exists"""
         return user_exists(users_list, username, email)
+    
+    def get_all_users(self):
+        """Return all meetups"""
+        return users_list
