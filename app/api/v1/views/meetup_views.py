@@ -1,6 +1,8 @@
 """Meetup views File"""
-from flask import Blueprint, make_response, jsonify, request
+from flask import Blueprint, make_response, jsonify, request, abort
+from marshmallow import ValidationError
 from app.api.v1.models.meetup_models import MeetupModels
+from ..Schemas.meetup_schema import MeetupSchema
 from app.api.v1.models.rsvp_models import RsvpModels
 
 
@@ -13,7 +15,18 @@ reservations = RsvpModels()
 def create_meetup():
     """Method for Creating a new Meetup"""
 
-    data = request.get_json()
+    posted_data = request.get_json()
+
+
+    data, errors = MeetupSchema().load(posted_data)
+
+    if errors:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message' : 'Invalid data. Please fill all required fields',
+            'errors': errors}), 400))
+
+    print(data)
 
     location = data["location"]
     images = data["images"]

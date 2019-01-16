@@ -24,7 +24,7 @@ class TestquestionEndPoints(unittest.TestCase):
         }
 
         self.post = {
-            "createdBy": "Michael Mbugua",
+            "createdBy": 1,
             "meetup": 1,
             "title":   "Bourne Legacy",
             "body":   "So how often will we have to meet?",
