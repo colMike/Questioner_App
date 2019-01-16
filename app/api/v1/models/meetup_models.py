@@ -3,15 +3,7 @@ import datetime
 
 from app.api.v1.utils.manage import fetch_one_meetup
 
-meetups = [{
-    "meetupId": 1,
-    "createdOn": "25th Dec 2018",
-    "location": "Taj Mall, Nairobi",
-    "images": ["Food.jpg", "Kitchen.jpg"],
-    "topic": "Making Pasta", 
-    "happeningOn":  "2nd Jan 2019, 09:40AM",
-    "tags":  ["Art", "Homestudy"]
-}]
+meetups = []
 
 
 

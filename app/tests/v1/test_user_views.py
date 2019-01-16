@@ -19,46 +19,60 @@ class TestUserEndPoint(unittest.TestCase):
             "email": "abc.com",
             "phoneNumber": "123456",
             "username": "colmic76",
-            "registered": "registered",
-            "isAdmin": "False",
             "password": "colmic76"
         }
 
+    
     def test_signup(self):
-        """Test for user registration"""
+        """ Test sign up with correct data """
+        user = {
+            'firstname' : 'Michael',
+            'lastname' : 'Mbugua',
+            'othername' : 'Colmike',
+            'username' : 'SirMike',
+            'email' : 'mike@gmail.com',
+            'password' : 'mikemike',
+            'phoneNumber' : '0708453910'
+        }
 
-        response = self.app.post('api/v1/auth/signup',
-                                data = json.dumps(self.data), 
-                                content_type="application/json")
-
-        result = json.loads(response.data)
-        
-        self.assertEqual(result["firstname"], "Mike")
-        self.assertEqual(result["lastname"], "Mbugua")
-        self.assertEqual(result["othername"], "Sam")
-        self.assertEqual(result["email"], "abc.com")
-        self.assertEqual(result["phoneNumber"], "123456")
-        self.assertEqual(result["username"], "colmic76")
-        self.assertEqual(result["isAdmin"], "False")
-
-        self.assertEqual(response.status_code, 201)
-
-
+        res = self.app.post('api/v1/auth/users/signup', json=user, headers={'Content-Type': 'application/json'})
+        data = res.get_json()
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(data['Status'], 201)
+        self.assertEqual(data['Message'], 'User Added Successfully')
+           
+    
 
     def test_login(self):
-        """Test for the user login endpoint"""
-
-        response = self.app.post('api/v1/auth/login',
-                                data = json.dumps(self.data), 
-                                content_type="application/json")
-
-        result = json.loads(response.data)
+        """First test for successful login """
         
-        self.assertEqual(result["username"], "colmic76")
-        self.assertEqual(result["password"], "colmic76")
+        user = {
+            'firstname' : 'Michael',
+            'lastname' : 'Mbugua',
+            'othername' : 'Colmike',
+            'username' : 'SirMikey',
+            'email' : 'mikey@gmail.com',
+            'password' : 'mikemike',
+            'phoneNumber' : '0708453910'
+        }
 
-        self.assertEqual(response.status_code, 201)
+        res = self.app.post('api/v1/auth/users/signup', json=user, headers={'Content-Type': 'application/json'})
+        data = res.get_json()
 
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(data['Status'], 201)
+        self.assertEqual(data['Message'], 'User Added Successfully')
+
+        # Login user
+        res_other = self.app.post('/api/v1/auth/users/login', json={'username': 'SirMikey', 'password': 'mikemike'}, headers={'Content-Type': 'application/json'})
+        data_other = res_other.get_json()
+
+        self.assertEqual(res_other.status_code, 201)
+        self.assertEqual(data_other['Status'], 201)
+        self.assertEqual(data_other['Message'], 'User Logged in Successfully')
+   
+    
+    
     def tearDown(self):
         """ Destroys set up data before running each test """
         self.app = None
