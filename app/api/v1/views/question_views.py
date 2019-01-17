@@ -109,6 +109,13 @@ def downvote_question(questionId):
         }), 403))        
 
 
-@question_version1.route('/comments', methods=['POST'])
-def post_comment():
-    return "This is the post comment route"
+@question_version1.route('/<questionId>/comments', methods=['POST'])
+def post_comment(questionId):
+
+    question_data = request.get_json()
+
+    return make_response(jsonify({
+            "status": 200,
+            "data": question_data,
+            "message": "Comment registered in the system"
+        }), 200)
