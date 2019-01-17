@@ -107,3 +107,8 @@ def downvote_question(questionId):
             "status": 403,
             "message": "Downvote Cannot go below 0"
         }), 403))        
+
+
+@question_version1.route('/comments', methods=['POST'])
+def post_comment():
+    return "This is the post comment route"

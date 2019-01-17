@@ -12,6 +12,12 @@ def fetch_one_question(questions, questionId):
             if int(questionId) == question['questionId']:
                 return question
 
+def fetch_one_comment(comments, questionId):
+    """Fetch specific question's comments"""
+    for comment in comments:
+            if int(questionId) == comment['questionId']:
+                return comment
+
 def find_username(users, username):
     """Find the username in the database"""
     for user in users:
