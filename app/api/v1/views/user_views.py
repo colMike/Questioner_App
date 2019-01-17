@@ -83,11 +83,11 @@ def login():
     passWrd = users.check_password(password)
     if not sample_user:
         return make_response(jsonify({
-            "Error": "User not found: Please register"
+            "error": "User not found: Please register"
         }), 401)
     elif not passWrd:
         return make_response(jsonify({
-            "Error": "Password incorrect"
+            "error": "Password incorrect"
         }), 401)
     elif sample_user and passWrd:
         return make_response(jsonify({
