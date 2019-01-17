@@ -95,6 +95,12 @@ class TestquestionEndPoints(unittest.TestCase):
 
     def test_comment_on_question(self):
         """Test if a user can add a comment to a question"""
+
+        """Set up a dummy Question"""
+        self.app.post('api/v2/questions',
+                                 data=json.dumps(self.post),
+                                 content_type="application/json")
+
         response = self.app.post('api/v2/1/comments',
                                  data=json.dumps(self.comment),
                                  content_type="application/json")

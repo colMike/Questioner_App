@@ -74,37 +74,44 @@ def get_question(questionId):
 
 @question_version2.route('/questions/<int:questionId>/upvote', methods=['PATCH'])
 def upvote_question(questionId):
-    voted_question = questions.upvote(questionId)
-    if not voted_question:
-        return {
-            "status": 404,
-            "message": "Question does not exist"
-        }, 404
+    chosen_quiz = questions.get_one_question(questionId)
+
+    if not chosen_quiz:
+            return make_response(jsonify({
+                'status': 404,
+                'error': "Question does not exist"
+            }), 404)
+    
+    result = questions.upvote(chosen_quiz['questionId'])
+    
     return make_response(jsonify({
         "status": 200,
-        "data": voted_question,
+        "data": result,
         "message": "Upvote Successful"
     }), 200)
 
 
 @question_version2.route('/questions/<int:questionId>/downvote', methods=['PATCH'])
 def downvote_question(questionId):
-    voted_question = questions.downvote(questionId)
+    chosen_quiz = questions.get_one_question(questionId)
 
-    print(voted_question)
-
-    if not voted_question:
-        return {
-            "status": 404,
-            "message": "Question does not exist"
-        }, 404
-    if voted_question['votes'] > 0:
+    if not chosen_quiz:
+            return make_response(jsonify({
+                'status': 404,
+                'error': "Question does not exist"
+            }), 404)
+    
+    result = questions.downvote(chosen_quiz['questionId'])
+    
+    
+    if result['votes'] > 0:
         return make_response(jsonify({
             "status": 200,
-            "data": voted_question,
+            "data": result,
             "message": "Downvote Successful"
         }), 200)
     else:
+    
         abort(make_response(jsonify({
             "status": 403,
             "message": "Downvote Cannot go below 0"

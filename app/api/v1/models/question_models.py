@@ -2,16 +2,7 @@
 import datetime
 from app.api.v1.utils.manage import fetch_one_question
 
-questions = [{
-    "questionId": 1,
-    "createdOn": "15th Jan 2014",
-    "createdBy": 5,
-    "meetup": 18,
-    "title":   "Andela Bootcamp",
-    "body":   "This is an Andela bootcamp meeting",
-    "votes": 24,
-
-}]
+questions = []
 
 
 class QuestionModels:
@@ -53,6 +44,7 @@ class QuestionModels:
                 current_vote = int(question["votes"])
                 question["votes"] = current_vote + 1
                 return question
+            
 
     def downvote(self, questionId):
         """Method to downvote a question"""

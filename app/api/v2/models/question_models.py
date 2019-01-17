@@ -2,16 +2,7 @@
 import datetime
 from app.api.v2.utils.manage import fetch_one_question
 
-questions = [{
-    "questionId": 1,
-    "createdOn": "15th Jan 2014",
-    "createdBy": 5,
-    "meetup": 18,
-    "title":   "Andela Bootcamp",
-    "body":   "This is an Andela bootcamp meeting",
-    "votes": 24,
-
-}]
+questions = []
 
 
 class QuestionModels:
