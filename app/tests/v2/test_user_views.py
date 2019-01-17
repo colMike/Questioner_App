@@ -26,17 +26,8 @@ class TestUserEndPoint(unittest.TestCase):
     
     def test_signup(self):
         """ Test sign up with correct data """
-        user = {
-            'firstname': 'Michael',
-            'lastname': 'Mbugua',
-            'othername': 'Colmike',
-            'username': 'SirMike',
-            'email': 'mike@gmail.com',
-            'password': 'mikemike',
-            'phoneNumber': '0708453910'
-        }
 
-        res = self.app.post('api/v2/auth/users/signup', json=user,
+        res = self.app.post('api/v2/auth/signup', json=self.data,
                             headers={'Content-Type': 'application/json'})
         data = res.get_json()
         self.assertEqual(res.status_code, 201)
@@ -56,7 +47,7 @@ class TestUserEndPoint(unittest.TestCase):
             'phoneNumber': '0708453910'
         }
 
-        res = self.app.post('api/v2/auth/users/signup', json=user,
+        res = self.app.post('api/v2/auth/signup', json=user,
                             headers={'Content-Type': 'application/json'})
         data = res.get_json()
 
@@ -64,7 +55,7 @@ class TestUserEndPoint(unittest.TestCase):
         self.assertEqual(data['status'], 201)
         self.assertEqual(data['message'], 'User Added Successfully')
 
-        res_other = self.app.post('/api/v2/auth/users/login', json={
+        res_other = self.app.post('/api/v2/auth/login', json={
                                   'username': 'SirMikey', 'password': 'mikemike'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
