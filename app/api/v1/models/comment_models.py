@@ -2,13 +2,7 @@
 
 from app.api.v1.utils.manage import fetch_one_comment
 
-comments = [{
-    "questionId": 1,
-    "title":   "Andela Bootcamp",
-    "body":   "This is an Andela bootcamp meeting",
-    "comment": "I like your Question",
-        
-}]
+comments = []
 
 
 
@@ -18,16 +12,16 @@ class CommentModels:
         """Initializing the Comments Model Class"""
         pass
     
-    def add_comment(self, title, body, comment):
-        """Adding New questions"""
+    def add_comment(self, questionId, title, body, comment):
+        """Adding New comment"""
         comment_data = {
-                "questionId": len(comments) + 1,   
+                "questionId": questionId,   
                 "title":   title,
                 "body":   body,
                 "comment": comment
+                
 
         }
-
         
         comments.append(comment_data)
         return comments
@@ -40,5 +34,10 @@ class CommentModels:
     def get_one_comment(self, questionId):
         """Return specific comments"""
         return fetch_one_comment(comments, questionId)
+
+    def write_comment(self, comment_data):
+        """Return specific comments"""
+        return comment_data
+
 
     

@@ -1,13 +1,15 @@
 """question views File"""
 from app.api.v1.models.question_models import QuestionModels
+from app.api.v1.models.comment_models import CommentModels
 from marshmallow import ValidationError
 from flask import Blueprint, make_response, jsonify, request, abort
 from ..Schemas.question_schema import QuestionSchema
+from ..Schemas.comment_schema import CommentSchema
 
 question_version1 = Blueprint(
     'question_version1', __name__, url_prefix='/api/v1')
 questions = QuestionModels()
-
+comments = CommentModels()
 
 @question_version1.route('/questions', methods=['POST'])
 def create_question():
@@ -112,10 +114,33 @@ def downvote_question(questionId):
 @question_version1.route('/<questionId>/comments', methods=['POST'])
 def post_comment(questionId):
 
-    question_data = request.get_json()
+    comment_data = request.get_json()
 
+    data, errors = CommentSchema().load(comment_data)
+
+    if errors:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message' : 'Invalid data. Please fill in a comment',
+            'errors': errors}), 400))
+
+    one_question = questions.get_one_question(questionId)
+    
+    if not one_question:
+        abort(make_response(jsonify({
+            'status': 400,
+            'message': "No such question exists"
+        }),400))
+
+    questionId = one_question['questionId']
+    title = one_question['title']
+    body =  one_question['body']
+    comment = data['comment']
+    
+    resp = comments.add_comment(questionId, title, body, comment)
+    
     return make_response(jsonify({
             "status": 200,
-            "data": question_data,
+            "data": resp,
             "message": "Comment registered in the system"
         }), 200)

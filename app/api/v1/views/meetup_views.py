@@ -26,8 +26,7 @@ def create_meetup():
             'message' : 'Invalid data. Please fill all required fields',
             'errors': errors}), 400))
 
-    print(data)
-
+    
     location = data["location"]
     images = data["images"]
     topic = data["topic"]

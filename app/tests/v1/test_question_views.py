@@ -32,6 +32,10 @@ class TestquestionEndPoints(unittest.TestCase):
 
         }
 
+        self.comment = {
+            "comment": "Your'e Awesome"
+        } 
+
     def test_create_question(self):
         """Test for creating a new question"""
         response = self.app.post('api/v1/questions',
@@ -91,11 +95,19 @@ class TestquestionEndPoints(unittest.TestCase):
 
     def test_comment_on_question(self):
         """Test if a user can add a comment to a question"""
-        response = self.app.post('api/v1/comments',
-                                 data=json.dumps(self.post),
+        response = self.app.post('api/v1/1/comments',
+                                 data=json.dumps(self.comment),
                                  content_type="application/json")
 
-        self.assertEqual(response.status_code, 200)                         
+        self.assertEqual(response.status_code, 200)        
+
+    def test_empty_comment_on_question(self):
+        """Test if an empty comment work on a question"""
+        response = self.app.post('api/v1/1/comments',
+                                 json = {},
+                                 content_type="application/json")
+
+        self.assertEqual(response.status_code, 400)                   
 
 
     def tearDown(self):
