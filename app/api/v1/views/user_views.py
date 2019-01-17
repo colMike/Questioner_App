@@ -1,15 +1,19 @@
 """User views File"""
-from flask import Blueprint, make_response, jsonify, request, abort
+from flask import Flask, Blueprint, make_response, jsonify, request, abort
 from app.api.v1.models.user_models import UserModels
 from marshmallow import ValidationError
+import jwt
+import datetime
 from ..Schemas.user_schema import UserSignupSchema, UserLoginSchema
 
 
 user_version1 = Blueprint('user_version1', __name__, url_prefix='/api/v1')
 users = UserModels()
 
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'This is my secret Key' 
 
-@user_version1.route('/auth/users/signup', methods=['POST'])
+@user_version1.route('/auth/signup', methods=['POST'])
 def signup():
     """Method for Registering user"""
 
@@ -45,17 +49,21 @@ def signup():
             'message': "User Already exists"
         }), 403))
     else:
+        
+        token = jwt.encode({'username' : username, 
+                            'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes = 60)}, app.config['SECRET_KEY'])
+        
         resp = users.add_user(firstname, lastname, othername,
                               email, phoneNumber, username, password)
 
         return make_response(jsonify({
             'status': 201,
-            "data": resp,
+            "data": [{'token' : token.decode('UTF-8'), 'user' : resp}],
             'message': "User Added Successfully"
         }), 201)
 
 
-@user_version1.route('/auth/users/login', methods=['POST'])
+@user_version1.route('/auth/login', methods=['POST'])
 def login():
     """Method for Signing in a user"""
 
@@ -90,12 +98,13 @@ def login():
             "error": "Password incorrect"
         }), 401)
     elif sample_user and passWrd:
+
+        token = jwt.encode({'username' : username, 
+                            'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes = 60)}, app.config['SECRET_KEY'])
+
         return make_response(jsonify({
             'status': 201,
-            "data": {
-                "username": username,
-                "password": password
-            },
+            "data": [{'token' : token.decode('UTF-8'), 'userName' : username}],
             'message': "User Logged in Successfully"
         }), 201)
     
