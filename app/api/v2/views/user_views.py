@@ -7,7 +7,7 @@ import datetime
 from ..Schemas.user_schema import UserSignupSchema, UserLoginSchema
 
 
-user_version1 = Blueprint('user_version1', __name__, url_prefix='/api/v1')
+user_version2 = Blueprint('user_version2', __name__, url_prefix='/api/v2')
 users = UserModels()
 
 app = Flask(__name__)
@@ -63,11 +63,7 @@ def signup():
         }), 201)
 
 
-<<<<<<< HEAD
 @user_version2.route('/auth/login', methods=['POST'])
-=======
-@user_version1.route('/auth/login', methods=['POST'])
->>>>>>> b49380a025865d072e7d0976c68626b855cd093d
 def login():
     """Method for Signing in a user"""
 
@@ -112,7 +108,7 @@ def login():
             'message': "User Logged in Successfully"
         }), 201)
     
-@user_version1.route('/users', methods=['GET'])
+@user_version2.route('/users', methods=['GET'])
 def retrieve_users():
     """Return all Users"""
     all_users = users.get_all_users()
