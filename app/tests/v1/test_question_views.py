@@ -40,6 +40,26 @@ class TestquestionEndPoints(unittest.TestCase):
 
         self.assertEqual(response.status_code, 201)
 
+    def test_create_question_no_Title(self):
+        """Test for creating a new without a title"""
+        post_data = {
+            "createdBy": 1,
+            "meetup": 1,
+            "title":   None,
+            "body":   "So how often will we have to meet?",
+            "votes": 5
+
+        }
+
+        response = self.app.post('api/v1/questions',
+                                 data=json.dumps(post_data),
+                                 content_type="application/json")
+        
+        data = response.get_json()
+        self.assertEqual(data['message'], "Invalid data. Please fill all required fields")
+        self.assertEqual(response.status_code, 400)
+
+
     def test_retrieve_questions(self):
             """Test for retrieving all questions"""
             response = self.app.get('api/v1/questions')
@@ -66,6 +86,17 @@ class TestquestionEndPoints(unittest.TestCase):
                                   data=json.dumps(self.data),
                                   content_type="application/json")
         self.assertEqual(response.status_code, 200)
+
+
+
+    def test_comment_on_question(self):
+        """Test if a user can add a comment to a question"""
+        response = self.app.post('api/v1/comments',
+                                 data=json.dumps(self.post),
+                                 content_type="application/json")
+
+        self.assertEqual(response.status_code, 200)                         
+
 
     def tearDown(self):
         """ Destroys set up data before running each test """
