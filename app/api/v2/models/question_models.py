@@ -1,6 +1,6 @@
 """question models"""
 import datetime
-from app.api.v1.utils.manage import fetch_one_question
+from app.api.v2.utils.manage import fetch_one_question
 
 questions = []
 
@@ -44,7 +44,6 @@ class QuestionModels:
                 current_vote = int(question["votes"])
                 question["votes"] = current_vote + 1
                 return question
-            
 
     def downvote(self, questionId):
         """Method to downvote a question"""

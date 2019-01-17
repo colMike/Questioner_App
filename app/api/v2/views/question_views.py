@@ -1,17 +1,17 @@
 """question views File"""
-from app.api.v1.models.question_models import QuestionModels
-from app.api.v1.models.comment_models import CommentModels
+from app.api.v2.models.question_models import QuestionModels
+from app.api.v2.models.comment_models import CommentModels
 from marshmallow import ValidationError
 from flask import Blueprint, make_response, jsonify, request, abort
 from ..Schemas.question_schema import QuestionSchema
 from ..Schemas.comment_schema import CommentSchema
 
-question_version1 = Blueprint(
-    'question_version1', __name__, url_prefix='/api/v1')
+question_version2 = Blueprint(
+    'question_version2', __name__, url_prefix='/api/v2')
 questions = QuestionModels()
 comments = CommentModels()
 
-@question_version1.route('/questions', methods=['POST'])
+@question_version2.route('/questions', methods=['POST'])
 def create_question():
     """Method for Creating a new question"""
 
@@ -46,7 +46,7 @@ def create_question():
     }), 201)
 
 
-@question_version1.route('/questions', methods=['GET'])
+@question_version2.route('/questions', methods=['GET'])
 def retrieve_questions():
     """Return all questions"""
     all_questions = questions.get_all_questions()
@@ -57,7 +57,7 @@ def retrieve_questions():
     }), 200)
 
 
-@question_version1.route('/questions/<questionId>', methods=['GET'])
+@question_version2.route('/questions/<questionId>', methods=['GET'])
 def get_question(questionId):
         """Return one question"""
         one_question = questions.get_one_question(questionId)
@@ -72,7 +72,7 @@ def get_question(questionId):
         }), 200)
 
 
-@question_version1.route('/questions/<int:questionId>/upvote', methods=['PATCH'])
+@question_version2.route('/questions/<int:questionId>/upvote', methods=['PATCH'])
 def upvote_question(questionId):
     chosen_quiz = questions.get_one_question(questionId)
 
@@ -91,10 +91,8 @@ def upvote_question(questionId):
     }), 200)
 
 
-
-@question_version1.route('/questions/<int:questionId>/downvote', methods=['PATCH'])
+@question_version2.route('/questions/<int:questionId>/downvote', methods=['PATCH'])
 def downvote_question(questionId):
-    
     chosen_quiz = questions.get_one_question(questionId)
 
     if not chosen_quiz:
@@ -113,13 +111,14 @@ def downvote_question(questionId):
             "message": "Downvote Successful"
         }), 200)
     else:
-
+    
         abort(make_response(jsonify({
             "status": 403,
             "message": "Downvote Cannot go below 0"
         }), 403))        
 
-@question_version1.route('/<questionId>/comments', methods=['POST'])
+
+@question_version2.route('/<questionId>/comments', methods=['POST'])
 def post_comment(questionId):
 
     comment_data = request.get_json()

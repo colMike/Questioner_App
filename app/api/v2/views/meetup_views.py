@@ -1,17 +1,17 @@
 """Meetup views File"""
 from flask import Blueprint, make_response, jsonify, request, abort
 from marshmallow import ValidationError
-from app.api.v1.models.meetup_models import MeetupModels
+from app.api.v2.models.meetup_models import MeetupModels
 from ..Schemas.meetup_schema import MeetupSchema, RsvpSchema
-from app.api.v1.models.rsvp_models import RsvpModels
+from app.api.v2.models.rsvp_models import RsvpModels
 
 
-meetup_version1 = Blueprint('meetup_version1', __name__, url_prefix='/api/v1')
+meetup_version2 = Blueprint('meetup_version2', __name__, url_prefix='/api/v2')
 meetups = MeetupModels()
 reservations = RsvpModels()
 
 
-@meetup_version1.route('/meetups', methods=['POST'])
+@meetup_version2.route('/meetups', methods=['POST'])
 def create_meetup():
     """Method for Creating a new Meetup"""
 
@@ -42,7 +42,7 @@ def create_meetup():
     }), 201)
 
 
-@meetup_version1.route('/meetups/upcoming', methods=['GET'])
+@meetup_version2.route('/meetups/upcoming', methods=['GET'])
 def retrieve_meetups():
     """Return all meetups"""
     all_meetups = meetups.get_all_meetups()
@@ -52,7 +52,7 @@ def retrieve_meetups():
     }), 200)
 
 
-@meetup_version1.route('/meetups/<meetupId>', methods=['GET'])
+@meetup_version2.route('/meetups/<meetupId>', methods=['GET'])
 def retrieve_one_meetup(meetupId):
     """Return one meetup"""
     one_meetup = meetups.get_one_meetup(meetupId)
@@ -68,7 +68,7 @@ def retrieve_one_meetup(meetupId):
     }), 200)
 
 
-@meetup_version1.route('/meetups/<meetupId>/rsvps', methods=['POST'])
+@meetup_version2.route('/meetups/<meetupId>/rsvps', methods=['POST'])
 def post_rsvp(meetupId):
 
     meetup_data = request.get_json()

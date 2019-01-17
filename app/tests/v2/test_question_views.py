@@ -38,7 +38,7 @@ class TestquestionEndPoints(unittest.TestCase):
 
     def test_create_question(self):
         """Test for creating a new question"""
-        response = self.app.post('api/v1/questions',
+        response = self.app.post('api/v2/questions',
                                  data=json.dumps(self.post),
                                  content_type="application/json")
 
@@ -55,7 +55,7 @@ class TestquestionEndPoints(unittest.TestCase):
 
         }
 
-        response = self.app.post('api/v1/questions',
+        response = self.app.post('api/v2/questions',
                                  data=json.dumps(post_data),
                                  content_type="application/json")
         
@@ -66,27 +66,27 @@ class TestquestionEndPoints(unittest.TestCase):
 
     def test_retrieve_questions(self):
             """Test for retrieving all questions"""
-            response = self.app.get('api/v1/questions')
+            response = self.app.get('api/v2/questions')
 
             self.assertEqual(response.status_code, 200)
 
     def test_get_question(self):
         """Test for retrieving one question"""
-        response = self.app.get('api/v1/questions/1',
+        response = self.app.get('api/v2/questions/1',
                                 data=json.dumps(self.data),
                                 content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_upvote_question(self):
         """Test for Upvoting a Question"""
-        response = self.app.patch('api/v1/questions/1/upvote',
+        response = self.app.patch('api/v2/questions/1/upvote',
                                   data=json.dumps(self.data),
                                   content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_downvote_question(self):
         """Test for Downvoting a Question"""
-        response = self.app.patch('api/v1/questions/1/downvote',
+        response = self.app.patch('api/v2/questions/1/downvote',
                                   data=json.dumps(self.data),
                                   content_type="application/json")
         self.assertEqual(response.status_code, 200)
@@ -95,24 +95,21 @@ class TestquestionEndPoints(unittest.TestCase):
 
     def test_comment_on_question(self):
         """Test if a user can add a comment to a question"""
-        
-        """Set up a dummy question"""
-        self.app.post('api/v1/questions',
+
+        """Set up a dummy Question"""
+        self.app.post('api/v2/questions',
                                  data=json.dumps(self.post),
                                  content_type="application/json")
 
-
-        response = self.app.post('api/v1/1/comments',
+        response = self.app.post('api/v2/1/comments',
                                  data=json.dumps(self.comment),
                                  content_type="application/json")
-    
-        print(response)
 
         self.assertEqual(response.status_code, 200)        
 
     def test_empty_comment_on_question(self):
         """Test if an empty comment work on a question"""
-        response = self.app.post('api/v1/1/comments',
+        response = self.app.post('api/v2/1/comments',
                                  json = {},
                                  content_type="application/json")
 
