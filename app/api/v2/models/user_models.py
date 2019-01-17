@@ -1,5 +1,5 @@
 """User models"""
-from app.api.v2.utils.manage import find_username, find_password, user_exists
+from app.api.v1.utils.manage import find_username, find_password, user_exists
 
 users_list = []
 
