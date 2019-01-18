@@ -12,7 +12,7 @@ class QuestionModels:
         """Initializing the question Model Class"""
         pass
 
-    def add_question(self, createdBy, meetup, title, body):
+    def add_question(self, createdBy, meetup, title, body, votes):
         """Adding New questions"""
         question_data = {
             "questionId": len(questions) + 1,
@@ -21,7 +21,7 @@ class QuestionModels:
             "meetup": meetup,
             "title":   title,
             "body":   body,
-            "votes": 0
+            "votes": votes
 
         }
 
@@ -52,9 +52,6 @@ class QuestionModels:
         for question in questions:
             if int(questionId) == question['questionId']:
                 current_vote = int(question["votes"])
-                if current_vote >0:
-                    question["votes"] = current_vote - 1
-                    return question
-                else:
-                    return question
+                question["votes"] = current_vote - 1
+                return question
 
