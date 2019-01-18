@@ -9,4 +9,4 @@ class QuestionSchema(Schema):
     meetup = fields.Int(required=True)
     title = fields.Str(required=True, validate= Not_null_string)
     body = fields.Str(required=True, validate= Not_null_string)
-    votes = fields.Int(required=True)
+    
