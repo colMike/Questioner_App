@@ -21,7 +21,7 @@ class TestUserEndPoint(unittest.TestCase):
             'othername': 'Colmike',
             'username': 'SirMike',
             'email': 'mike@gmail.com',
-            'password': 'mikemike',
+            'password': 'mikEm1ke',
             'phoneNumber': '0708453910'
         }
 
@@ -33,7 +33,7 @@ class TestUserEndPoint(unittest.TestCase):
             'othername': 'SamOngeri',
             'username': 'SamSmith',
             'email': 'sammy@gmail.com',
-            'password': 'MrSam',
+            'password': 'MrSam1',
             'phoneNumber': '0708453950'
         }
 
@@ -104,7 +104,7 @@ class TestUserEndPoint(unittest.TestCase):
         self.assertEqual(data['message'], 'User Added Successfully')
 
         res_other = self.app.post('/api/v1/auth/login', json={
-                                  'username': 'SirMike', 'password': 'mikemike'}, headers={'Content-Type': 'application/json'})
+                                  'username': 'SirMike', 'password': 'mikEm1ke'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
         self.assertEqual(res_other.status_code, 201)
