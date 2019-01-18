@@ -148,7 +148,8 @@ def post_comment(questionId):
     resp = comments.add_comment(questionId, title, body, comment)
     
     return make_response(jsonify({
-            "status": 200,
-            "data": resp,
-            "message": "Comment registered in the system"
-        }), 200)
+
+        "status": 200,
+        "data": resp,
+        "message": "Comment registered in the system"
+    }), 200)
