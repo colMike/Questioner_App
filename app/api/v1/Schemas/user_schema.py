@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields
-from ..utils.validators import Not_null_string, check_password
+from ..utils.validators import Not_null_string
 
 
 class UserSignupSchema(Schema):
@@ -11,7 +11,7 @@ class UserSignupSchema(Schema):
     email = fields.Str(required=True, validate= Not_null_string)
     phoneNumber = fields.Str(validate = Not_null_string)
     username = fields.Str(required=False)
-    password = fields.Str(required=True, validate= [Not_null_string, check_password])
+    password = fields.Str(required=True, validate= Not_null_string)
 
 class UserLoginSchema(Schema):
     """ Class to validate schema for Meetup object """
