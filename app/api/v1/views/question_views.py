@@ -11,6 +11,7 @@ question_version1 = Blueprint(
 questions = QuestionModels()
 comments = CommentModels()
 
+
 @question_version1.route('/questions', methods=['POST'])
 def create_question():
     """Method for Creating a new question"""
@@ -21,23 +22,22 @@ def create_question():
         abort(make_response(jsonify({
             'status': 400,
             'message': "No data has been provided"
-        }),400))
+        }), 400))
 
     data, errors = QuestionSchema().load(posted_data)
 
     if errors:
         abort(make_response(jsonify({
             'status': 400,
-            'message' : 'Invalid data. Please fill all required fields',
+            'message': 'Invalid data. Please fill all required fields',
             'errors': errors}), 400))
 
     createdBy = data["createdBy"]
     meetup = data["meetup"]
     title = data["title"]
     body = data["body"]
-    votes = data["votes"]
-       	            
-    resp = questions.add_question(createdBy, meetup, title, body, votes)
+
+    resp = questions.add_question(createdBy, meetup, title, body)
 
     return make_response(jsonify({
         'status': 201,
@@ -81,9 +81,9 @@ def upvote_question(questionId):
                 'status': 404,
                 'error': "Question does not exist"
             }), 404)
-    
+
     result = questions.upvote(chosen_quiz['questionId'])
-    
+
     return make_response(jsonify({
         "status": 200,
         "data": result,
@@ -91,10 +91,9 @@ def upvote_question(questionId):
     }), 200)
 
 
-
 @question_version1.route('/questions/<int:questionId>/downvote', methods=['PATCH'])
 def downvote_question(questionId):
-    
+
     chosen_quiz = questions.get_one_question(questionId)
 
     if not chosen_quiz:
@@ -102,10 +101,9 @@ def downvote_question(questionId):
                 'status': 404,
                 'error': "Question does not exist"
             }), 404)
-    
+
     result = questions.downvote(chosen_quiz['questionId'])
-    
-    
+
     if result['votes'] > 0:
         return make_response(jsonify({
             "status": 200,
@@ -117,7 +115,8 @@ def downvote_question(questionId):
         abort(make_response(jsonify({
             "status": 403,
             "message": "Downvote Cannot go below 0"
-        }), 403))        
+        }), 403))
+
 
 @question_version1.route('/<questionId>/comments', methods=['POST'])
 def post_comment(questionId):
@@ -129,26 +128,26 @@ def post_comment(questionId):
     if errors:
         abort(make_response(jsonify({
             'status': 400,
-            'message' : 'Invalid data. Please fill in a comment',
+            'message': 'Invalid data. Please fill in a comment',
             'errors': errors}), 400))
 
     one_question = questions.get_one_question(questionId)
-    
+
     if not one_question:
         abort(make_response(jsonify({
             'status': 400,
             'message': "No such question exists"
-        }),400))
+        }), 400))
 
     questionId = one_question['questionId']
     title = one_question['title']
-    body =  one_question['body']
+    body = one_question['body']
     comment = data['comment']
-    
+
     resp = comments.add_comment(questionId, title, body, comment)
-    
+
     return make_response(jsonify({
-            "status": 200,
-            "data": resp,
-            "message": "Comment registered in the system"
-        }), 200)
+        "status": 200,
+        "data": resp,
+        "message": "Comment registered in the system"
+    }), 200)
