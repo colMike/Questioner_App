@@ -1,6 +1,9 @@
 """User models"""
 from app.api.v1.utils.manage import find_username, find_password, user_exists
 
+"""Import the database """
+from ..utils.database import db_conn, create_tables
+
 users_list = []
 
 
@@ -9,12 +12,11 @@ class UserModels:
 
     def __init__(self):
         """Initializing the User Model Class"""
-        pass
+        self.db = db_conn()
 
     def add_user(self, firstname, lastname, othername, email, phoneNumber, username, password):
-        """Adding New Users"""
+        """Adding New Users to the database"""
         user_data = {
-            "UserId": len(users_list) + 1,
             "firstname": firstname,
             "lastname": lastname,
             "othername": othername,
@@ -25,8 +27,17 @@ class UserModels:
             "isAdmin": False,
             "password": password
         }
-        users_list.append(user_data)
-        return users_list
+        
+        query_add = """"INSERT INTO users(FirstName, LastName, OtherName, Email, PhoneNumber, UserName, Registered, isAdmin, Password)
+        VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');""" % \
+        (user_data['firstname'], user_data['lastname'], user_data['othername'], user_data['email'], user_data['phonenumber'], user_data['username'], True, False, user_data['password'])
+        
+        save = self.db
+        cur = save.cursor()
+        cur.execute(query_add)
+        save.commit()
+
+        return user_data
 
     def find_by_username(self, username):
         """Find a user by username"""
