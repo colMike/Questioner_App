@@ -71,9 +71,7 @@ def retrieve_one_meetup(meetupId):
 @meetup_version1.route('/meetups/<meetupId>/rsvps', methods=['POST'])
 def post_rsvp(meetupId):
 
-
     meetup_data = request.get_json()
-
 
     if not meetup_data:
         abort(make_response(jsonify({
@@ -83,14 +81,13 @@ def post_rsvp(meetupId):
 
     data, errors = RsvpSchema().load(meetup_data)
 
-
     if errors:
         abort(make_response(jsonify({
             'status': 400,
             'message' : 'Invalid data. Please fill all required fields',
             'errors': errors}), 400))
 
-    reply = data["reply"]
+    reply = data["response"]
 
 
     if reply not in ["yes", "no", "maybe"]:
@@ -100,15 +97,14 @@ def post_rsvp(meetupId):
         }), 400)
 
     meetup = meetups.get_one_meetup(meetupId)
-
     if not meetup:
         return make_response(jsonify({
             'status': 404,
             'error': "Meetup does not exist"
         }), 404)
     else:
-        
-        resp = reservations.make_reservation(reply, meetup['meetupId'])
+
+        resp = reservations.make_reservation(reply)
         
         return make_response(jsonify({
             "status": 200,
