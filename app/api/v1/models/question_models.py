@@ -55,4 +55,5 @@ class QuestionModels:
                 if current_vote > 0:
                     question["votes"] = current_vote - 1
                     return question
+                    
                 

@@ -22,3 +22,5 @@ class RsvpModels:
 
         reservations.append(rsvp_data)
         return reservations
+
+        
