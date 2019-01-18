@@ -110,13 +110,12 @@ def downvote_question(questionId):
             "data": result,
             "message": "Downvote Successful"
         }), 200)
-    
+
     else:
         abort(make_response(jsonify({
             "status": 403,
             "message": "Downvote Cannot go below 0"
         }), 403))
-
 
 
 @question_version1.route('/<questionId>/comments', methods=['POST'])
