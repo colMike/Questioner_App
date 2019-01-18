@@ -52,6 +52,9 @@ class QuestionModels:
         for question in questions:
             if int(questionId) == question['questionId']:
                 current_vote = int(question["votes"])
-                question["votes"] = current_vote - 1
-                return question
+
+                if current_vote > 0:
+                    question["votes"] = current_vote - 1
+                    return question
+                
 

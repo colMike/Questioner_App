@@ -104,20 +104,21 @@ def downvote_question(questionId):
             }), 404)
     
     result = questions.downvote(chosen_quiz['questionId'])
-    
-    
-    if result['votes'] > 0:
+
+
+    if result:
         return make_response(jsonify({
             "status": 200,
             "data": result,
             "message": "Downvote Successful"
         }), 200)
+    
     else:
-
         abort(make_response(jsonify({
             "status": 403,
             "message": "Downvote Cannot go below 0"
         }), 403))        
+
 
 @question_version1.route('/<questionId>/comments', methods=['POST'])
 def post_comment(questionId):
