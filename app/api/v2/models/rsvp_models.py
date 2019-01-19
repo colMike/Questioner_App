@@ -11,11 +11,11 @@ class RsvpModels:
         """Initializing the Meetup Model Class"""
         pass
         
-    def make_reservation(self, reply):
+    def make_reservation(self, reply,meetup_id):
         """Adding Reservation"""    
         rsvp_data = {
             "id": len(reservations) + 1,
-            "meetup": len(reservations) + 1,
+            "meetup": meetup_id,
             "user": 5,
             "reply": reply
         }

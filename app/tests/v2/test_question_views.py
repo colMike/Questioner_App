@@ -9,7 +9,7 @@ class TestquestionEndPoints(unittest.TestCase):
 
     def setUp(self):
         """Code to be excecuted before each test"""
-        self.app = create_app()
+        self.app = create_app(config_name="testing")
         self.app.testing = True
         self.app = self.app.test_client()
 

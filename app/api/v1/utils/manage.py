@@ -1,5 +1,5 @@
 """Resource for shared functions"""
-
+from instance.db_con import con, cur
 def fetch_one_meetup(meetups, meetupId):
     """Fetch specific item"""
     for meetup in meetups:
@@ -40,6 +40,8 @@ def change_to_Admin(users_list, username):
 
 def user_exists(users_list, username, email):
     """Change a user to an Administrator"""
+
+
     for user in users_list:
         if username == user['username'] or email == user['email']:
             return True            

@@ -1,6 +1,6 @@
 """User views File"""
 from flask import Flask, Blueprint, make_response, jsonify, request, abort
-from app.api.v1.models.user_models import UserModels
+from app.api.v2.models.user_models import UserModels
 from marshmallow import ValidationError
 import jwt
 import datetime
