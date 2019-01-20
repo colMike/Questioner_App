@@ -5,21 +5,23 @@ import psycopg2
 """connect using psycopg """
 
 url = "dbname='questioner' host='localhost' port='5432' user='colmike' password='colmic76'" 
+db_url = os.getenv('DATABASE_URL')
 
 # creating the connection
 con = psycopg2.connect(url)
-
-db_url = os.getenv('DATABASE_URL')
 
 
 # creating the cursor
 cur = con.cursor()
 
 cur.execute('''CREATE TABLE IF NOT EXISTS questions(
-        id serial PRIMARY KEY,
-        title varchar (50) NOT NULL,
-        description varchar (100) NOT NULL,
-        timestamp timestamp default current_timestamp
+        questionId serial PRIMARY KEY,
+        timestamp timestamp default current_timestamp,
+        createdBy SMALLINT NOT NULL,
+        meetup SMALLINT NOT NULL,
+        title varchar (100) NOT NULL,
+        body varchar (100) NOT NULL,
+        votes SMALLINT NOT NULL
     )''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS users(
@@ -37,38 +39,6 @@ cur.execute('''CREATE TABLE IF NOT EXISTS users(
     )''')
 
 con.commit()
-
-
-
-# closing the connection
-# con.close()
-# 
-
-# def connection(url):
-#     con = psycopg2.connect(db_url)
-#     return con
-
-# def create_tables():
-    # query1 = '''CREATE TABLE IF NOT EXISTS questions(
-    #     id serial PRIMARY KEY,
-    #     title varchar (50) NOT NULL,
-    #     description varchar (100) NOT NULL,
-    #     timestamp timestamp default current timestamp
-    # )'''
-    # query2 = '''CREATE TABLE IF NOT EXISTS users(
-    #     id serial PRIMARY KEY,
-    #     username varchar (50) NOT NULL,
-    #     email varchar (100) NOT NULL,
-    #     password varchar (100) NOT NULL,
-    #     timestamp timestamp default current timestamp
-    # )'''
-
-#     queries =[query1, query2]
-
-#     for q in queries:
-#         cur.execute(q)
-
-
 
 def destroy_tables():
     pass

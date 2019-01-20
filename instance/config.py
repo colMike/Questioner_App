@@ -5,11 +5,13 @@ class Config(object):
     """ Parent configuration class """
     DEBUG = False
     TESTING = False
-
+    SECRET = os.getenv('SECRET')
+    DATABASE_URL=os.getenv('DATABASE_URL')
+    
 class DevelopmentConfig(Config):
     """ Configuration for development environment """
     DEBUG = True
-
+    
 class StagingConfig(Config):
     """ Configuration for the staging environment """
     DEBUG = True
@@ -17,6 +19,8 @@ class StagingConfig(Config):
 class TestingConfig(Config):
     """ Configuration for the testing environment """
     TESTING = True
+    DATABASE_URL="dbname='test_questioner' host='localhost' port='5432' user='colmike' password='colmic76'"
+    DEBUG = True
 
 class ProductionConfig(Config):
     """ Configuration for the production environment """

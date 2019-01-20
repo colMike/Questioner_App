@@ -3,6 +3,7 @@ import json
 import unittest
 from ... import create_app
 
+from instance.db_con import con, cur
 
 class TestUserEndPoint(unittest.TestCase):
     """Class that handles User Authentication endpoint tests"""
@@ -10,9 +11,10 @@ class TestUserEndPoint(unittest.TestCase):
     def setUp(self):
         """Code to be excecuted before each test"""
         self.app = create_app(config_name="testing")
-        self.app.testing = True
+        # self.app.testing = True
         self.app = self.app.test_client()
-
+       
+        
         self.data = {
             "firstname": "Mike",
    	        "lastname": "Mbugua",
@@ -63,10 +65,7 @@ class TestUserEndPoint(unittest.TestCase):
         self.assertEqual(data_other['status'], 201)
         self.assertEqual(data_other['message'], 'User Logged in Successfully')
 
-        self.assertEqual(res_other.status_code, 201)
-        self.assertEqual(data_other['status'], 201)
-        self.assertEqual(data_other['message'], 'User Logged in Successfully')
-   
+
     
     
     def tearDown(self):

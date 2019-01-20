@@ -112,7 +112,7 @@ def login():
 def retrieve_users():
     """Return all Users"""
     all_users = users.get_all_users()
-    
+
     return make_response(jsonify({
         "data": all_users,
         "status": 200

@@ -1,6 +1,8 @@
 """question models"""
 import datetime
 from app.api.v2.utils.manage import fetch_one_question
+from instance.db_con import cur, con
+
 
 questions = []
 
@@ -14,19 +16,30 @@ class QuestionModels:
 
     def add_question(self, createdBy, meetup, title, body):
         """Adding New questions"""
-        question_data = {
-            "questionId": len(questions) + 1,
+        payload = {
             "createdOn": datetime.datetime.now(),
             "createdBy": createdBy,
             "meetup": meetup,
             "title":   title,
             "body":   body,
-            "votes": 0
+            
 
         }
 
-        questions.append(question_data)
-        return questions
+        votes = 0
+
+        cur.execute(
+            "INSERT INTO questions(createdBy, meetup, title, body, votes) VALUES(%s, %s, %s, %s, %s)",
+            (createdBy,
+            meetup,
+            title,
+            body,
+            votes))
+
+        con.commit()
+
+        return payload
+
 
     def get_all_questions(self):
         """Return all questions"""

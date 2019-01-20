@@ -34,8 +34,7 @@ def find_username(username):
         return data
     else:
         return None
-    
-        
+
 
 def find_password(username, password):
     """Look if the password matches the one in the database"""
@@ -43,10 +42,6 @@ def find_password(username, password):
         "SELECT * FROM users WHERE username= %s", (username,))
 
     data = cur.fetchone()
-    print("******************")
-    print(data)
-    print("******************")
-
     """Get password from database"""
     pass_in_db = data[9]
     if pass_in_db == password:
@@ -57,6 +52,7 @@ def find_password(username, password):
 
 def change_to_Admin(users_list, username):
     """Change a user to an Administrator"""
+    """Update user to admin"""
     for user in users_list:
         if username == user['username']:
             user.isAdmin = True

@@ -2,8 +2,6 @@
 from app.api.v2.utils.manage import find_username, find_password, user_exists
 from instance.db_con import cur, con
 
-users_list = []
-
 
 class UserModels:
     """The user Models Class"""
@@ -14,8 +12,8 @@ class UserModels:
 
     def add_user(self, firstname, lastname, othername, email, phoneNumber, username, password):
         """Adding New Users"""
-    
-        payload = { 
+
+        payload = {
             "Username": username,
             "email": email,
             "PhoneNumber": phoneNumber
@@ -23,18 +21,16 @@ class UserModels:
         cur.execute(
             "INSERT INTO users(firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
             (firstname,
-            lastname,
-            othername,
-            email,
-            phoneNumber,
-            username,
-            True,
-            False,
-            password))
+             lastname,
+             othername,
+             email,
+             phoneNumber,
+             username,
+             True,
+             False,
+             password))
 
         con.commit()
-
-        
 
         return payload
 
@@ -55,14 +51,9 @@ class UserModels:
         cur.execute("SELECT * FROM users")
         data = cur.fetchall()
 
-
-
         all_users = []
         for item in data:
-            print("************")
-            print(item[0])
-            print("************")
-            
+
             payload = {
                 "firstname": item[1],
                 "lastname": item[2],
@@ -77,5 +68,3 @@ class UserModels:
             all_users.append(payload)
 
         return all_users
-        
-        
