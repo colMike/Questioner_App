@@ -9,11 +9,17 @@ def fetch_one_meetup(meetups, meetupId):
                 return meetup
 
 
-def fetch_one_question(questions, questionId):
-    """Fetch specific item"""
-    for question in questions:
-            if int(questionId) == question['questionId']:
-                return question
+def fetch_one_question(questionId):
+    """Fetch specific question"""
+    cur.execute(
+        "SELECT * FROM questions WHERE questionId= %s", (questionId,))
+
+    data = cur.fetchone()
+
+    if data:
+        return data
+    else:
+        return None
 
 
 def fetch_one_comment(comments, questionId):
@@ -51,7 +57,7 @@ def find_password(username, password):
 
 
 def change_to_Admin(users_list, username):
-    """Change a user to an Administrator"""
+    
     """Update user to admin"""
     for user in users_list:
         if username == user['username']:

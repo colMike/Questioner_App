@@ -76,13 +76,15 @@ def get_question(questionId):
 def upvote_question(questionId):
     chosen_quiz = questions.get_one_question(questionId)
 
+
+
     if not chosen_quiz:
             return make_response(jsonify({
                 'status': 404,
                 'error': "Question does not exist"
             }), 404)
 
-    result = questions.upvote(chosen_quiz['questionId'])
+    result = questions.upvote(chosen_quiz[0])
 
     return make_response(jsonify({
         "status": 200,
@@ -102,7 +104,7 @@ def downvote_question(questionId):
                 'error': "Question does not exist"
             }), 404)
 
-    result = questions.downvote(chosen_quiz['questionId'])
+    result = questions.downvote(chosen_quiz[0])
 
     if result:
         return make_response(jsonify({
