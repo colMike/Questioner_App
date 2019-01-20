@@ -104,7 +104,7 @@ def downvote_question(questionId):
 
     result = questions.downvote(chosen_quiz['questionId'])
 
-    if result['votes'] > 0:
+    if result:
         return make_response(jsonify({
             "status": 200,
             "data": result,

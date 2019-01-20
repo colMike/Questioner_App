@@ -1,5 +1,4 @@
 """Resource for shared functions"""
-from instance.db_con import con, cur
 def fetch_one_meetup(meetups, meetupId):
     """Fetch specific item"""
     for meetup in meetups:

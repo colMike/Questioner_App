@@ -96,7 +96,7 @@ class TestquestionEndPoints(unittest.TestCase):
 
         """Make 2 upvotes"""
         self.app.patch('api/v1/questions/1/upvote')
-        self.app.patch('api/v1/questions/1/upvote')
+        
 
         response = self.app.patch('api/v1/questions/1/downvote')
 
@@ -114,7 +114,7 @@ class TestquestionEndPoints(unittest.TestCase):
                                  data=json.dumps(self.comment),
                                  content_type="application/json")
 
-        print(response)
+       
 
         self.assertEqual(response.status_code, 200)
 

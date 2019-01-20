@@ -86,9 +86,15 @@ class TestquestionEndPoints(unittest.TestCase):
 
     def test_downvote_question(self):
         """Test for Downvoting a Question"""
-        response = self.app.patch('api/v2/questions/1/downvote',
-                                  data=json.dumps(self.data),
-                                  content_type="application/json")
+        self.app.post('api/v2/questions',
+                                 data=json.dumps(self.post),
+                                 content_type="application/json")
+        
+        """Make 2 upvotes"""
+        self.app.patch('api/v2/questions/1/upvote')
+        
+        response = self.app.patch('api/v2/questions/1/downvote')
+
         self.assertEqual(response.status_code, 200)
 
 

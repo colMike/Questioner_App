@@ -11,7 +11,8 @@ user_version2 = Blueprint('user_version2', __name__, url_prefix='/api/v2')
 users = UserModels()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'This is my secret Key' 
+app.config['SECRET_KEY'] = 'This is my secret Key'
+
 
 @user_version2.route('/auth/signup', methods=['POST'])
 def signup():
@@ -23,17 +24,15 @@ def signup():
         abort(make_response(jsonify({
             'status': 400,
             'message': "No data has been provided"
-        }),400))
+        }), 400))
 
     data, errors = UserSignupSchema().load(signup_data)
 
     if errors:
         abort(make_response(jsonify({
             'status': 400,
-            'message' : 'Invalid data. Please fill all required fields',
+            'message': 'Invalid data. Please fill all required fields',
             'errors': errors}), 400))
-            
-    
 
     firstname = data['firstname']
     lastname = data['lastname']
@@ -49,16 +48,16 @@ def signup():
             'message': "User Already exists"
         }), 403))
     else:
-        
-        token = jwt.encode({'username' : username, 
-                            'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes = 60)}, app.config['SECRET_KEY'])
-        
-        resp = users.add_user(firstname, lastname, othername,
-                              email, phoneNumber, username, password)
+
+        token = jwt.encode({'username': username,
+                            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
+
+        payload = users.add_user(firstname, lastname, othername,
+                                 email, phoneNumber, username, password)
 
         return make_response(jsonify({
             'status': 201,
-            "data": [{'token' : token.decode('UTF-8'), 'user' : resp}],
+            "data": [{'token': token.decode('UTF-8'), 'user': payload}],
             'message': "User Added Successfully"
         }), 201)
 
@@ -73,22 +72,22 @@ def login():
         abort(make_response(jsonify({
             'status': 400,
             'message': "No data has been provided"
-        }),400))
+        }), 400))
 
     data, errors = UserLoginSchema().load(user_data)
 
     if errors:
         abort(make_response(jsonify({
             'status': 400,
-            'message' : 'Invalid data. Please fill all required fields',
+            'message': 'Invalid data. Please fill all required fields',
             'errors': errors}), 400))
-            
-    
+
     username = data['username']
     password = data['password']
 
     sample_user = users.find_by_username(username)
-    passWrd = users.check_password(password)
+    passWrd = users.check_password(username, password)
+
     if not sample_user:
         return make_response(jsonify({
             "error": "User not found: Please register"
@@ -99,15 +98,16 @@ def login():
         }), 401)
     elif sample_user and passWrd:
 
-        token = jwt.encode({'username' : username, 
-                            'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes = 60)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'username': username,
+                            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
 
         return make_response(jsonify({
             'status': 201,
-            "data": [{'token' : token.decode('UTF-8'), 'userName' : username}],
+            "data": [{'token': token.decode('UTF-8'), 'userName': username}],
             'message': "User Logged in Successfully"
         }), 201)
-    
+
+
 @user_version2.route('/users', methods=['GET'])
 def retrieve_users():
     """Return all Users"""
@@ -116,4 +116,3 @@ def retrieve_users():
         "data": all_users,
         "status": 200
     }), 200)
-
