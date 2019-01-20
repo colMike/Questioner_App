@@ -51,7 +51,31 @@ class UserModels:
         return user_exists(username, email)
 
     def get_all_users(self):
-        """Return all users"""
+        """Return all users in the database"""
+        cur.execute("SELECT * FROM users")
+        data = cur.fetchall()
+
+
+
+        all_users = []
+        for item in data:
+            print("************")
+            print(item[0])
+            print("************")
+            
+            payload = {
+                "firstname": item[1],
+                "lastname": item[2],
+                "othername": item[3],
+                "email": item[4],
+                "phoneNumber": item[5],
+                "username": item[6],
+                "Registered": item[7],
+                "isAdmin": item[8],
+                "Password": item[9]
+            }
+            all_users.append(payload)
+
+        return all_users
         
         
-        return users_list
