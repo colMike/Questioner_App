@@ -9,7 +9,8 @@ install:
   
 
 script:
-  - pytest
+  - pytest --cov=app/tests
+  - pytest --cov=app
   
   
 after_success:

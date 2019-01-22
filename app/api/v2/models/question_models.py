@@ -87,7 +87,6 @@ class QuestionModels:
     def downvote(self, questionId):
         """Method to downvote a question"""
 
-
         question = fetch_one_question(questionId)
 
         if question[6] > 0:
@@ -108,4 +107,3 @@ class QuestionModels:
             }
 
             return result
-            

@@ -134,6 +134,9 @@ def post_comment(questionId):
             'errors': errors}), 400))
 
     one_question = questions.get_one_question(questionId)
+    print("*********************")
+    print(one_question)
+    print("*********************")
 
     if not one_question:
         abort(make_response(jsonify({
@@ -141,9 +144,9 @@ def post_comment(questionId):
             'message': "No such question exists"
         }), 400))
 
-    questionId = one_question['questionId']
-    title = one_question['title']
-    body = one_question['body']
+    questionId = one_question[0]
+    title = one_question[4]
+    body = one_question[5]
     comment = data['comment']
 
     resp = comments.add_comment(questionId, title, body, comment)

@@ -13,11 +13,6 @@ class UserModels:
     def add_user(self, firstname, lastname, othername, email, phoneNumber, username, password):
         """Adding New Users"""
 
-        payload = {
-            "Username": username,
-            "email": email,
-            "PhoneNumber": phoneNumber
-        }
         cur.execute(
             "INSERT INTO users(firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
             (firstname,
@@ -31,6 +26,20 @@ class UserModels:
              password))
 
         con.commit()
+
+        cur.execute("SELECT * FROM users WHERE username= %s",
+                        (username,))
+
+        data = cur.fetchone()
+
+        payload = {
+            "Firstname": data[1],
+            "Lastname": data[2],
+            "Othername": data[3],
+            "email": data[4],
+            "phoneNumber": data[5],
+            "username": data[6]
+        }
 
         return payload
 

@@ -34,12 +34,12 @@ def find_username(username):
     cur.execute(
         "SELECT * FROM users WHERE username= %s", (username,))
 
-    data = cur.fetchall()
+    username_data = cur.fetchone()
 
-    if data:
-        return data
+    if username_data:
+        return True
     else:
-        return None
+        return False
 
 
 def find_password(username, password):
@@ -48,13 +48,16 @@ def find_password(username, password):
         "SELECT * FROM users WHERE username= %s", (username,))
 
     data = cur.fetchone()
-    """Get password from database"""
-    pass_in_db = data[9]
-    if pass_in_db == password:
-        return True
-    else:
-        return False
 
+    if data == None:
+        pass
+    else:
+        """Get password from database"""
+        pass_in_db = data[9]
+        if pass_in_db == password:
+            return data
+        else:
+            return None 
 
 def change_to_Admin(users_list, username):
     
