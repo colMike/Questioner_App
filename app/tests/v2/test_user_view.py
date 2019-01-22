@@ -10,12 +10,11 @@ class TestUserEndPoint(unittest.TestCase):
 
     def setUp(self):
         """Code to be excecuted before each test"""
+        destroy_tables()
         self.app = create_app("testing")
-        # destroy_tables()
-        self.app.testing = True
-        self.app.context = self.app
-        self.app = self.app.test_client()
-
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        self.client = self.app.test_client()
 
 
         self.user = {
@@ -41,7 +40,7 @@ class TestUserEndPoint(unittest.TestCase):
             'phoneNumber': '0708453950'
         }
 
-        res = self.app.post('api/v2/auth/signup', json=user,
+        res = self.client.post('api/v2/auth/signup', json=user,
                             headers={'Content-Type': 'application/json'})
         data = res.get_json()
         self.assertEqual(res.status_code, 201)
@@ -51,7 +50,7 @@ class TestUserEndPoint(unittest.TestCase):
     def test_repeat_signup(self):
         """ Test sign up with correct data """
 
-        res = self.app.post('api/v2/auth/signup', json=self.user,
+        res = self.client.post('api/v2/auth/signup', json=self.user,
                             headers={'Content-Type': 'application/json'})
         data = res.get_json()
         self.assertEqual(res.status_code, 403)
@@ -71,7 +70,7 @@ class TestUserEndPoint(unittest.TestCase):
         }
 
 
-        res = self.app.post('api/v2/auth/signup', json=user,
+        res = self.client.post('api/v2/auth/signup', json=user,
                             headers={'Content-Type': 'application/json'})
 
         data = res.get_json()
@@ -90,7 +89,7 @@ class TestUserEndPoint(unittest.TestCase):
             'phoneNumber': '0708453910'
         }
 
-        res = self.app.post('api/v2/auth/signup', json=user,
+        res = self.client.post('api/v2/auth/signup', json=user,
                             headers={'Content-Type': 'application/json'})
         data = res.get_json()
         self.assertEqual(res.status_code, 400)
@@ -99,7 +98,7 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_login(self):
         """First test for successful login """
-        res = self.app.post('api/v2/auth/signup', json=self.user,
+        res = self.client.post('api/v2/auth/signup', json=self.user,
                             headers={'Content-Type': 'application/json'})
         data = res.get_json()
 
@@ -107,7 +106,7 @@ class TestUserEndPoint(unittest.TestCase):
         self.assertEqual(data['status'], 201)
         self.assertEqual(data['message'], 'User Added Successfully')
 
-        res_other = self.app.post('/api/v2/auth/login', json={
+        res_other = self.client.post('/api/v2/auth/login', json={
                                   'username': 'SirMike', 'password': 'mikEm1ke'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
@@ -117,10 +116,10 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_login_wrong_username(self):
         """Test login with wrong username"""
-        self.app.post('api/v2/auth/signup', json=self.user,
+        self.client.post('api/v2/auth/signup', json=self.user,
                         headers={'Content-Type': 'application/json'})
 
-        res_other = self.app.post('/api/v2/auth/login', json={
+        res_other = self.client.post('/api/v2/auth/login', json={
                                   'username': 'MrMan', 'password': 'mikemike'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
@@ -129,10 +128,10 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_login_wrong_password(self):
         """Test login with wrong password"""
-        self.app.post('api/v2/auth/signup', json=self.user,
+        self.client.post('api/v2/auth/signup', json=self.user,
                         headers={'Content-Type': 'application/json'})
 
-        res_other = self.app.post('/api/v2/auth/login', json={
+        res_other = self.client.post('/api/v2/auth/login', json={
                                   'username': 'SirMike', 'password': '901dalmatians'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
@@ -141,10 +140,10 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_login_empty_username(self):
         """Test login with no username"""
-        self.app.post('api/v2/auth/signup', json=self.user,
+        self.client.post('api/v2/auth/signup', json=self.user,
                         headers={'Content-Type': 'application/json'})
 
-        res_other = self.app.post('/api/v2/auth/login', json={
+        res_other = self.client.post('/api/v2/auth/login', json={
                                   'username': None, 'password': 'mikemike'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
@@ -153,10 +152,10 @@ class TestUserEndPoint(unittest.TestCase):
     
     def test_login_empty_password(self):
         """Test login with no password"""
-        self.app.post('api/v2/auth/signup', json=self.user,
+        self.client.post('api/v2/auth/signup', json=self.user,
                         headers={'Content-Type': 'application/json'})
 
-        res_other = self.app.post('/api/v2/auth/login', json={
+        res_other = self.client.post('/api/v2/auth/login', json={
                                   'username': "SirMike", 'password': None}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
@@ -167,11 +166,10 @@ class TestUserEndPoint(unittest.TestCase):
 
     def tearDown(self):
         """ Destroys set up data before running each test """
-        print("Dropping tables")
         # self.app = None
         # destroy_tables()
-        con_return().close()
-        # self.con.close()
+        
+        
 
 
 if __name__ == "__main__":

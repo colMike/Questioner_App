@@ -6,31 +6,25 @@ class Config(object):
     DEBUG = False
     TESTING = False
     SECRET = os.getenv('SECRET')
-    DATABASE_URL=os.getenv('DATABASE_URL')
     
 class DevelopmentConfig(Config):
     """ Configuration for development environment """
     DEBUG = True
+    DATABASE_URL=os.getenv('DATABASE_URL')
     
-class StagingConfig(Config):
-    """ Configuration for the staging environment """
-    DEBUG = True
-
 class TestingConfig(Config):
     """ Configuration for the testing environment """
     TESTING = True
-    DATABASE_URL="dbname='test_questioner' host='localhost' port='5432' user='colmike' password='colmic76'"
     DEBUG = True
+    DATABASE_URL=os.getenv('TEST_DATABASE_URL')
 
 class ProductionConfig(Config):
     """ Configuration for the production environment """
     DEBUG = False
     TESTING = False
 
-app_config = {
+APP_CONFIG = {
     'development': DevelopmentConfig,
-    'debug': DevelopmentConfig,
     'testing': TestingConfig,
-    'staging': StagingConfig,
     'production': ProductionConfig
 }

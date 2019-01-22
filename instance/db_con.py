@@ -16,7 +16,7 @@ def con_return():
 
     else:
         db_url = os.getenv("TEST_DATABASE_URL")
-        con = psycopg2.connect("dbname='questioner' host='localhost' port='5432' user='postgres' password='postgres'")
+        con = psycopg2.connect(db_url)
         return con
     
 
@@ -75,14 +75,13 @@ def create_tables():
         cur = con.cursor()
         cur.execute(query)
     con.commit()
-    con.close()
 
 
 def destroy_tables():
     """Method to delete tables"""
     con = con_return()
     cur=con.cursor()
-    query = """DROP TABLE IF EXISTS users, meetups, questions, rsvps, comments CASCADE;"""
-    cur.execute(query)
+    tables = ['users', 'meetups', 'questions', 'rsvps', 'comments']
+    for table in tables:
+        cur.execute('DROP TABLE IF EXISTS {} CASCADE'.format(table))
     con.commit()
-    con.close()

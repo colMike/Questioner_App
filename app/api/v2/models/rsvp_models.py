@@ -1,15 +1,13 @@
 """RSVP models"""
-from app.api.v2.utils.manage import fetch_one_meetup
-
+# from app.api.v2.utils.manage import fetch_one_meetup
+from instance.db_con import con_return
 
 
 reservations = []
 
 class RsvpModels:
     """The meetup Rsvp Model Class"""
-    def __init__(self):
-        """Initializing the Meetup Model Class"""
-        pass
+    
         
     def make_reservation(self, reply,meetup_id):
         """Adding Reservation"""    

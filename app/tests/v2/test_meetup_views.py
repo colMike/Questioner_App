@@ -1,15 +1,15 @@
-# """This module tests the meetup endpoint"""
+# """This module tests endpoint"""
 # import json
 # import unittest
 # from ... import create_app
-
+# from instance.db_con import con_return, destroy_tables, create_tables
 
 # class TestMeetupEndPoints(unittest.TestCase):
 #     """Class that handles All test cases for meetup endpoints"""
 
 #     def setUp(self):
 #         """Code to be excecuted before each test"""
-#         self.app = create_app(config_name="testing")
+#         self.app = create_app("testing")
 #         self.app.testing = True
 #         self.app = self.app.test_client()
 

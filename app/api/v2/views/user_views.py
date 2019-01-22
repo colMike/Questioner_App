@@ -1,10 +1,10 @@
 """User views File"""
 from flask import Flask, Blueprint, make_response, jsonify, request, abort
 from app.api.v2.models.user_models import UserModels
-from marshmallow import ValidationError
 import jwt
 import datetime
 from ..Schemas.user_schema import UserSignupSchema, UserLoginSchema
+from marshmallow import ValidationError
 
 
 user_version2 = Blueprint('user_version2', __name__, url_prefix='/api/v2')
@@ -26,41 +26,46 @@ def signup():
             'message': "No data has been provided"
         }), 400))
 
-    data, errors = UserSignupSchema().load(signup_data)
+    try:
+        data = UserSignupSchema().load(signup_data)
+        firstname = data['firstname']
+        lastname = data['lastname']
+        othername = data['othername']
+        email = data['email']
+        phoneNumber = data['phoneNumber']
+        username = data['username']
+        password = data['password']
 
-    if errors:
-        abort(make_response(jsonify({
-            'status': 400,
-            'message': 'Invalid data. Please fill all required fields',
-            'errors': errors}), 400))
+        if users.check_exists(data["username"], data["email"]):
+            abort(make_response(jsonify({
+                'status': 403,
+                'message': "User Already exists"
+            }), 403))
+        else:
 
-    firstname = data['firstname']
-    lastname = data['lastname']
-    othername = data['othername']
-    email = data['email']
-    phoneNumber = data['phoneNumber']
-    username = data['username']
-    password = data['password']
+            token = jwt.encode({'username': username,
+                                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
 
-    if users.check_exists(data["username"], data["email"]):
-        abort(make_response(jsonify({
-            'status': 403,
-            'message': "User Already exists"
-        }), 403))
-    else:
+            payload = users.add_user(firstname, lastname, othername,
+                                     email, phoneNumber, username, password)
 
-        token = jwt.encode({'username': username,
-                            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
+            return make_response(jsonify({
+                'status': 201,
+                "data": [{'token': token.decode('UTF-8'), 'user': payload}],
+                'message': "User Added Successfully"
+            }), 201)
 
-        payload = users.add_user(firstname, lastname, othername,
-                                 email, phoneNumber, username, password)
+    except ValidationError as error:
+        errors = error.messages
 
-        return make_response(jsonify({
-            'status': 201,
-            "data": [{'token': token.decode('UTF-8'), 'user': payload}],
-            'message': "User Added Successfully"
-        }), 201)
+    
+        if errors:
+            abort(make_response(jsonify({
+                'status': 400,
+                'message': 'Invalid data. Please fill all required fields',
+                'errors': errors}), 400))
 
+    
 
 @user_version2.route('/auth/login', methods=['POST'])
 def login():

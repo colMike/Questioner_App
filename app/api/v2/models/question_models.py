@@ -1,7 +1,7 @@
 """question models"""
 import datetime
-from app.api.v2.utils.manage import fetch_one_question
-from instance.db_con import cur, con
+# from app.api.v2.utils.manage import fetch_one_question
+from instance.db_con import con_return
 
 
 questions = []
@@ -10,9 +10,11 @@ questions = []
 class QuestionModels:
     """The question Models Class"""
 
+
     def __init__(self):
-        """Initializing the question Model Class"""
-        pass
+        """Initializing the User Model Class"""
+        self.con=con_return()
+        self.cur=self.con.cursor()
 
     def add_question(self, createdBy, meetup, title, body):
         """Adding New questions"""
@@ -26,7 +28,9 @@ class QuestionModels:
 
         }
 
-        cur.execute(
+        self.con=con_return()
+
+        self.cur.execute(
             "INSERT INTO questions(createdBy, meetup, title, body, votes) VALUES(%s, %s, %s, %s, %s)",
             (createdBy,
              meetup,
@@ -34,19 +38,22 @@ class QuestionModels:
              body,
              0))
 
-        con.commit()
-
+        self.con.commit()
+        
         return payload
 
     def get_all_questions(self):
         """Return all questions"""
-        cur.execute("SELECT * FROM questions")
-        data = cur.fetchall()
+        self.cur.execute("SELECT * FROM questions")
+        data = self.cur.fetchall()
 
         all_questions = []
         for item in data:
 
+            print(item)
+
             payload = {
+                "questionId": item[0],
                 "Created On": item[1],
                 "Created By": item[2],
                 "Meetup": item[3],
@@ -60,22 +67,40 @@ class QuestionModels:
 
     def get_one_question(self, questionId):
         """Return specific questions"""
-        return fetch_one_question(questionId)
+        print(questionId)
+        query = "SELECT * FROM questions WHERE questionId= '{}';".format(questionId)
+        self.cur.execute(query)
+        data = self.cur.fetchone()
+
+        if data:
+             return data
+        else:
+             return None
+        
 
     def upvote(self, questionId):
         """Method to upvote a question"""
-        question = fetch_one_question(questionId)
 
+        
+        query = "SELECT * FROM questions WHERE questionId= '{}';".format(questionId)
+        self.cur.execute(query)
+        data = self.cur.fetchone()
+
+        if data:
+            question = data
+            
+        else:
+            return None
+        
         current_vote = int(question[6]) + 1
 
-        cur.execute("UPDATE questions SET votes = %s WHERE questionId = %s",
+        self.cur.execute("UPDATE questions SET votes = %s WHERE questionId = %s",
                     (current_vote, questionId))
-        con.commit()
+        self.con.commit()
+        self.cur.execute("SELECT * FROM questions WHERE questionId= '{}';".format(questionId))
 
-        cur.execute("SELECT * FROM questions WHERE questionid= %s",
-                    (questionId,))
+        data = self.cur.fetchone()
 
-        data = cur.fetchone()
 
         result = {
             "QuestionId": data[0],
@@ -87,19 +112,26 @@ class QuestionModels:
     def downvote(self, questionId):
         """Method to downvote a question"""
 
-        question = fetch_one_question(questionId)
+        query = "SELECT * FROM questions WHERE questionId= '{}';".format(questionId)
+        self.cur.execute(query)
+        data = self.cur.fetchone()
 
+        if data:
+            question = data
+            
+        else:
+            return None
+
+        
         if question[6] > 0:
             current_vote = int(question[6]) - 1
 
-            cur.execute("UPDATE questions SET votes = %s WHERE questionId = %s",
-                        (current_vote, questionId))
-            con.commit()
+            self.cur.execute("UPDATE questions SET votes = '{}' WHERE questionId = '{}';".format(current_vote, questionId))
+            self.con.commit()
+            
+            self.cur.execute("SELECT * FROM questions WHERE questionId= '{}';".format(questionId))
 
-            cur.execute("SELECT * FROM questions WHERE questionid= %s",
-                        (questionId,))
-
-            data = cur.fetchone()
+            data = self.cur.fetchone()
 
             result = {
                 "QuestionId": data[0],

@@ -24,26 +24,30 @@ def create_question():
             'message': "No data has been provided"
         }), 400))
 
-    data, errors = QuestionSchema().load(posted_data)
+    try:
+        data = QuestionSchema().load(posted_data)
+        createdBy = data["createdBy"]
+        meetup = data["meetup"]
+        title = data["title"]
+        body = data["body"]
 
-    if errors:
-        abort(make_response(jsonify({
-            'status': 400,
-            'message': 'Invalid data. Please fill all required fields',
-            'errors': errors}), 400))
+        resp = questions.add_question(createdBy, meetup, title, body)
 
-    createdBy = data["createdBy"]
-    meetup = data["meetup"]
-    title = data["title"]
-    body = data["body"]
+        return make_response(jsonify({
+            'status': 201,
+            "data": resp,
+            'message': "Question Posted Successfully"
+        }), 201)
 
-    resp = questions.add_question(createdBy, meetup, title, body)
+    except ValidationError as error:
+        errors = error.messages
 
-    return make_response(jsonify({
-        'status': 201,
-        "data": resp,
-        'message': "Question Posted Successfully"
-    }), 201)
+        if errors:
+            abort(make_response(jsonify({
+                'status': 400,
+                'message': 'Invalid data. Please fill all required fields',
+                'errors': errors}), 400))
+    
 
 
 @question_version2.route('/questions', methods=['GET'])
@@ -77,12 +81,12 @@ def upvote_question(questionId):
     chosen_quiz = questions.get_one_question(questionId)
 
 
-
     if not chosen_quiz:
-            return make_response(jsonify({
-                'status': 404,
-                'error': "Question does not exist"
-            }), 404)
+        return make_response(jsonify({
+            'status': 404,
+            'error': "Question does not exist"
+        }), 404)
+
 
     result = questions.upvote(chosen_quiz[0])
 
@@ -125,34 +129,35 @@ def post_comment(questionId):
 
     comment_data = request.get_json()
 
-    data, errors = CommentSchema().load(comment_data)
+    try:
+        data = CommentSchema().load(comment_data)
+        one_question = questions.get_one_question(questionId)
 
-    if errors:
-        abort(make_response(jsonify({
-            'status': 400,
-            'message': 'Invalid data. Please fill in a comment',
-            'errors': errors}), 400))
+        if not one_question:
+            abort(make_response(jsonify({
+                'status': 400,
+                'message': "No such question exists"
+            }), 400))
 
-    one_question = questions.get_one_question(questionId)
-    print("*********************")
-    print(one_question)
-    print("*********************")
+        questionId = one_question[0]
+        title = one_question[4]
+        body = one_question[5]
+        comment = data['comment']
 
-    if not one_question:
-        abort(make_response(jsonify({
-            'status': 400,
-            'message': "No such question exists"
-        }), 400))
+        resp = comments.add_comment(questionId, title, body, comment)
 
-    questionId = one_question[0]
-    title = one_question[4]
-    body = one_question[5]
-    comment = data['comment']
+        return make_response(jsonify({
+            "status": 200,
+            "data": resp,
+            "message": "Comment registered in the system"
+        }), 200)
 
-    resp = comments.add_comment(questionId, title, body, comment)
+    except ValidationError as error:
+       errors = error.messages
+       if errors:
+           abort(make_response(jsonify({
+               'status': 400,
+               'message': 'Invalid data. Please fill in a comment',
+               'errors': errors}), 400))
 
-    return make_response(jsonify({
-        "status": 200,
-        "data": resp,
-        "message": "Comment registered in the system"
-    }), 200)
+

@@ -18,29 +18,34 @@ def create_meetup():
     posted_data = request.get_json()
 
 
-    data, errors = MeetupSchema().load(posted_data)
+    try:
+        data = MeetupSchema().load(posted_data)
 
-    if errors:
-        abort(make_response(jsonify({
-            'status': 400,
-            'message' : 'Invalid data. Please fill all required fields',
-            'errors': errors}), 400))
+        location = data["location"]
+        images = data["images"]
+        topic = data["topic"]
+        happeningOn = data["happeningOn"]
+        tags = data["tags"]
+
+        resp = meetups.add_meetup(location, images, topic, happeningOn, tags)
+
+        return make_response(jsonify({
+                'status': 201,
+                "data": resp,
+                'message': "Meetup Added Successfully"
+            }), 201)
+
+    except ValidationError as error:
+        errors = error.messages
+
+        if errors:
+            abort(make_response(jsonify({
+                'status': 400,
+                'message' : 'Invalid data. Please fill all required fields',
+                'errors': errors}), 400))
 
     
-    location = data["location"]
-    images = data["images"]
-    topic = data["topic"]
-    happeningOn = data["happeningOn"]
-    tags = data["tags"]
-
-    resp = meetups.add_meetup(location, images, topic, happeningOn, tags)
-
-    return make_response(jsonify({
-        'status': 201,
-        "data": resp,
-        'message': "Meetup Added Successfully"
-    }), 201)
-
+    
 
 @meetup_version2.route('/meetups/upcoming', methods=['GET'])
 def retrieve_meetups():

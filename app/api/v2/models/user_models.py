@@ -1,19 +1,24 @@
 """User models"""
-from app.api.v2.utils.manage import find_username, find_password, user_exists
-from instance.db_con import cur, con
-
+# from app.api.v2.utils.manage import find_username, find_password, user_exists
+from instance.db_con import con_return
 
 class UserModels:
     """The user Models Class"""
 
     def __init__(self):
         """Initializing the User Model Class"""
-        pass
+        self.con=con_return()
+        self.cur=self.con.cursor()
 
     def add_user(self, firstname, lastname, othername, email, phoneNumber, username, password):
         """Adding New Users"""
 
-        cur.execute(
+        payload = {
+            "Username": username,
+            "email": email,
+            "PhoneNumber": phoneNumber
+        }
+        self.cur.execute(
             "INSERT INTO users(firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
             (firstname,
              lastname,
@@ -25,12 +30,11 @@ class UserModels:
              False,
              password))
 
-        con.commit()
-
-        cur.execute("SELECT * FROM users WHERE username= %s",
+        self.con.commit()
+        self.cur.execute("SELECT * FROM users WHERE username= %s",
                         (username,))
 
-        data = cur.fetchone()
+        data = self.cur.fetchone()
 
         payload = {
             "Firstname": data[1],
@@ -45,20 +49,59 @@ class UserModels:
 
     def find_by_username(self, username):
         """Find a user by username"""
-        return find_username(username)
+        
+        self.cur.execute(
+        "SELECT * FROM users WHERE username= %s", (username))
 
+        username_data = self.cur.fetchone()
+
+        if username_data:
+            return True
+        else:
+            return False
+        
+        
     def check_password(self, username, password):
         """Check if password matches"""
-        return find_password(username, password)
+        
+        """Look if the password matches the one in the database"""
+        self.cur.execute(
+            "SELECT * FROM users WHERE username= %s", (username))
+
+        data = self.cur.fetchone()
+
+        if data == None:
+            pass
+        else:
+            """Get password from database"""
+            pass_in_db = data[9]
+            if pass_in_db == password:
+                return data
+            else:
+                return None 
+
+        
+        
 
     def check_exists(self, username, email):
         """"Check if a user already exists"""
-        return user_exists(username, email)
+
+        self.cur.execute(
+        "SELECT * FROM users WHERE username= %s OR email = %s", (username, email))
+
+        data = self.cur.fetchall()
+
+        if data:
+            return True
+
+        else:
+            return False    
+
 
     def get_all_users(self):
         """Return all users in the database"""
-        cur.execute("SELECT * FROM users")
-        data = cur.fetchall()
+        self.cur.execute("SELECT * FROM users")
+        data = self.cur.fetchall()
 
         all_users = []
         for item in data:
