@@ -10,7 +10,6 @@ class TestUserEndPoint(unittest.TestCase):
 
     def setUp(self):
         """Code to be excecuted before each test"""
-        destroy_tables()
         self.app = create_app("testing")
         self.app_context = self.app.app_context()
         self.app_context.push()
@@ -18,26 +17,27 @@ class TestUserEndPoint(unittest.TestCase):
 
 
         self.user = {
-            'firstname': 'Michael',
-            'lastname': 'Mbugua',
-            'othername': 'Colmike',
-            'username': 'SirMike',
-            'email': 'mike@gmail.com',
-            'password': 'mikEm1ke',
-            'phoneNumber': '0708453910'
+	        "firstname": "Michael",
+	        "lastname": "Mbugua",
+            "othername": "Mike",
+            "email": "mike@gmail.com",
+            "phoneNumber": "0708453901",
+            "username": "Thomas",
+            "password": "Aw3someSauce"
+   
         }
 
     def test_signup(self):
         # destroy_tables()
         """ Test sign up with correct data """
         user = {
-            'firstname': 'Sam',
-            'lastname': 'Ongeri',
-            'othername': 'SamOngeri',
-            'username': 'SamSmith',
-            'email': 'sammy@gmail.com',
-            'password': 'MrSam1',
-            'phoneNumber': '0708453950'
+	        "firstname": "Maxwel",
+	        "lastname": "Thumi",
+            "othername": "Max",
+            "email": "maxThumi@xgmail.com",
+            "phoneNumber": "0796741644",
+            "username": "MaxT",
+            "password": "S1rMaxx"
         }
 
         res = self.client.post('api/v2/auth/signup', json=user,
@@ -49,8 +49,18 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_repeat_signup(self):
         """ Test sign up with correct data """
-
-        res = self.client.post('api/v2/auth/signup', json=self.user,
+        user = {
+	        "firstname": "Maxwel",
+	        "lastname": "Thumi",
+            "othername": "Max",
+            "email": "maxThumi@xgmail.com",
+            "phoneNumber": "0796741644",
+            "username": "MaxT",
+            "password": "S1rMaxx"
+        }
+        self.client.post('api/v2/auth/signup', json=user,
+                            headers={'Content-Type': 'application/json'})
+        res = self.client.post('api/v2/auth/signup', json=user,
                             headers={'Content-Type': 'application/json'})
         data = res.get_json()
         self.assertEqual(res.status_code, 403)
@@ -107,7 +117,7 @@ class TestUserEndPoint(unittest.TestCase):
         self.assertEqual(data['message'], 'User Added Successfully')
 
         res_other = self.client.post('/api/v2/auth/login', json={
-                                  'username': 'SirMike', 'password': 'mikEm1ke'}, headers={'Content-Type': 'application/json'})
+                                  'username': 'Thomas', 'password': 'Aw3someSauce'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
         self.assertEqual(res_other.status_code, 201)
@@ -116,11 +126,12 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_login_wrong_username(self):
         """Test login with wrong username"""
-        self.client.post('api/v2/auth/signup', json=self.user,
+        res = self.client.post('api/v2/auth/signup', json=self.user,
                         headers={'Content-Type': 'application/json'})
+        data = res.get_json()
 
         res_other = self.client.post('/api/v2/auth/login', json={
-                                  'username': 'MrMan', 'password': 'mikemike'}, headers={'Content-Type': 'application/json'})
+                                  'username': 'MrMan', 'password': 'Aw3someSauce'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
         self.assertEqual(res_other.status_code, 401)
@@ -128,11 +139,12 @@ class TestUserEndPoint(unittest.TestCase):
 
     def test_login_wrong_password(self):
         """Test login with wrong password"""
+
         self.client.post('api/v2/auth/signup', json=self.user,
                         headers={'Content-Type': 'application/json'})
 
         res_other = self.client.post('/api/v2/auth/login', json={
-                                  'username': 'SirMike', 'password': '901dalmatians'}, headers={'Content-Type': 'application/json'})
+                                  'username': 'Thomas', 'password': '901dalmatians'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
 
         self.assertEqual(res_other.status_code, 401)
@@ -167,7 +179,7 @@ class TestUserEndPoint(unittest.TestCase):
     def tearDown(self):
         """ Destroys set up data before running each test """
         # self.app = None
-        # destroy_tables()
+        destroy_tables()
         
         
 

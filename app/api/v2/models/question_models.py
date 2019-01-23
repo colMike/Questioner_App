@@ -94,8 +94,7 @@ class QuestionModels:
         
         current_vote = int(question[6]) + 1
 
-        self.cur.execute("UPDATE questions SET votes = %s WHERE questionId = %s",
-                    (current_vote, questionId))
+        self.cur.execute("UPDATE questions SET votes = '{}' WHERE questionId = '{}';".format(current_vote, questionId))
         self.con.commit()
         self.cur.execute("SELECT * FROM questions WHERE questionId= '{}';".format(questionId))
 

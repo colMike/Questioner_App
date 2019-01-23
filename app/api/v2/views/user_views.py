@@ -28,6 +28,7 @@ def signup():
 
     try:
         data = UserSignupSchema().load(signup_data)
+
         firstname = data['firstname']
         lastname = data['lastname']
         othername = data['othername']
@@ -57,8 +58,6 @@ def signup():
 
     except ValidationError as error:
         errors = error.messages
-
-    
         if errors:
             abort(make_response(jsonify({
                 'status': 400,
@@ -79,43 +78,46 @@ def login():
             'message': "No data has been provided"
         }), 400))
 
-    data, errors = UserLoginSchema().load(user_data)
+    try:
+        data = UserLoginSchema().load(user_data)
+        username = data['username']
+        password = data['password']
+        sample_user = users.find_by_username(username)
+        
+        passWrd = users.check_password(username, password)
 
-    if errors:
-        abort(make_response(jsonify({
-            'status': 400,
-            'message': 'Invalid data. Please fill all required fields',
-            'errors': errors}), 400))
-
-    username = data['username']
-    password = data['password']
-
-    sample_user = users.find_by_username(username)
-    
-    passWrd = users.check_password(username, password)
-
-    if not sample_user:
-        abort(make_response(jsonify({
-            'status': 401,
-            'error': "User not found: Please register"
-        }), 401))
-    else:
-        if not passWrd:
+        if not sample_user:
             abort(make_response(jsonify({
                 'status': 401,
-                'error': "Password incorrect"
+                'error': "User not found: Please register"
             }), 401))
-        
-        elif passWrd:
+        else:
+            if not passWrd:
+                abort(make_response(jsonify({
+                    'status': 401,
+                    'error': "Password incorrect"
+                }), 401))
+            
+            elif passWrd:
 
-            token = jwt.encode({'username': username,
-                                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
+                token = jwt.encode({'username': username,
+                                    'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
 
-            return make_response(jsonify({
-                'status': 201,
-                "data": [{'token': token.decode('UTF-8'), 'userName': username}],
-                'message': "User Logged in Successfully"
-            }), 201)
+                return make_response(jsonify({
+                    'status': 201,
+                    "data": [{'token': token.decode('UTF-8'), 'userName': username}],
+                    'message': "User Logged in Successfully"
+                }), 201)
+
+    except ValidationError as error:
+        errors = error.messages
+        if errors:
+            abort(make_response(jsonify({
+                'status': 400,
+                'message': 'Invalid data. Please fill all required fields',
+                'errors': errors}), 400))
+
+
 
 
 @user_version2.route('/users', methods=['GET'])

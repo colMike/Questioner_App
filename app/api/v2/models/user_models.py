@@ -18,21 +18,14 @@ class UserModels:
             "email": email,
             "PhoneNumber": phoneNumber
         }
-        self.cur.execute(
-            "INSERT INTO users(firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-            (firstname,
-             lastname,
-             othername,
-             email,
-             phoneNumber,
-             username,
-             True,
-             False,
-             password))
 
+        query = "INSERT INTO users (firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password) VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}')".format(firstname, lastname, othername, email, phoneNumber, username, True, False, password)
+    
+        self.cur.execute(query)
+         
         self.con.commit()
-        self.cur.execute("SELECT * FROM users WHERE username= %s",
-                        (username,))
+        query = "SELECT * FROM users WHERE username= '{}';".format(username)
+        self.cur.execute(query)
 
         data = self.cur.fetchone()
 
@@ -51,7 +44,7 @@ class UserModels:
         """Find a user by username"""
         
         self.cur.execute(
-        "SELECT * FROM users WHERE username= %s", (username))
+        "SELECT * FROM users WHERE username= '{}';".format(username))
 
         username_data = self.cur.fetchone()
 
@@ -66,7 +59,7 @@ class UserModels:
         
         """Look if the password matches the one in the database"""
         self.cur.execute(
-            "SELECT * FROM users WHERE username= %s", (username))
+            "SELECT * FROM users WHERE username= '{}';".format(username))
 
         data = self.cur.fetchone()
 
@@ -87,7 +80,7 @@ class UserModels:
         """"Check if a user already exists"""
 
         self.cur.execute(
-        "SELECT * FROM users WHERE username= %s OR email = %s", (username, email))
+        "SELECT * FROM users WHERE username= '{}' OR email = '{}';".format(username, email))
 
         data = self.cur.fetchall()
 
@@ -100,7 +93,7 @@ class UserModels:
 
     def get_all_users(self):
         """Return all users in the database"""
-        self.cur.execute("SELECT * FROM users")
+        self.cur.execute("SELECT * FROM users;")
         data = self.cur.fetchall()
 
         all_users = []
