@@ -178,7 +178,7 @@ class TestUserEndPoint(unittest.TestCase):
 
     def tearDown(self):
         """ Destroys set up data before running each test """
-        # self.app = None
+        self.app = None
         destroy_tables()
         
         

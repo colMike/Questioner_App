@@ -24,23 +24,31 @@ class QuestionModels:
             "meetup": meetup,
             "title":   title,
             "body":   body,
-
-
         }
 
-        self.con=con_return()
+        query = "INSERT INTO questions(createdBy, meetup, title, body, votes) VALUES('{}', '{}', '{}', '{}', '{}')".format(createdBy, meetup, title, body, 0)
 
-        self.cur.execute(
-            "INSERT INTO questions(createdBy, meetup, title, body, votes) VALUES(%s, %s, %s, %s, %s)",
-            (createdBy,
-             meetup,
-             title,
-             body,
-             0))
-
+        self.cur.execute(query)
         self.con.commit()
-        
-        return payload
+
+        query = "SELECT * FROM questions WHERE title= '{}';".format(title)
+        self.cur.execute(query)
+
+        data = self.cur.fetchone()
+        print(data)
+
+        record = {
+            "questionId": data[0],
+            "Created On": data[1],
+            "Created By": data[2],
+            "Meetup": data[3],
+            "Title": data[4],
+            "Body": data[5],
+            "Votes": data[6]
+        }
+
+        return record
+
 
     def get_all_questions(self):
         """Return all questions"""
@@ -67,10 +75,11 @@ class QuestionModels:
 
     def get_one_question(self, questionId):
         """Return specific questions"""
-        print(questionId)
         query = "SELECT * FROM questions WHERE questionId= '{}';".format(questionId)
         self.cur.execute(query)
+
         data = self.cur.fetchone()
+        print(data)
 
         if data:
              return data

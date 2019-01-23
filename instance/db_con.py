@@ -25,7 +25,7 @@ def con_return():
 def create_tables():
     
     questions_table= '''CREATE TABLE IF NOT EXISTS questions(
-                    questionId serial PRIMARY KEY,
+                    questionId serial NOT NULL,
                     timestamp timestamp default current_timestamp,
                     createdBy SMALLINT NOT NULL,
                     meetup SMALLINT NOT NULL,
@@ -35,7 +35,7 @@ def create_tables():
                 );
                 '''
     meetups_table = '''CREATE TABLE IF NOT EXISTS meetups(
-                    meetupId serial PRIMARY KEY NOT NULL,
+                    meetupId serial NOT NULL,
                     userId INTEGER NOT NULL,
                     createdOn TIMESTAMP DEFAULT NOW(),
                     location varchar NOT NULL,
@@ -46,7 +46,7 @@ def create_tables():
                 );
                 '''
     users_table = '''CREATE TABLE IF NOT EXISTS users(
-                    userId serial PRIMARY KEY,
+                    userId serial NOT NULL,
                     firstname varchar (50) NOT NULL,
                     lastname varchar (50) NOT NULL,
                     othername varchar (50) NOT NULL,
@@ -84,6 +84,14 @@ def destroy_tables():
     cur=con.cursor()
     tables = ['users', 'meetups', 'questions', 'comments']
     for table in tables:
-        # cur.execute("DROP TABLE IF EXISTS {};".format(table))
         cur.execute("DELETE FROM {};".format(table))
+
+        # query1 = "alter table users drop constraint mydata_pkey".format(table)
+        # query2 = "create temporary sequence temp_seq"
+        # query3 = "update {}".format(table)
+        # query4 = "set id = nextval('temp_seq')"
+        # query5 = "alter table {} add primary key (id)".format(table)
+        # query6 = "drop sequence temp_seq"
+
+
     con.commit()
