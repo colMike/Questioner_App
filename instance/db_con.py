@@ -39,10 +39,10 @@ def create_tables():
                     userId INTEGER NOT NULL,
                     createdOn TIMESTAMP DEFAULT NOW(),
                     location varchar NOT NULL,
-                    images varchar [],
+                    images TEXT [],
                     topic varchar NOT NULL,
                     happeningOn TIMESTAMP NOT NULL,
-                    tags varchar []
+                    tags TEXT []
                 );
                 '''
     users_table = '''CREATE TABLE IF NOT EXISTS users(
