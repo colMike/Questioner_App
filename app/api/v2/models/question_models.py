@@ -18,14 +18,7 @@ class QuestionModels:
 
     def add_question(self, createdBy, meetup, title, body):
         """Adding New questions"""
-        payload = {
-            "createdOn": datetime.datetime.now(),
-            "createdBy": createdBy,
-            "meetup": meetup,
-            "title":   title,
-            "body":   body,
-        }
-
+        
         query = "INSERT INTO questions(createdBy, meetup, title, body, votes) VALUES('{}', '{}', '{}', '{}', '{}')".format(createdBy, meetup, title, body, 0)
 
         self.cur.execute(query)
