@@ -15,11 +15,12 @@ class TestMeetupEndPoints(unittest.TestCase):
         self.client = self.app.test_client()
 
         self.meetup = {
-            "location": 'Taj Mall, Nairobi',
-            "images": ["Food.jpg", "Kitchen.jpg"],
-            "topic": 'Making Pasta',
-            "happeningOn":  '2nd Jan 2019, 09:40AM',
-            "tags":  ["Art", "Homestudy"]
+    
+            "location": "Taj Mall, Nairobi",
+            "meetup_images": ["Food.jpg", "Kitchen.jpg"],
+            "happeningOn":  "2nd Jan 2019, 09:40AM",
+            "meetup_tags":  ["Art", "Homestudy"],
+            "topic": "Appreciating Culture"
         }
 
         self.post_data = {
@@ -33,9 +34,13 @@ class TestMeetupEndPoints(unittest.TestCase):
     def test_create_meetup(self):
         """ Test whether new meetup is created if data provided """
 
-        res = self.client.post('/api/v2/meetups', json=self.meetup,
-                            headers={'Content-Type': 'application/json'})
+        res = self.client.post('api/v2/meetups',
+                                 data=json.dumps(self.meetup),
+                                 content_type="application/json")
+
         data = res.get_json()
+
+        self.assertEqual(res.status_code, 201)
 
         self.assertEqual(res.status_code, 201)
         self.assertEqual(data["status"], 201)
@@ -54,25 +59,24 @@ class TestMeetupEndPoints(unittest.TestCase):
 
         self.assertEqual(res_two.status_code, 200)
         self.assertEqual(data_two['status'], 200)
-        self.assertEqual(len(data_two['data']), 3)
+        self.assertEqual(len(data_two['data']), 2)
 
     def test_retrieve_one_meetup(self):
-        """Test for retrieving all meetups"""
+        """Test for retrieving one meetup"""
 
-        self.client.post('/api/v2/meetups', json=self.meetup,
-                      headers={'Content-Type': 'application/json'})
-        self.client.post('/api/v2/meetups', json=self.meetup,
+        res = self.client.post('/api/v2/meetups', json=self.meetup,
                       headers={'Content-Type': 'application/json'})
 
-        res = self.client.get('/api/v2/meetups/1')
+
+        data = res.get_json()
+        
+        meetupId = data['data']['meetupId']
+        url = 'api/v2/meetups/{}'.format(meetupId)
+        res = self.client.get(url)
         data = res.get_json()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['status'], 200)
-
-        response = self.client.get('api/v2/meetups/1')
-#
-        self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
         """ Destroys set up data before running each test """

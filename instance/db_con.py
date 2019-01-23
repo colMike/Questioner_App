@@ -65,11 +65,20 @@ def create_tables():
                     title varchar (100) NOT NULL,
                     body varchar (100) NOT NULL,
                     comment varchar (100) NOT NULL        
-                );'''
+                );
+                '''
+    
+    rsvp_table = '''CREATE TABLE IF NOT EXISTS rsvp(
+                    rsvpId serial PRIMARY KEY,
+                    meetupId INTEGER NOT NULL,
+                    userId Integer  NOT NULL,
+                    reply varchar (100) NOT NULL                            
+                );
+                '''
 
 
     
-    queries = [users_table, questions_table, comments_table, meetups_table]
+    queries = [users_table, questions_table, comments_table, meetups_table, rsvp_table]
     con = con_return()
     for query in queries:
         cur = con.cursor()
@@ -81,7 +90,7 @@ def destroy_tables():
     """Method to delete tables"""
     con = con_return()
     cur=con.cursor()
-    tables = ['users', 'meetups', 'questions', 'comments']
+    tables = ['users', 'meetups', 'questions', 'comments', 'rsvp']
     for table in tables:
         cur.execute("DELETE FROM {};".format(table))
 

@@ -6,10 +6,10 @@ class MeetupSchema(Schema):
     """ Class to validate schema for Meetup object """
     
     location = fields.Str(required=True, validate= Not_null_string)
-    images = fields.List(fields.Str(), required=False)
+    meetup_images = fields.List(fields.Str(), required=False)
     topic = fields.Str(required=True, validate= Not_null_string)
     happeningOn = fields.Str(required=True, validate= Not_null_string)
-    tags = fields.List(fields.Str, required=False)
+    meetup_tags = fields.List(fields.Str, required=False)
     
     
 class RsvpSchema(Schema):

@@ -28,7 +28,6 @@ class TestUserEndPoint(unittest.TestCase):
         }
 
     def test_signup(self):
-        # destroy_tables()
         """ Test sign up with correct data """
         user = {
 	        "firstname": "Maxwel",
@@ -128,8 +127,7 @@ class TestUserEndPoint(unittest.TestCase):
         """Test login with wrong username"""
         res = self.client.post('api/v2/auth/signup', json=self.user,
                         headers={'Content-Type': 'application/json'})
-        data = res.get_json()
-
+        
         res_other = self.client.post('/api/v2/auth/login', json={
                                   'username': 'MrMan', 'password': 'Aw3someSauce'}, headers={'Content-Type': 'application/json'})
         data_other = res_other.get_json()
