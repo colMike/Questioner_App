@@ -36,13 +36,12 @@ def create_tables():
                 '''
     meetups_table = '''CREATE TABLE IF NOT EXISTS meetups(
                     meetupId serial NOT NULL,
-                    userId INTEGER NOT NULL,
                     createdOn TIMESTAMP DEFAULT NOW(),
                     location varchar NOT NULL,
-                    images TEXT [],
+                    meetup_images TEXT [],
                     topic varchar NOT NULL,
-                    happeningOn TIMESTAMP NOT NULL,
-                    tags TEXT []
+                    happeningOn varchar (50) NOT NULL,
+                    meetup_tags TEXT []
                 );
                 '''
     users_table = '''CREATE TABLE IF NOT EXISTS users(
