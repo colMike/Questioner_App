@@ -25,13 +25,13 @@ class TestMeetupEndPoints(unittest.TestCase):
             "description": "An amazing learning experience"
         }
 
-        self.post_data = {
-            "location": "Taj",
-            "images": ["Food.jpg", "Kitchen.jpg"],
-            "topic": "Making Pasta",
-            "description": "An amazing learning experience",
-            "happeningOn": "2nd Jan 2019, 09:40AM",
-            "tags": ["Art", "Homestudy"]
+        self.meetup_two = {
+            "location": "Kakamega",
+            "meetup_images": ["AgriBusiness.jpg", "Forestry.jpg"],
+            "topic": "Agriculture and Business",
+            "description": "Learn all there is to business and agriculture",
+            "happeningOn": "16th April 2025, 08:40AM",
+            "meetup_tags": ["Agriculture", "Business"]
         }
 
     def test_create_meetup(self):
@@ -55,7 +55,9 @@ class TestMeetupEndPoints(unittest.TestCase):
     def test_retrieve_meetups(self):
         """ Test fetch all upcoming meetups """
         token = create_access_token(identity="admin")
-        self.client.post('/api/v2/meetups', json=self.meetup,
+        self.client.post('/api/v2/meetups', json=self.meetup_two,
+                      headers={'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(token)})
+        self.client.post('/api/v2/meetups', json=self.meetup_two,
                       headers={'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(token)})
         self.client.post('/api/v2/meetups', json=self.meetup,
                       headers={'Content-Type': 'application/json' , 'Authorization': 'Bearer {}'.format(token)})
