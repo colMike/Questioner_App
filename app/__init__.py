@@ -1,6 +1,6 @@
 from flask import Flask
 from instance.config import APP_CONFIG
-from instance.db_con import create_tables, destroy_tables
+from instance.db_con import create_tables, destroy_tables, add_admin
 from flask_jwt_extended import (
     JWTManager
 )
@@ -17,6 +17,7 @@ def create_app(config_name):
     jwt = JWTManager(app)
     app.config.from_pyfile('config.py')
     create_tables()
+    add_admin()
     # destroy_tables()
     app.register_blueprint(user_version2, url_prefix='/api/v2/')
     app.register_blueprint(meetup_version2, url_prefix='/api/v2/')

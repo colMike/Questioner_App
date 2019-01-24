@@ -21,13 +21,15 @@ class TestMeetupEndPoints(unittest.TestCase):
             "meetup_images": ["Food.jpg", "Kitchen.jpg"],
             "happeningOn":  "2nd Jan 2019, 09:40AM",
             "meetup_tags":  ["Art", "Homestudy"],
-            "topic": "Appreciating Culture"
+            "topic": "Appreciating Culture",
+            "description": "An amazing learning experience"
         }
 
         self.post_data = {
             "location": "Taj",
             "images": ["Food.jpg", "Kitchen.jpg"],
             "topic": "Making Pasta",
+            "description": "An amazing learning experience",
             "happeningOn": "2nd Jan 2019, 09:40AM",
             "tags": ["Art", "Homestudy"]
         }
@@ -125,6 +127,7 @@ class TestMeetupEndPoints(unittest.TestCase):
             "location": "Kisumu",
             "meetup_images": ["Driver.jpg", "Landscape.jpg"],
             "topic": "Vehicle Mechanics",
+            "description": "An amazing learning experience",
             "happeningOn": "2nd Jan 2019, 09:40AM",
             "meetup_tags": ["Art", "Homestudy"]
         }

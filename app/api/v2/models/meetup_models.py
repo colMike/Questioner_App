@@ -15,7 +15,7 @@ class MeetupModels():
         self.con = con_return()
         self.cur = self.con.cursor()
 
-    def add_meetup(self, location, meetup_images, topic, happeningOn, meetup_tags):
+    def add_meetup(self, location, meetup_images, topic, happeningOn, meetup_tags, description):
         """Adding New Meetups"""
 
         tags = "{"
@@ -32,8 +32,8 @@ class MeetupModels():
 
         images = images[:-1] + '}'
 
-        query = "INSERT INTO meetups (location, meetup_images, topic, happeningOn, meetup_tags) VALUES('{}', '{}', '{}', '{}', '{}')".format(
-            location, images, topic, happeningOn, tags)
+        query = "INSERT INTO meetups (location, meetup_images, topic, description, happeningOn, meetup_tags) VALUES('{}', '{}', '{}', '{}', '{}', '{}')".format(
+            location, images, topic, description, happeningOn, tags)
 
         self.cur.execute(query)
         self.con.commit()
@@ -49,8 +49,9 @@ class MeetupModels():
             "location": data[2],
             "Images": data[3],
             "topic": data[4],
-            "Happening On": data[5],
-            "Tags": data[6],
+            "description": data[5],
+            "Happening On": data[6],
+            "Tags": data[7]
 
         }
 

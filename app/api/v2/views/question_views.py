@@ -74,7 +74,6 @@ def get_question(questionId):
             "data": one_question
         }), 200)
 
-
 @question_version2.route('/questions/<int:questionId>/upvote', methods=['PATCH'])
 def upvote_question(questionId):
     chosen_quiz = questions.get_one_question(questionId)

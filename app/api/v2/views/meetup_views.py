@@ -40,9 +40,10 @@ def create_meetup():
             topic = data["topic"]
             happeningOn = data["happeningOn"]
             meetup_tags = data["meetup_tags"]
+            description = data["description"]
 
             resp = meetups.add_meetup(
-                location, meetup_images, topic, happeningOn, meetup_tags)
+                location, meetup_images, topic, happeningOn, meetup_tags, description)
 
             return make_response(jsonify({
                 'status': 201,

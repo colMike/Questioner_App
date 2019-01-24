@@ -29,7 +29,7 @@ class CommentModels():
              comment))
 
         self.con.commit()
-        self.con.close()
+        # self.con.close()
 
         return payload
 
