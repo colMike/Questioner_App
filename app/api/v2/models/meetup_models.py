@@ -1,19 +1,20 @@
 """Meetup models"""
 import datetime
-# from psycopg2.extras import RealDictCursor  
+
 
 from instance.db_con import con_return
 
 meetups = []
 
+
 class MeetupModels():
     """The meetup Models Class"""
-    
+
     def __init__(self):
         """Initializing the User Model Class"""
-        self.con=con_return()
-        self.cur=self.con.cursor()
-    
+        self.con = con_return()
+        self.cur = self.con.cursor()
+
     def add_meetup(self, location, meetup_images, topic, happeningOn, meetup_tags):
         """Adding New Meetups"""
 
@@ -31,8 +32,8 @@ class MeetupModels():
 
         images = images[:-1] + '}'
 
-        
-        query = "INSERT INTO meetups (location, meetup_images, topic, happeningOn, meetup_tags) VALUES('{}', '{}', '{}', '{}', '{}')".format(location, images, topic, happeningOn, tags)
+        query = "INSERT INTO meetups (location, meetup_images, topic, happeningOn, meetup_tags) VALUES('{}', '{}', '{}', '{}', '{}')".format(
+            location, images, topic, happeningOn, tags)
 
         self.cur.execute(query)
         self.con.commit()
@@ -41,7 +42,7 @@ class MeetupModels():
         self.cur.execute(query)
 
         data = self.cur.fetchone()
-        
+
         meetup = {
             "meetupId": data[0],
             "Created On": data[1],
@@ -50,11 +51,10 @@ class MeetupModels():
             "topic": data[4],
             "Happening On": data[5],
             "Tags": data[6],
-            
+
         }
 
         return meetup
-    
 
     def get_all_meetups(self):
         """Return all meetups"""
@@ -64,7 +64,6 @@ class MeetupModels():
         all_meetups = []
         for item in data:
 
-            
             payload = {
                 "meetupId": item[0],
                 "Created On": item[1],
@@ -77,7 +76,7 @@ class MeetupModels():
             all_meetups.append(payload)
 
         return all_meetups
-        
+
     def get_one_meetup(self, meetupId):
         """Return specific meetups"""
 
@@ -85,21 +84,19 @@ class MeetupModels():
         self.cur.execute(query)
 
         data = self.cur.fetchone()
-        
 
         if data:
              return data
         else:
              return None
 
-        
     def rsvp_for_meetup(self, meetupId):
         """Make an RSVP for a meetup"""
         query = "SELECT * FROM meetups WHERE meetupId= '{}';".format(meetupId)
         self.cur.execute(query)
 
         data = self.cur.fetchone()
-        
+
         if data:
              return data
         else:
@@ -110,6 +107,3 @@ class MeetupModels():
         query = "DELETE FROM meetups WHERE meetupId= '{}';".format(meetupId)
         self.cur.execute(query)
         self.con.commit()
-
-        
-        

@@ -47,7 +47,6 @@ def create_question():
                 'status': 400,
                 'message': 'Invalid data. Please fill all required fields',
                 'errors': errors}), 400))
-    
 
 
 @question_version2.route('/questions', methods=['GET'])
@@ -79,13 +78,12 @@ def get_question(questionId):
 @question_version2.route('/questions/<int:questionId>/upvote', methods=['PATCH'])
 def upvote_question(questionId):
     chosen_quiz = questions.get_one_question(questionId)
-    
+
     if not chosen_quiz:
         return make_response(jsonify({
             'status': 404,
             'error': "Question does not exist"
         }), 404)
-
 
     result = questions.upvote(chosen_quiz[0])
 
@@ -158,5 +156,3 @@ def post_comment(questionId):
                'status': 400,
                'message': 'Invalid data. Please fill in a comment',
                'errors': errors}), 400))
-
-

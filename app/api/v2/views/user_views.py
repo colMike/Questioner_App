@@ -1,7 +1,9 @@
 """User views File"""
+import os
 from flask import Flask, Blueprint, make_response, jsonify, request, abort
 from app.api.v2.models.user_models import UserModels
 import jwt
+from flask_jwt_extended import (create_access_token)
 import datetime
 from ..Schemas.user_schema import UserSignupSchema, UserLoginSchema
 from marshmallow import ValidationError
@@ -11,8 +13,8 @@ user_version2 = Blueprint('user_version2', __name__, url_prefix='/api/v2')
 users = UserModels()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'This is my secret Key'
 
+app.config['SECRET_KEY'] = os.getenv("SECRET")
 
 @user_version2.route('/auth/signup', methods=['POST'])
 def signup():
@@ -44,15 +46,14 @@ def signup():
             }), 403))
         else:
 
-            token = jwt.encode({'username': username,
-                                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
+            token = create_access_token(identity=username)
 
             payload = users.add_user(firstname, lastname, othername,
                                      email, phoneNumber, username, password)
 
             return make_response(jsonify({
                 'status': 201,
-                "data": [{'token': token.decode('UTF-8'), 'user': payload}],
+                "data": {'user': payload},
                 'message': "User Added Successfully"
             }), 201)
 
@@ -64,7 +65,6 @@ def signup():
                 'message': 'Invalid data. Please fill all required fields',
                 'errors': errors}), 400))
 
-    
 
 @user_version2.route('/auth/login', methods=['POST'])
 def login():
@@ -83,7 +83,7 @@ def login():
         username = data['username']
         password = data['password']
         sample_user = users.find_by_username(username)
-        
+
         passWrd = users.check_password(username, password)
 
         if not sample_user:
@@ -97,15 +97,16 @@ def login():
                     'status': 401,
                     'error': "Password incorrect"
                 }), 401))
-            
+
             elif passWrd:
 
-                token = jwt.encode({'username': username,
-                                    'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
+                # token = jwt.encode({'username': username,
+                #                     'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])    
+                token = create_access_token(identity=username)
 
                 return make_response(jsonify({
                     'status': 201,
-                    "data": [{'token': token.decode('UTF-8'), 'userName': username}],
+                    "data": {"Token": token, 'username': username},
                     'message': "User Logged in Successfully"
                 }), 201)
 
@@ -116,8 +117,6 @@ def login():
                 'status': 400,
                 'message': 'Invalid data. Please fill all required fields',
                 'errors': errors}), 400))
-
-
 
 
 @user_version2.route('/users', methods=['GET'])

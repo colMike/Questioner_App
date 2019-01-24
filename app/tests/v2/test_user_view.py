@@ -10,7 +10,7 @@ class TestUserEndPoint(unittest.TestCase):
 
     def setUp(self):
         """Code to be excecuted before each test"""
-        self.app = create_app("testing")
+        self.app = create_app(config_name="testing")
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client()
