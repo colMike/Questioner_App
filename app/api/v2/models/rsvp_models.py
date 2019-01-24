@@ -1,7 +1,6 @@
 """RSVP models"""
 from instance.db_con import con_return
 
-
 reservations = []
 
 

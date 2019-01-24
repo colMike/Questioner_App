@@ -2,7 +2,6 @@
 import datetime
 from instance.db_con import con_return
 
-
 questions = []
 
 

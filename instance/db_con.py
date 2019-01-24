@@ -105,3 +105,4 @@ def destroy_tables():
         cur.execute("DELETE FROM {};".format(table))
 
     con.commit()
+

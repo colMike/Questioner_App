@@ -56,6 +56,7 @@ class TestUserEndPoint(unittest.TestCase):
             "phoneNumber": "0796741644",
             "username": "MaxT",
             "password": "S1rMaxx"
+            
         }
         self.client.post('api/v2/auth/signup', json=user,
                             headers={'Content-Type': 'application/json'})

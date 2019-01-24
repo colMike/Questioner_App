@@ -1,7 +1,6 @@
 from marshmallow import Schema, fields
 from ..utils.validators import Not_null_string
 
-
 class MeetupSchema(Schema):
     """ Class to validate schema for Meetup object """
     

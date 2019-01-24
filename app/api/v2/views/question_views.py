@@ -155,3 +155,4 @@ def post_comment(questionId):
                'status': 400,
                'message': 'Invalid data. Please fill in a comment',
                'errors': errors}), 400))
+               

@@ -45,11 +45,16 @@ def create_meetup():
             resp = meetups.add_meetup(
                 location, meetup_images, topic, happeningOn, meetup_tags, description)
 
-            return make_response(jsonify({
-                'status': 201,
-                "data": resp,
-                'message': "Meetup Added Successfully"
+            if not resp:
+                return make_response(jsonify({
+                    'message': "Meetup Already exists"
             }), 201)
+            else:
+                return make_response(jsonify({
+                    'status': 201,
+                    "data": resp,
+                    'message': "Meetup Added Successfully"
+                }), 201)
 
         except ValidationError as error:
             errors = error.messages
@@ -164,3 +169,4 @@ def delete_meetup(meetupId):
         "status": 200,
         "message": "DELETED MEETUP"
     }), 200)
+

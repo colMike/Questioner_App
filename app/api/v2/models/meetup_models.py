@@ -1,7 +1,6 @@
 """Meetup models"""
 import datetime
 
-
 from instance.db_con import con_return
 
 meetups = []
@@ -18,44 +17,54 @@ class MeetupModels():
     def add_meetup(self, location, meetup_images, topic, happeningOn, meetup_tags, description):
         """Adding New Meetups"""
 
-        tags = "{"
-
-        for tag in meetup_tags:
-            tags += '"' + tag + '",'
-
-        tags = tags[:-1] + '}'
-
-        images = "{"
-
-        for image in meetup_images:
-            images += '"' + image + '",'
-
-        images = images[:-1] + '}'
-
-        query = "INSERT INTO meetups (location, meetup_images, topic, description, happeningOn, meetup_tags) VALUES('{}', '{}', '{}', '{}', '{}', '{}')".format(
-            location, images, topic, description, happeningOn, tags)
-
-        self.cur.execute(query)
-        self.con.commit()
-
-        query = "SELECT * FROM meetups WHERE topic= '{}';".format(topic)
+        query = "SELECT * FROM meetups WHERE topic= '{}' AND happeningOn= '{}';".format(topic, happeningOn)
         self.cur.execute(query)
 
         data = self.cur.fetchone()
 
-        meetup = {
-            "meetupId": data[0],
-            "Created On": data[1],
-            "location": data[2],
-            "Images": data[3],
-            "topic": data[4],
-            "description": data[5],
-            "Happening On": data[6],
-            "Tags": data[7]
+        if data:
+            return False
+        else:
 
-        }
 
-        return meetup
+            tags = "{"
+
+            for tag in meetup_tags:
+                tags += '"' + tag + '",'
+
+            tags = tags[:-1] + '}'
+
+            images = "{"
+
+            for image in meetup_images:
+                images += '"' + image + '",'
+
+            images = images[:-1] + '}'
+
+            query = "INSERT INTO meetups (location, meetup_images, topic, description, happeningOn, meetup_tags) VALUES('{}', '{}', '{}', '{}', '{}', '{}')".format(
+                location, images, topic, description, happeningOn, tags)
+
+            self.cur.execute(query)
+            self.con.commit()
+
+            query = "SELECT * FROM meetups WHERE topic= '{}';".format(topic)
+            self.cur.execute(query)
+
+            data = self.cur.fetchone()
+
+            meetup = {
+                "meetupId": data[0],
+                "Created On": data[1],
+                "location": data[2],
+                "Images": data[3],
+                "topic": data[4],
+                "description": data[5],
+                "Happening On": data[6],
+                "Tags": data[7]
+
+            }
+
+            return meetup
 
     def get_all_meetups(self):
         """Return all meetups"""

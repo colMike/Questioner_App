@@ -32,3 +32,4 @@ def check_password(password):
 
     if sum(rating.values()) < 3:
         raise ValidationError(message)
+        

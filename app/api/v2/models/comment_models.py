@@ -3,7 +3,6 @@ from instance.db_con import con_return
 
 comments = []
 
-
 class CommentModels():
     """The Comments Model Class"""
 

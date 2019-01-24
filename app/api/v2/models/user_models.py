@@ -10,17 +10,6 @@ class UserModels:
         self.con = con_return()
         self.cur = self.con.cursor()
 
-        # """Add Admin to the Database"""
-        # encrypted_password = generate_password_hash("admin")
-        # # query = "INSERT INTO users (\
-        # #             firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password) VALUES (\
-        # #             'admin', 'admin', 'admin', 'admin@gmail.com','0756998153', 'admin', True, True, '{}')".format(encrypted_password)
-
-
-        # query = "INSERT INTO users (firstname, lastname, othername, email, phoneNumber, username, registered, isAdmin, password) SELECT * FROM (SELECT 'admin', 'admin', 'admin', 'admin@gmail.com','0756998153', 'admin', True, True, '{}') AS tmp WHERE NOT EXISTS (SELECT username FROM users WHERE username = 'admin') LIMIT 1".format(encrypted_password)
-
-        # self.cur.execute(query)
-        # self.con.commit()
 
     def add_user(self, firstname, lastname, othername, email, phoneNumber, username, password):
         """Adding New Users"""
