@@ -3,7 +3,6 @@ from instance.db_con import con_return
 
 comments = []
 
-
 class CommentModels():
     """The Comments Model Class"""
 
@@ -29,7 +28,7 @@ class CommentModels():
              comment))
 
         self.con.commit()
-        self.con.close()
+        # self.con.close()
 
         return payload
 

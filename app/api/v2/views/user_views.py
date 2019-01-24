@@ -128,3 +128,4 @@ def retrieve_users():
         "data": all_users,
         "status": 200
     }), 200)
+

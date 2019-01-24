@@ -31,7 +31,7 @@ PATCH | /questions/int:question-id/upvote | Upvote a specific question
 PATCH | /questions/int:question-id/downvote | Downvote a specific question
 
 #### User Endpoints
-
+  
 Method | Endpoint | Purpose
 --- | --- | ---
 POST | /auth/signup | Register a new users
@@ -39,12 +39,13 @@ POST | /auth/login | Log in  registered users
 GET | /users | Fetch all registered users
 
 
+
 ## Prerequisites
 
 - [VS Code](https://code.visualstudio.com)
 - [Python 3.6](https://www.python.org)
 - [Postgres](https://www.postgresql.org)
-- [Insomnia](https://insomnia.rest) / [Postman](https://www.getpostman.com)
+- [Postman](https://www.getpostman.com)
 
 ## Installation
 

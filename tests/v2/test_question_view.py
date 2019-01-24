@@ -1,7 +1,7 @@
 """This module tests endpoint"""
 import json
 import unittest
-from ... import create_app
+from app import create_app
 from instance.db_con import con_return, destroy_tables, create_tables
 
 class TestquestionEndPoints(unittest.TestCase):
@@ -174,3 +174,4 @@ class TestquestionEndPoints(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    

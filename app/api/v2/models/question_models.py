@@ -1,8 +1,6 @@
 """question models"""
 import datetime
-# from app.api.v2.utils.manage import fetch_one_question
 from instance.db_con import con_return
-
 
 questions = []
 
@@ -17,30 +15,39 @@ class QuestionModels:
 
     def add_question(self, createdBy, meetup, title, body):
         """Adding New questions"""
-
-        query = "INSERT INTO questions(createdBy, meetup, title, body, votes) VALUES('{}', '{}', '{}', '{}', '{}')".format(
-            createdBy, meetup, title, body, 0)
-
-        self.cur.execute(query)
-        self.con.commit()
-
-        query = "SELECT * FROM questions WHERE title= '{}';".format(title)
+        query = "SELECT * FROM questions WHERE title= '{}' AND body = '{}';".format(
+            title, body)
         self.cur.execute(query)
 
         data = self.cur.fetchone()
-        print(data)
+        
 
-        record = {
-            "questionId": data[0],
-            "Created On": data[1],
-            "Created By": data[2],
-            "Meetup": data[3],
-            "Title": data[4],
-            "Body": data[5],
-            "Votes": data[6]
-        }
+        if data:
+            return False
+        else:
+            query = "INSERT INTO questions(createdBy, meetup, title, body, votes) VALUES('{}', '{}', '{}', '{}', '{}')".format(
+                createdBy, meetup, title, body, 0)
 
-        return record
+            self.cur.execute(query)
+            self.con.commit()
+
+            query = "SELECT * FROM questions WHERE title= '{}';".format(title)
+            self.cur.execute(query)
+
+            data = self.cur.fetchone()
+            print(data)
+
+            record = {
+                "questionId": data[0],
+                "Created On": data[1],
+                "Created By": data[2],
+                "Meetup": data[3],
+                "Title": data[4],
+                "Body": data[5],
+                "Votes": data[6]
+            }
+
+            return record
 
     def get_all_questions(self):
         """Return all questions"""

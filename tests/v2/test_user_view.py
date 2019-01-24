@@ -1,7 +1,7 @@
 """This module tests endpoint"""
 import json
 import unittest
-from ... import create_app
+from app import create_app
 from instance.db_con import con_return, destroy_tables, create_tables
 
 
@@ -56,6 +56,7 @@ class TestUserEndPoint(unittest.TestCase):
             "phoneNumber": "0796741644",
             "username": "MaxT",
             "password": "S1rMaxx"
+            
         }
         self.client.post('api/v2/auth/signup', json=user,
                             headers={'Content-Type': 'application/json'})

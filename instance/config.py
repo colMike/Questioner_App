@@ -29,3 +29,4 @@ APP_CONFIG = {
     'testing': TestingConfig,
     'production': ProductionConfig
 }
+
