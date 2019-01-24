@@ -18,29 +18,34 @@ def create_meetup():
     posted_data = request.get_json()
 
 
-    data, errors = MeetupSchema().load(posted_data)
+    try:
+        data = MeetupSchema().load(posted_data)
 
-    if errors:
-        abort(make_response(jsonify({
-            'status': 400,
-            'message' : 'Invalid data. Please fill all required fields',
-            'errors': errors}), 400))
+        location = data["location"]
+        meetup_images = data["meetup_images"]
+        topic = data["topic"]
+        happeningOn = data["happeningOn"]
+        meetup_tags = data["meetup_tags"]
+
+        resp = meetups.add_meetup(location, meetup_images, topic, happeningOn, meetup_tags)
+        
+        return make_response(jsonify({
+                'status': 201,
+                "data": resp,
+                'message': "Meetup Added Successfully"
+            }), 201)
+
+    except ValidationError as error:
+        errors = error.messages
+
+        if errors:
+            abort(make_response(jsonify({
+                'status': 400,
+                'message' : 'Invalid data. Please fill all required fields',
+                'errors': errors}), 400))
 
     
-    location = data["location"]
-    images = data["images"]
-    topic = data["topic"]
-    happeningOn = data["happeningOn"]
-    tags = data["tags"]
-
-    resp = meetups.add_meetup(location, images, topic, happeningOn, tags)
-
-    return make_response(jsonify({
-        'status': 201,
-        "data": resp,
-        'message': "Meetup Added Successfully"
-    }), 201)
-
+    
 
 @meetup_version2.route('/meetups/upcoming', methods=['GET'])
 def retrieve_meetups():
@@ -71,7 +76,9 @@ def retrieve_one_meetup(meetupId):
 @meetup_version2.route('/meetups/<meetupId>/rsvps', methods=['POST'])
 def post_rsvp(meetupId):
 
+
     meetup_data = request.get_json()
+
 
     if not meetup_data:
         abort(make_response(jsonify({
@@ -79,34 +86,61 @@ def post_rsvp(meetupId):
             'message': "No data has been provided"
         }),400))
 
-    data, errors = RsvpSchema().load(meetup_data)
+    try:
 
-    if errors:
-        abort(make_response(jsonify({
-            'status': 400,
-            'message' : 'Invalid data. Please fill all required fields',
-            'errors': errors}), 400))
+        data = RsvpSchema().load(meetup_data)
 
-    reply = data["response"]
+        reply = data["reply"]
 
 
-    if reply not in ["yes", "no", "maybe"]:
-        return make_response(jsonify({
-            'status': 400,
-            'error': "You need to answer yes, no or maybe"
-        }), 400)
+        if reply not in ["yes", "no", "maybe"]:
+            return make_response(jsonify({
+                'status': 400,
+                'error': "You need to answer yes, no or maybe"
+            }), 400)
 
-    meetup = meetups.get_one_meetup(meetupId)
-    if not meetup:
+        meetup = meetups.get_one_meetup(meetupId)
+        
+        if not meetup:
+            return make_response(jsonify({
+                'status': 404,
+                'error': "Meetup does not exist"
+            }), 404)
+        else:
+            
+            resp = reservations.make_reservation(reply, meetup[0])
+            
+            return make_response(jsonify({
+                "status": 200,
+                "data": resp
+            }), 200)
+
+    except ValidationError as error:
+
+       errors = error.messages
+       if errors:
+           abort(make_response(jsonify({
+               'status': 400,
+               'message' : 'Invalid data. Please fill all required fields',
+               'errors': errors}), 400))
+
+@meetup_version2.route('/meetups/<meetupId>', methods=['DELETE'])
+def delete_meetup(meetupId):
+    """Return one meetup"""
+    one_meetup = meetups.get_one_meetup(meetupId)
+    if not one_meetup:
         return make_response(jsonify({
             'status': 404,
             'error': "Meetup does not exist"
         }), 404)
-    else:
+    
+    meetups.delete(meetupId)
 
-        resp = reservations.make_reservation(reply)
-        
-        return make_response(jsonify({
-            "status": 200,
-            "data": resp
-        }), 200)
+    return make_response(jsonify({
+        "status": 200,
+        "message": "DELETED MEETUP"        
+    }), 200)
+
+
+
+

@@ -5,7 +5,6 @@ Crowd-source questions for a meetup. Questioner helps the meetup organizer prior
 [![Build Status](https://travis-ci.org/colMike/Questioner_App.svg?branch=develop)](https://travis-ci.org/colMike/Questioner_App)
 [![BCH compliance](https://bettercodehub.com/edge/badge/colMike/Questioner_App?branch=develop)](https://bettercodehub.com/)
 [![Coverage Status](https://coveralls.io/repos/github/colMike/Questioner_App/badge.svg?branch=develop)](https://coveralls.io/github/colMike/Questioner_App?branch=develop)
-[![Maintainability](https://api.codeclimate.com/v1/badges/50cb2021e6e046611714/maintainability)](https://codeclimate.com/github/colMike/Questioner_App/maintainability)
 
 
 ## Background Knowledge
@@ -40,28 +39,35 @@ POST | /auth/login | Log in  registered users
 GET | /users | Fetch all registered users
 
 
-### Pre-requisites
-```
-1. Python 3.6 or higher
-2. Git
-3. Virtualenv
-4. Pytest
-...with these permissions:
-```
-## Getting Started
+## Prerequisites
 
-Clone this repository inside your working repository
-```
-git clone https://github.com/colMike/Questioner_App.git
+- [VS Code](https://code.visualstudio.com)
+- [Python 3.6](https://www.python.org)
+- [Postgres](https://www.postgresql.org)
+- [Insomnia](https://insomnia.rest) / [Postman](https://www.getpostman.com)
 
+## Installation
+
+- Clone this repository inside your working repository
+```
+```console
+mike@mike:~$ git clone https://github.com/colMike/Questioner_App.git
+```
+
+- Create the psql databases
+
+```console
+mike@mike:~$ createdb questioner
+mike@mike:~$ createdb test_questioner
+```
 ```
 Navigate into the cloned repository
 ```
-cd Questioner/
+mike@mike:~$ cd Questioner/
 ```
 Switch to develop branch
 ```
-git checkout develop
+mike@mike:~$ git checkout develop
 ```
 
 
@@ -69,28 +75,28 @@ git checkout develop
 Set up a virtual environment
 
 ```
-virtualenv -p python3 venv
+mike@mike:~$ virtualenv -p python3 venv
 ```
 
 Activate the environment
 
 ```
-source venv/bin/activate
+mike@mike:~$ source venv/bin/activate
 ```
 Install dependencies
 ```
-pip install -r requirements.txt
+mike@mike:~$ pip install -r requirements.txt
 ```
 
 Run the application
 ```
-flask run
+mike@mike:~$ flask run
 ```
 
 ### Testing
 Run the command
 ```
-pytest app/tests/v1
+mike@mike:~$ pytest
 
 ```
 
@@ -100,4 +106,4 @@ This app is deployed on [Heroku] https://colmike-questioner-app.herokuapp.com/
 
 
 #### Author 
-Michael Mbugua
+Michael Mbugua - [MikeMbugua](https://colmike.github.io)
