@@ -1,8 +1,9 @@
 """question views File"""
-from app.api.v2.models.question_models import QuestionModels
-from app.api.v2.models.comment_models import CommentModels
 from marshmallow import ValidationError
 from flask import Blueprint, make_response, jsonify, request, abort
+
+from app.api.v2.models.question_models import QuestionModels
+from app.api.v2.models.comment_models import CommentModels
 from ..Schemas.question_schema import QuestionSchema
 from ..Schemas.comment_schema import CommentSchema
 
@@ -33,11 +34,17 @@ def create_question():
 
         resp = questions.add_question(createdBy, meetup, title, body)
 
-        return make_response(jsonify({
-            'status': 201,
-            "data": resp,
-            'message': "Question Posted Successfully"
+        if not resp:
+            return make_response(jsonify({
+            'error': "Question Already Exists"
         }), 201)
+    
+        else:
+            return make_response(jsonify({
+                'status': 201,
+                "data": resp,
+                'message': "Question Posted Successfully"
+            }), 201)
 
     except ValidationError as error:
         errors = error.messages
