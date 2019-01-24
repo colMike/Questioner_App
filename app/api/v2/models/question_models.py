@@ -1,6 +1,5 @@
 """question models"""
 import datetime
-# from app.api.v2.utils.manage import fetch_one_question
 from instance.db_con import con_return
 
 

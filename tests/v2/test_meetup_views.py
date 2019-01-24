@@ -1,7 +1,7 @@
 """This module tests endpoint"""
 import json
 import unittest
-from ... import create_app
+from app import create_app
 from flask_jwt_extended import (create_access_token)
 from instance.db_con import con_return, destroy_tables, create_tables
 
@@ -82,6 +82,74 @@ class TestMeetupEndPoints(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['status'], 200)
+
+    def test_rsvp_for_meetup(self):
+        rsvp = {"reply": "yes"}
+        token = create_access_token(identity="admin")
+
+        res = res = self.client.post('/api/v2/meetups', json=self.meetup,
+                      headers={'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(token)})
+        data = res.get_json()
+        
+        meetupId = data['data']['meetupId']
+        url = 'api/v2/meetups/{}/rsvps'.format(meetupId)
+
+        res = self.client.post(url, json=rsvp,
+                      headers={'Content-Type': 'application/json'})
+        data = res.get_json()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['status'], 200)
+
+    def test_rsvp_meetup_noData(self):
+        """Test rsvp without Reply data"""
+        rsvp = {"reply": ""}
+        token = create_access_token(identity="admin")
+        
+        res = res = self.client.post('/api/v2/meetups', json=self.meetup,
+                      headers={'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(token)})
+        data = res.get_json()
+        
+        meetupId = data['data']['meetupId']
+        url = 'api/v2/meetups/{}/rsvps'.format(meetupId)
+
+        res = self.client.post(url, json=rsvp,
+                      headers={'Content-Type': 'application/json'})
+        data = res.get_json()
+
+        self.assertEqual(res.status_code, 400)
+
+    def test_delete_meetup(self):
+        """Test Delete a meetup"""
+        meetup = {
+            "location": "Kisumu",
+            "meetup_images": ["Driver.jpg", "Landscape.jpg"],
+            "topic": "Vehicle Mechanics",
+            "happeningOn": "2nd Jan 2019, 09:40AM",
+            "meetup_tags": ["Art", "Homestudy"]
+        }
+        
+        token = create_access_token(identity="admin")
+
+        res = self.client.post('api/v2/meetups',json=meetup,
+                        headers={'Content-Type': 'application/json' , 'Authorization': 'Bearer {}'.format(token)})
+       
+        data = res.get_json()
+
+
+        meetupId = data['data']['meetupId']
+        url = 'api/v2/meetups/{}'.format(meetupId)
+
+        res = self.client.delete(url,
+                            headers={'Content-Type': 'application/json' , 'Authorization': 'Bearer {}'.format(token)})
+
+        print(res)
+        data = res.get_json()
+    
+        self.assertEqual(res.status_code, 200)
+
+        
+
 
     def tearDown(self):
         """ Destroys set up data before running each test """
