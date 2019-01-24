@@ -2,6 +2,7 @@
 import json
 import unittest
 from ... import create_app
+from flask_jwt_extended import (create_access_token)
 from instance.db_con import con_return, destroy_tables, create_tables
 
 class TestMeetupEndPoints(unittest.TestCase):
@@ -9,7 +10,7 @@ class TestMeetupEndPoints(unittest.TestCase):
 
     def setUp(self):
         """Code to be excecuted before each test"""
-        self.app = create_app("testing")
+        self.app = create_app(config_name="testing")
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client()
@@ -34,11 +35,14 @@ class TestMeetupEndPoints(unittest.TestCase):
     def test_create_meetup(self):
         """ Test whether new meetup is created if data provided """
 
-        res = self.client.post('api/v2/meetups',
-                                 data=json.dumps(self.meetup),
-                                 content_type="application/json")
+        token = create_access_token(identity="admin")
+
+        res = self.client.post('api/v2/meetups',json=self.meetup,
+                        headers={'Content-Type': 'application/json' , 'Authorization': 'Bearer {}'.format(token)})
+        
 
         data = res.get_json()
+        
 
         self.assertEqual(res.status_code, 201)
 
@@ -48,11 +52,11 @@ class TestMeetupEndPoints(unittest.TestCase):
 
     def test_retrieve_meetups(self):
         """ Test fetch all upcoming meetups """
-
+        token = create_access_token(identity="admin")
         self.client.post('/api/v2/meetups', json=self.meetup,
-                      headers={'Content-Type': 'application/json'})
+                      headers={'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(token)})
         self.client.post('/api/v2/meetups', json=self.meetup,
-                      headers={'Content-Type': 'application/json'})
+                      headers={'Content-Type': 'application/json' , 'Authorization': 'Bearer {}'.format(token)})
 
         res_two = self.client.get('/api/v2/meetups/upcoming')
         data_two = res_two.get_json()
@@ -63,9 +67,10 @@ class TestMeetupEndPoints(unittest.TestCase):
 
     def test_retrieve_one_meetup(self):
         """Test for retrieving one meetup"""
+        token = create_access_token(identity="admin")
 
         res = self.client.post('/api/v2/meetups', json=self.meetup,
-                      headers={'Content-Type': 'application/json'})
+                      headers={'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(token)})
 
 
         data = res.get_json()
