@@ -1,0 +1,240 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# Questioner_App
+
+Crowd-source questions for a meetup. Questioner helps the meetup organizer prioritize questions to be answered. Other users can vote on asked questions and they bubble to the top.
+
+## Users Collection [api/v2/users]
+
+### List All Users [GET]
+
++ Response 200 (application/json)
+
+{
+    "data": [
+        {
+            "Password": "pbkdf2:sha256:50000$DU2OV3Ho$90b5ff8e09e50a05e11469e52439ab5e15880cc3b043904f28201149d69088b3",
+            "Registered": true,
+            "email": "admin@gmail.com",
+            "firstname": "admin",
+            "isAdmin": true,
+            "lastname": "admin",
+            "othername": "admin",
+            "phoneNumber": "0756998153",
+            "username": "admin"
+        },
+        {
+            "Password": "pbkdf2:sha256:50000$3sErTHqu$7bc87d9932e391c81ad883f16e19e5a0f12d5e3808fcac632450737950aa4555",
+            "Registered": true,
+            "email": "mike@gmail.com",
+            "firstname": "Michael",
+            "isAdmin": false,
+            "lastname": "Mbugua",
+            "othername": "Mike",
+            "phoneNumber": "0708453901",
+            "username": "Thomas"
+        },
+        {
+            "Password": "pbkdf2:sha256:50000$4ziY28TS$74364aaaccc4483ecde11e320f2224e4d277b451dea547b766b2157788b8064b",
+            "Registered": true,
+            "email": "maxThumi@xgmail.com",
+            "firstname": "Maxwel",
+            "isAdmin": false,
+            "lastname": "Thumi",
+            "othername": "Max",
+            "phoneNumber": "0796741644",
+            "username": "MaxT"
+        }
+    ],
+    "status": 200
+}
+
+### Create a New User [POST]
+
+You may create your own User using this action. It takes a JSON
+object containing a username, password, firstname, lastname and it saves that data to a postgres database.
+
++ Request (application/json)
+
+{
+"firstname": "Michael",
+"lastname": "Mbugua",
+"othername": "Mike",
+"email": "mike@gmail.com",
+"phoneNumber": "0708453901",
+"username": "Thomas",
+"password": "Aw3someSauce"
+   
+    
+}
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+{
+    "data": {
+        "user": {
+            "Firstname": "Michael",
+            "Lastname": "Mbugua",
+            "Othername": "Mike",
+            "email": "mike@gmail.com",
+            "password": "pbkdf2:sha256:50000$3sErTHqu$7bc87d9932e391c81ad883f16e19e5a0f12d5e3808fcac632450737950aa4555",
+            "phoneNumber": "0708453901",
+            "username": "Thomas"
+        }
+    },
+    "message": "User Added Successfully",
+    "status": 201
+}
+## Questions Collection [/questions]
+
+### List All Questions [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
+            }
+        ]
+
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
+## Users Collection [/questions]
+
+### List All Questions [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
+            }
+        ]
+
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
