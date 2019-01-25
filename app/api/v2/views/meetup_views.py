@@ -126,6 +126,12 @@ def post_rsvp(meetupId):
 
             resp = reservations.make_reservation(reply, meetup[0])
 
+            if not resp:
+                return make_response(jsonify({
+                'status': 403,
+                'error': "You have already made a reservation for the meetup"
+            }), 403)
+
             return make_response(jsonify({
                 "status": 200,
                 "data": resp

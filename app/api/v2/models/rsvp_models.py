@@ -17,22 +17,30 @@ class RsvpModels:
 
         userId = 6
 
-        query = "INSERT INTO rsvp (meetupId, userId, reply) VALUES ('{}', '{}', '{}')".format(
-            meetup_id, userId, reply)
-
-        self.cur.execute(query)
-
-        self.con.commit()
-        query = "SELECT * FROM rsvp WHERE meetupId= '{}';".format(meetup_id)
+        query = "SELECT * FROM rsvp WHERE userId= '{}';".format(userId)
         self.cur.execute(query)
 
         data = self.cur.fetchone()
 
-        payload = {
+        if data:
+            return None
+        else:
+            query = "INSERT INTO rsvp (meetupId, userId, reply) VALUES ('{}', '{}', '{}')".format(
+                meetup_id, userId, reply)
 
-            "meetupId": data[1],
-            "UserId": data[2],
-            "Reply": data[3]
-        }
+            self.cur.execute(query)
 
-        return payload
+            self.con.commit()
+            query = "SELECT * FROM rsvp WHERE meetupId= '{}';".format(meetup_id)
+            self.cur.execute(query)
+
+            data = self.cur.fetchone()
+
+            payload = {
+
+                "meetupId": data[1],
+                "UserId": data[2],
+                "Reply": data[3]
+            }
+
+            return payload
