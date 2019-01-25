@@ -138,9 +138,9 @@ class TestMeetupEndPoints(unittest.TestCase):
 
         res = self.client.post('api/v2/meetups',json=meetup,
                         headers={'Content-Type': 'application/json' , 'Authorization': 'Bearer {}'.format(token)})
+        
        
         data = res.get_json()
-
 
         meetupId = data['data']['meetupId']
         url = 'api/v2/meetups/{}'.format(meetupId)
@@ -148,9 +148,11 @@ class TestMeetupEndPoints(unittest.TestCase):
         res = self.client.delete(url,
                             headers={'Content-Type': 'application/json' , 'Authorization': 'Bearer {}'.format(token)})
 
-        print(res)
         data = res.get_json()
-    
+        print("********************************")
+        print(data)
+        print("********************************")
+
         self.assertEqual(res.status_code, 200)
 
         

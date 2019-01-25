@@ -14,11 +14,11 @@ class UserModels:
     def add_user(self, firstname, lastname, othername, email, phoneNumber, username, password):
         """Adding New Users"""
 
-        payload = {
-            "Username": username,
-            "email": email,
-            "PhoneNumber": phoneNumber
-        }
+        # payload = {
+        #     "Username": username,
+        #     "email": email,
+        #     "PhoneNumber": phoneNumber
+        # }
 
         encrypted_password = generate_password_hash(password)
 
@@ -73,7 +73,7 @@ class UserModels:
             """Get password from database"""
             pass_in_db = data[9]
             if check_password_hash(pass_in_db, password):
-            # if pass_in_db == password:
+            
                 return data
             else:
                 return None
@@ -98,12 +98,12 @@ class UserModels:
         self.cur.execute(
             "SELECT * FROM users WHERE username= '{}';".format(username))
 
-        username_data = self.cur.fetchone()
+        username_rank = self.cur.fetchone()
 
-        if username_data:
-            return username_data[6]
+        if username_rank:
+            return username_rank[8]
         else:
-            return None
+            return False
 
     def get_all_users(self):
         """Return all users in the database"""
