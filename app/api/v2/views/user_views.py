@@ -42,7 +42,7 @@ def signup():
         if users.check_exists(data["username"], data["email"]):
             abort(make_response(jsonify({
                 'status': 403,
-                'message': "User '{}' Already exists".format(username)
+                'message': "User Already exists"
             }), 403))
         else:
 
@@ -54,7 +54,7 @@ def signup():
             return make_response(jsonify({
                 'status': 201,
                 "data": {'user': payload},
-                'message': "User '{}' Added Successfully".format(username)
+                'message': "User Added Successfully"
             }), 201)
 
     except ValidationError as error:
@@ -89,13 +89,13 @@ def login():
         if not sample_user:
             abort(make_response(jsonify({
                 'status': 401,
-                'error': "User '{}' not found: Please register".format(username)
+                'error': "User not found: Please register"
             }), 401))
         else:
             if not passWrd:
                 abort(make_response(jsonify({
                     'status': 401,
-                    'error': "Password incorrect for user '{}'".format(username)
+                    'error': "Password incorrect"
                 }), 401))
 
             elif passWrd:
@@ -106,7 +106,7 @@ def login():
                 return make_response(jsonify({
                     'status': 201,
                     "data": {"Token": token, 'username': username},
-                    'message': "User '{}' Logged in Successfully".format(username)
+                    'message': "User Logged in Successfully"
                 }), 201)
 
     except ValidationError as error:
