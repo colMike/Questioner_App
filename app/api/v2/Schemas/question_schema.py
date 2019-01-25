@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, validates
-from ..utils.validators import Not_null_string  
+from ...v2.utils.validators import Not_null_string  
 
 class QuestionSchema(Schema):
     """ Class to validate schema for Question object """
