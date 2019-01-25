@@ -117,3 +117,4 @@ class MeetupModels():
         query = "DELETE FROM meetups WHERE meetupId= '{}';".format(meetupId)
         self.cur.execute(query)
         self.con.commit()
+        
