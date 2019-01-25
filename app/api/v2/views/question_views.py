@@ -74,7 +74,7 @@ def get_question(questionId):
         if not one_question:
             return make_response(jsonify({
                 'status': 404,
-                'error': "Question does not exist"
+                'error': "Question '{}' does not exist".format(questionId)
             }), 404)
         return make_response(jsonify({
             "status": 200,
@@ -88,7 +88,7 @@ def upvote_question(questionId):
     if not chosen_quiz:
         return make_response(jsonify({
             'status': 404,
-            'error': "Question does not exist"
+            'error': "Question '{}' does not exist".format(questionId)
         }), 404)
 
     result = questions.upvote(chosen_quiz[0])
@@ -96,7 +96,7 @@ def upvote_question(questionId):
     return make_response(jsonify({
         "status": 200,
         "data": result,
-        "message": "Upvote Successful"
+        "message": "Upvote for question '{}' Successful".format(questionId)
     }), 200)
 
 
@@ -108,7 +108,7 @@ def downvote_question(questionId):
     if not chosen_quiz:
             return make_response(jsonify({
                 'status': 404,
-                'error': "Question does not exist"
+                'error': "Question '{}' does not exist".format(questionId)
             }), 404)
 
     result = questions.downvote(chosen_quiz[0])
@@ -117,7 +117,7 @@ def downvote_question(questionId):
         return make_response(jsonify({
             "status": 200,
             "data": result,
-            "message": "Downvote Successful"
+            "message": "Downvote for question '{}' Successful".format(questionId)
         }), 200)
     else:
 
@@ -139,7 +139,7 @@ def post_comment(questionId):
         if not one_question:
             abort(make_response(jsonify({
                 'status': 400,
-                'message': "No such question exists"
+                'message': "Question  '{}' does not exist".format(questionId)
             }), 400))
 
         questionId = one_question[0]
@@ -152,7 +152,7 @@ def post_comment(questionId):
         return make_response(jsonify({
             "status": 200,
             "data": resp,
-            "message": "Comment registered in the system"
+            "message": "Comment for question '{}' registered in the system".format(questionId)
         }), 200)
 
     except ValidationError as error:
