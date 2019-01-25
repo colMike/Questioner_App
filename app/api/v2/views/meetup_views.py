@@ -23,9 +23,9 @@ def create_meetup():
 
     username = get_jwt_identity()
         
-    user = users.get_user(username)
+    user_rank = users.get_user(username)
     
-    if user != "admin":
+    if not user_rank:
         abort(make_response(jsonify({
                 'status': 400,
                 'Error': 'You have to be an Admin to post a meetup'
@@ -148,9 +148,9 @@ def delete_meetup(meetupId):
 
     username = get_jwt_identity()
         
-    user = users.get_user(username)
+    user_rank = users.get_user(username)
     
-    if user != "admin":
+    if not user_rank:
         abort(make_response(jsonify({
                 'status': 400,
                 'Error': 'You have to be an Admin to DELETE a meetup'

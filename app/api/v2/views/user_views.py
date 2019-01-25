@@ -100,8 +100,7 @@ def login():
 
             elif passWrd:
 
-                # token = jwt.encode({'username': username,
-                #                     'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])    
+   
                 token = create_access_token(identity=username)
 
                 return make_response(jsonify({
