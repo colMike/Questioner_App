@@ -100,9 +100,9 @@ def destroy_tables():
     """Method to delete tables"""
     con = con_return()
     cur = con.cursor()
-    tables = ['users', 'meetups', 'questions', 'comments', 'rsvp']
+    tables = ['meetups', 'questions', 'comments', 'rsvp']
     for table in tables:
         cur.execute("DELETE FROM {};".format(table))
-
+    cur.execute("DELETE FROM users where username != 'admin';")
     con.commit()
 

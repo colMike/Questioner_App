@@ -149,13 +149,8 @@ class TestMeetupEndPoints(unittest.TestCase):
                             headers={'Content-Type': 'application/json' , 'Authorization': 'Bearer {}'.format(token)})
 
         data = res.get_json()
-        print("********************************")
-        print(data)
-        print("********************************")
 
         self.assertEqual(res.status_code, 200)
-
-        
 
 
     def tearDown(self):
