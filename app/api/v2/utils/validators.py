@@ -1,3 +1,4 @@
+import re
 from marshmallow import ValidationError
 
 def Not_null_string(value):
@@ -9,6 +10,21 @@ def Not_null_string(value):
         return value
     elif value:
         return value
+
+def check_email(email):
+    """Check that email is in the right format"""
+    if not re.match(r"(^[a-zA-z0-9_.]+@[a-zA-z0-9-]+\.[a-z]+$)", email):
+        raise ValidationError('Invalid email format')
+
+    return email
+
+def check_spaces_and_symbols(value):
+    """Check that field does not have unnecessary spaces or symbols"""
+    if not re.match(r"(^[a-zA-z@#0-9]+$)", value):        
+        raise ValidationError('Invalid parameter. Ensure there are no spaces in your field')
+    return value
+
+
 
 def check_password(password):
     """ Validate password is Strong """
