@@ -11,44 +11,44 @@ Crowd-source questions for a meetup. Questioner helps the meetup organizer prior
 
 + Response 200 (application/json)
 
-{
-    "data": [
         {
-            "Password": "pbkdf2:sha256:50000$DU2OV3Ho$90b5ff8e09e50a05e11469e52439ab5e15880cc3b043904f28201149d69088b3",
-            "Registered": true,
-            "email": "admin@gmail.com",
-            "firstname": "admin",
-            "isAdmin": true,
-            "lastname": "admin",
-            "othername": "admin",
-            "phoneNumber": "0756998153",
-            "username": "admin"
-        },
-        {
-            "Password": "pbkdf2:sha256:50000$3sErTHqu$7bc87d9932e391c81ad883f16e19e5a0f12d5e3808fcac632450737950aa4555",
-            "Registered": true,
-            "email": "mike@gmail.com",
-            "firstname": "Michael",
-            "isAdmin": false,
-            "lastname": "Mbugua",
-            "othername": "Mike",
-            "phoneNumber": "0708453901",
-            "username": "Thomas"
-        },
-        {
-            "Password": "pbkdf2:sha256:50000$4ziY28TS$74364aaaccc4483ecde11e320f2224e4d277b451dea547b766b2157788b8064b",
-            "Registered": true,
-            "email": "maxThumi@xgmail.com",
-            "firstname": "Maxwel",
-            "isAdmin": false,
-            "lastname": "Thumi",
-            "othername": "Max",
-            "phoneNumber": "0796741644",
-            "username": "MaxT"
+            "data": [
+                {
+                    "Password": "pbkdf2:sha256:50000$DU2OV3Ho$90b5ff8e09e50a05e11469e52439ab5e15880cc3b043904f28201149d69088b3",
+                    "Registered": true,
+                    "email": "admin@gmail.com",
+                    "firstname": "admin",
+                    "isAdmin": true,
+                    "lastname": "admin",
+                    "othername": "admin",
+                    "phoneNumber": "0756998153",
+                    "username": "admin"
+                },
+                {
+                    "Password": "pbkdf2:sha256:50000$3sErTHqu$7bc87d9932e391c81ad883f16e19e5a0f12d5e3808fcac632450737950aa4555",
+                    "Registered": true,
+                    "email": "mike@gmail.com",
+                    "firstname": "Michael",
+                    "isAdmin": false,
+                    "lastname": "Mbugua",
+                    "othername": "Mike",
+                    "phoneNumber": "0708453901",
+                    "username": "Thomas"
+                },
+                {
+                    "Password": "pbkdf2:sha256:50000$4ziY28TS$74364aaaccc4483ecde11e320f2224e4d277b451dea547b766b2157788b8064b",
+                    "Registered": true,
+                    "email": "maxThumi@xgmail.com",
+                    "firstname": "Maxwel",
+                    "isAdmin": false,
+                    "lastname": "Thumi",
+                    "othername": "Max",
+                    "phoneNumber": "0796741644",
+                    "username": "MaxT"
+                }
+            ],
+            "status": 200
         }
-    ],
-    "status": 200
-}
 
 ### Create a New User [POST]
 
@@ -57,119 +57,177 @@ object containing a username, password, firstname, lastname and it saves that da
 
 + Request (application/json)
 
-{
-"firstname": "Michael",
-"lastname": "Mbugua",
-"othername": "Mike",
-"email": "mike@gmail.com",
-"phoneNumber": "0708453901",
-"username": "Thomas",
-"password": "Aw3someSauce"
-   
-    
-}
+        {
+            "firstname": "Michael",
+            "lastname": "Mbugua",
+            "othername": "Mike",
+            "email": "mike@gmail.com",
+            "phoneNumber": "0708453901",
+            "username": "Thomas",
+            "password": "Aw3someSauce"
+        }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: api/v2/auth/signup
 
     + Body
 
-{
-    "data": {
-        "user": {
-            "Firstname": "Michael",
-            "Lastname": "Mbugua",
-            "Othername": "Mike",
-            "email": "mike@gmail.com",
-            "password": "pbkdf2:sha256:50000$3sErTHqu$7bc87d9932e391c81ad883f16e19e5a0f12d5e3808fcac632450737950aa4555",
-            "phoneNumber": "0708453901",
-            "username": "Thomas"
+        
+            {           
+                "data": {          
+                    "user": {       
+                        "Firstname": "Michael",      
+                        "Lastname": "Mbugua",   
+                        "Othername": "Mike",    
+                        "email": "mike@gmail.com",  
+                        "password": "pbkdf2:sha256:50000$3sErTHqu$7bc87d9932e391c81ad883f16e19e5a0f12d5e3808fcac632450737950aa4555",
+                        "phoneNumber": "0708453901",    
+                        "username": "Thomas"
+                }
+            },
+            "message": "User Added Successfully",
+            "status": 201
         }
-    },
-    "message": "User Added Successfully",
-    "status": 201
-}
-## Questions Collection [/questions]
 
-### List All Questions [GET]
 
-+ Response 200 (application/json)
+### Log in an Existing User [POST]
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+You may log in a previously registered user using this action. It takes a JSON
+object containing a username and password and it saves that data to a postgres database in the users table.
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "data"{
+                "username": "MaxT",
+                "password": "S1rMaxx"
+            }
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: api/v2/auth/login
+
+    + Body
+
+        
+            {
+                "data": {
+                    "Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDgzODQ4MzQsIm5iZiI6MTU0ODM4NDgzNCwianRpIjoiNzBmNzA5OTctNTA0My00NGZkLTk2NjMtYTI5YmRlMzExYTVjIiwiZXhwIjoxNTQ4Mzg1NzM0LCJpZGVudGl0eSI6Ik1heFQiLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ObrR09KOMhZniCVimR6P1ymr_4da73nNAxPb4ISYM2Y",
+                    "username": "MaxT"
+                },
+                "message": "User Logged in Successfully",
+                "status": 201
+            }
+            
+            
+### Log in an The Admin [POST]
+
+You may log in as an admin using this action. It takes a JSON
+object containing a username and password and it saves that data to a postgres database in the users table.
+
++ Request   (application/json)
+
+        {
+            "data"{
+                "username": "admin",
+                "password": "admin"
+            }
+        }
+
++ Response 201  (application/json)
+
+    + Headers
+
+            Location: api/v2/auth/login
+
+    + Body
+
+        
+            {
+                "data": {
+                    "Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDgzODQ4MzQsIm5iZiI6MTU0ODM4NDgzNCwianRpIjoiNzBmNzA5OTctNTA0My00NGZkLTk2NjMtYTI5YmRlMzExYTVjIiwiZXhwIjoxNTQ4Mzg1NzM0LCJpZGVudGl0eSI6Ik1heFQiLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ObrR09KOMhZniCVimR6P1ymr_4da73nNAxPb4ISYM2Y",
+                    "username": "admin"
+                },
+                "message": "User Logged in Successfully",
+                "status": 201
+            }
+            
+            
+## Questions Collection [/questions]
+
+### List All Questions [GET]
+
+
++ Response 200 (application/json)
+
+    + Headers
+        
+            Location: api/v2/questions
+
+    + Body
+            
+            {    
+            "data": [
+                        {
+                            "Body": "So how often will we have to meet?",
+                            "Created By": 1,
+                            "Created On": "Fri, 25 Jan 2019 06:03:31 GMT",
+                            "Meetup": 1,
+                            "Title": "Bourne Legacy",
+                            "Votes": 0,
+                            "questionId": 227
+                        }
+                ],
+                "message": "Success",
+                "status": 200
+            }
+        
+
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a different attributes of the question.
+
++ Request   (application/json)
+    {   
+        "createdBy": 1,
+        "meetup": 1,
+        "title":   "Happy Camping",
+        "body":   "So how often do you hold expeditions?"
+    }
+
++ Response 201  (application/json)
+
+    + Headers
+
+            Location: api/v2/questions
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "data": {
+                    "Body": "So how often do ypu hold expeditions?",
+                    "Created By": 1,
+                    "Created On": "Fri, 25 Jan 2019 06:03:37 GMT",
+                    "Meetup": 1,
+                    "Title": "Happy Camping",
+                    "Votes": 0,
+                    "questionId": 228
+                },
+                "message": "Question Posted Successfully",
+                "status": 201
             }
 ## Users Collection [/questions]
 
 ### List All Questions [GET]
 
-+ Response 200 (application/json)
++ Response 200  (application/json)
 
         [
             {
