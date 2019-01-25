@@ -83,7 +83,7 @@ def retrieve_one_meetup(meetupId):
     if not one_meetup:
         return make_response(jsonify({
             'status': 404,
-            'error': "Meetup does not exist"
+            'error': "Meetup '{}' does not exist".format(meetupId)
         }), 404)
     return make_response(jsonify({
         "status": 200,
@@ -100,7 +100,7 @@ def post_rsvp(meetupId):
     if not meetup_data:
         abort(make_response(jsonify({
             'status': 400,
-            'message': "No data has been provided"
+            'message': "No data has been provided for meetup '{}'".format(meetupId)
         }), 400))
 
     try:
@@ -120,7 +120,7 @@ def post_rsvp(meetupId):
         if not meetup:
             return make_response(jsonify({
                 'status': 404,
-                'error': "Meetup does not exist"
+                'error': "Meetup '{}' does not exist".format(meetupId)
             }), 404)
         else:
 
@@ -167,6 +167,6 @@ def delete_meetup(meetupId):
 
     return make_response(jsonify({
         "status": 200,
-        "message": "DELETED MEETUP"
+        "message": "DELETED MEETUP '{}'".format(meetupId)
     }), 200)
 
